@@ -1,0 +1,103 @@
+Artname,Abflugszeitraum,Ankunftszeitraum ,zieht nach,Lebensraum Schweiz,Brutvogel,Durchzügler,Wintergast,Kurzstreckenzieher,Langstreckenzieher,Teilzieher
+ Fluss-regenpfeifer,Juli,Juli,Tropsches Afrika,,TRUE,TRUE,FALSE,FALSE,TRUE,FALSE
+Flussluftfähler,Juli,Juli,Tropsches Afrika,,TRUE,TRUE,FALSE,FALSE,TRUE,FALSE
+Mauresogler,Juli,Juli,Südlich der Sahara,,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE
+Fluss-sesschwäbe,Juli,Juli,Küsten in Afrika,,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE
+Wald-wasserläufer,Juli,Juli,Afrika,,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE
+ Schwarzmilan,August,M�rz,Südlich der Sahara,,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE
+ Grauschnapper,August,April,Südlich der Sahara,,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE
+ Tüpfel-sumpfunktion,August,April,Südlich der Sahara,,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE
+ Piroi,August,Mai,Zentral- und Südafrika,,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE
+ Kuckuck,August,April,Afrika südlich des Aquators,,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE
+ Weissstorch,August,"August, M�rz","Sahel,  Ost-bis Südafrika",,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE
+ Grünschenkel,August,,Tropsches Afrika,,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE
+ Steinwälzer,August,,Küsten und Seen in Afrika,,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE
+ Sichel-strandläufer,August,,Küsten und Seen in Afrika,,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE
+ Garten-rotschwarz,August,,Saheizone,,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE
+ Braunkehlchen,August,,Ost- und Westafrika,,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE
+ Trauer-schnapper,August,,Westafrika,,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE
+ Fliis,August,,Südlich der Sahara,,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE
+ Neuntöter,August,,Ost- und Südafrika,,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE
+ Klappe-grasmücke,August,,Ostafrika,,TRUE,TRUE,FALSE,FALSE,TRUE,FALSE
+ Uferschwalbe,August,,Sahel und Ostafrika,,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE
+ Garten-grasmücke,August,,Südlich der Sahara,,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE
+ Wiespenbussard,August,,Tropsches Afrika,,TRUE,TRUE,FALSE,FALSE,TRUE,FALSE
+ Alpensogler,August,,Tropsches Afrika,,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE
+ Nachtigall,August,,Tropsches Afrika,,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE
+ Rauchschwalbe,August,,Südlich der Sahara,,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE
+ Wiesenwehle,August,,Südlich der Sahara,,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE
+ Zwerg-strandläufer,August,,Südlich der Sahara bis Indien,,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE
+ Vachteil,August,,Saheizone,,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE
+ Wendehals,August,,"Sahel,  Mittelmeerraum",,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE
+ Schafstede,August,,Südlich der Sahara,,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE
+ Turteltaube,August,,Südlich der Sahara,,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE
+ Baumpieper,August,,Südlich der Sahara,,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE
+ Rohrwehle,August,,Südlich der Sahara,,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE
+ Kampfläufer,August,,"Südlich der Sahara,  Mittel-meerraum",,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE
+ Baumfalke,September,,Tropsches Afrika,,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE
+ Steinschmätzer,September,,Südlich der Sahara,,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE
+ Mönchs-grasmücke,September,,West- und Ostafrika,,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE
+ Schwarz-kehlchen,September,,West- und Südeuropa,,TRUE,FALSE,FALSE,TRUE,FALSE,TRUE
+ Alpen-strandläufer,September,,Mittelmeerraum und Nordafrika,,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE
+ Mehlschwalbe,September,,Südlich der Sahara,,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE
+ Haus- rotschwarz,September,,West- und Südeuropa,,TRUE,FALSE,FALSE,TRUE,FALSE,TRUE
+ Ringdrossel,September,,Nordafrika,,TRUE,FALSE,FALSE,TRUE,FALSE,FALSE
+ Zipzalp,September,,"West- Südeuropa,  Nord- afrika,  südlich der Sahara",,TRUE,FALSE,FALSE,FALSE,TRUE,TRUE
+ Klebitz-regenpfeifer,September,,Küsten Europas und Afrikas,,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE
+ Rotmilan,September,,Spanien,,TRUE,FALSE,FALSE,TRUE,FALSE,TRUE
+ Turmfalke,September,,Süd- und Westeuropa,,TRUE,FALSE,FALSE,TRUE,FALSE,TRUE
+ Kiebitz,September,,Südwesteuropa und Nordafrika,,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE
+ Singdrossel,September,,West- und Südeuropa,,TRUE,FALSE,FALSE,TRUE,FALSE,TRUE
+ Felsenschwalbe,September,,Mittelmeerraum,,TRUE,FALSE,FALSE,TRUE,FALSE,TRUE
+ Feldschwirl,September,,Südlich der Sahara,,TRUE,FALSE,FALSE,FALSE,TRUE,TRUE
+ Sporber,September,,"Nordafrika,  Mittel- und Westeuropa",,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE
+ Buchfink,October,,West- und Südeuropa,,TRUE,FALSE,FALSE,TRUE,FALSE,TRUE
+ Ringeltaube,October,,West- und Südeuropa,,TRUE,FALSE,FALSE,TRUE,FALSE,TRUE
+ Zitronengilütz,October,,Südeuropa,,TRUE,FALSE,FALSE,FALSE,FALSE,TRUE
+ Star,October,,West- und Südeuropa,,TRUE,FALSE,FALSE,TRUE,FALSE,TRUE
+ Mäusebussard,October,,West- und Südeuropa,,TRUE,FALSE,FALSE,TRUE,FALSE,TRUE
+ Wiesenpieger,October,,West- und Südeuropa,,TRUE,FALSE,FALSE,TRUE,FALSE,TRUE
+ Feldtorche,October,,Mittelmeerraum,,TRUE,FALSE,FALSE,FALSE,FALSE,TRUE
+ Waldschnepfe,October,,Südwesteuropa,,TRUE,FALSE,FALSE,FALSE,FALSE,TRUE
+ Rohrammer,October,,West- und Südeuropa,,TRUE,FALSE,FALSE,FALSE,FALSE,TRUE
+ Roidrossel,October,,West- und Südeuropa,,TRUE,FALSE,FALSE,FALSE,FALSE,TRUE
+ Gold-regenpfeifer,November,,Mittelmeerraum und Nordafrika,,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE
+ Spiessente,December,,Nord- und Osteuropa,,FALSE,TRUE,TRUE,FALSE,TRUE,FALSE
+ Singschwan,December,,Nord- und Osteuropa,,FALSE,TRUE,TRUE,FALSE,TRUE,FALSE
+ Saalgans,December,,Nordosteuropa,,FALSE,TRUE,TRUE,FALSE,TRUE,FALSE
+ Sterntaucher,December,,Skandinavien,,FALSE,TRUE,TRUE,FALSE,TRUE,FALSE
+ Reiherente,December,,Nord- und Osteuropa,,FALSE,TRUE,TRUE,FALSE,TRUE,FALSE
+ Zwergsäger,December,,Nordosteuropa,,FALSE,TRUE,TRUE,TRUE,FALSE,FALSE
+ Raubwürger,December,,Nord- und Osteuropa,,FALSE,TRUE,TRUE,TRUE,FALSE,FALSE
+ Kolbenente,December,,Nord- und Osteuropa,,FALSE,FALSE,TRUE,TRUE,FALSE,FALSE
+ Kiebitz,December,,Nord- und Osteuropa,,TRUE,TRUE,FALSE,FALSE,FALSE,FALSE
+ Singdrossel,December,,Nord- und Osteuropa,,TRUE,FALSE,FALSE,TRUE,FALSE,FALSE
+ Kormoran,March,,Nordosteuropa,,TRUE,FALSE,TRUE,TRUE,FALSE,FALSE
+ Knäkente,March,,Nord- und Osteuropa,,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE
+ Pfeifente,March,,Nord- und Osteuropa,,TRUE,FALSE,TRUE,FALSE,TRUE,FALSE
+ Samtente,March,,Skandinavien,,FALSE,TRUE,TRUE,TRUE,FALSE,FALSE
+ Schellente,March,,Nordosteuropa,,FALSE,TRUE,TRUE,TRUE,FALSE,FALSE
+ Sturmmöwe,March,,Nord- und Osteuropa,,FALSE,TRUE,TRUE,TRUE,FALSE,FALSE
+ Bekassine,March,,Nordeuropa,,FALSE,TRUE,TRUE,FALSE,TRUE,FALSE
+ Bergfink,March,,Nordosteuropa,,FALSE,TRUE,TRUE,TRUE,FALSE,FALSE
+ Tafelente,March,,Nord- und Osteuropa,,TRUE,FALSE,TRUE,FALSE,TRUE,FALSE
+ Lachmöwe,March,,Nord- und Osteuropa,,TRUE,FALSE,TRUE,FALSE,TRUE,FALSE
+ Gold-regenpfeifer,March,,Skandinavien,,FALSE,TRUE,FALSE,FALSE,FALSE,FALSE
+ Seidenschwanz,March,,Nordosteuropa,,FALSE,TRUE,TRUE,TRUE,FALSE,FALSE
+ Kornweihe,March,,Nord- und Osteuropa,,FALSE,TRUE,TRUE,TRUE,FALSE,FALSE
+ Grosser Brachvogel,March,,Nordeuropa,,FALSE,TRUE,TRUE,FALSE,TRUE,FALSE
+ Roidrossel,March,,Nordosteuropa,,FALSE,TRUE,TRUE,TRUE,FALSE,FALSE
+ Wald-wasserläufer,March,,Nordosteuropa,,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE
+ Rohrwehle,March,,Mittel- und Nordeuropa,,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE
+ Uferschnepte,March,,Nordosteuropa,,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE
+ Löffelente,March,,Nord- und Osteuropa,,FALSE,TRUE,TRUE,FALSE,TRUE,FALSE
+ Fluss-regenpfeifer,March,,Nord- und Osteuropa,,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE
+ Grünschenkel,April,,Nordosteuropa,,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE
+ Kampfläufer,April,,Nordeuropa,,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE
+ Wiesenwehle,April,,Mittel- und Nordeuropa,,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE
+ Klapper-grasmücke,April,,Nord- und Osteuropa,,TRUE,TRUE,FALSE,FALSE,TRUE,FALSE
+ Steinwälzer,April,,Skandinavien,,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE
+ Zwergmöwe,April,,Nordosteuropa,,FALSE,TRUE,FALSE,TRUE,FALSE,FALSE
+ Bruch-wasserläufer,April,,Nord- und Osteuropa,,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE
+ Flussluftfähler,April,,Nord- und Osteuropa,,TRUE,TRUE,FALSE,FALSE,TRUE,FALSE
+ Wespenbussard,May,,Nord- und Osteuropa,,TRUE,TRUE,FALSE,FALSE,TRUE,FALSE
