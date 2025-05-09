@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# Dummy-Daten: 3 Vogelarten
+# === Vogel-Daten ===
 bird_data = {
     "Weißstorch": {
         "month": "März",
@@ -24,13 +24,21 @@ bird_data = {
     },
 }
 
-# Temperaturdaten simulieren (als Platzhalter)
-years = list(range(1980, 2100))
-rcp_26 = [4 + (y - 1980) * 0.015 for y in years]
-rcp_45 = [4 + (y - 1980) * 0.025 for y in years]
-rcp_85 = [4 + (y - 1980) * 0.045 for y in years]
+# === Monats-Faktoren zur Annäherung an Monatsmittel aus Jahresmittel (vereinfacht) ===
+month_factors = {
+    "März": 0.65,
+    "April": 0.72,
+    "Juli": 1.12,
+}
 
-# === STREAMLIT APP ===
+# === Temperaturdaten laden ===
+def load_scenario(file_path, month_factor):
+    df = pd.read_csv(file_path, index_col=0)
+    yearly_mean = df.mean(axis=0)  # Mittelwert über alle Modelle
+    monthly = yearly_mean * month_factor
+    return monthly
+
+# === Streamlit Layout ===
 st.set_page_config(page_title="Klimadashboard Vogelzug", layout="wide")
 
 # Header
@@ -48,28 +56,44 @@ with col2:
     info = bird_data[vogel]
     st.image(info["image"], width=200)
     st.subheader(vogel)
-    st.markdown(info["desc"])
+    with st.expander("ℹ️ Beschreibung"):
+        st.markdown(info["desc"])
     st.markdown(f"**Ankunftsmonat:** {info['month']}")
     st.markdown(f"**Komfortbereich:** {info['temp_range'][0]}–{info['temp_range'][1]} °C")
 
-# Plot
+# Monat bestimmen
+monat = info["month"]
+faktor = month_factors[monat]
+
+# Temperaturdaten vorbereiten
+data = {}
+if szenario in ["RCP 2.6", "Alle"]:
+    data["RCP 2.6"] = load_scenario("Daten/temperatur_szenarien/tas_yearly_RCP2.6_CH_transient.csv", faktor)
+if szenario in ["RCP 4.5", "Alle"]:
+    data["RCP 4.5"] = load_scenario("Daten/temperatur_szenarien/tas_yearly_RCP4.5_CH_transient.csv", faktor)
+if szenario in ["RCP 8.5", "Alle"]:
+    data["RCP 8.5"] = load_scenario("Daten/temperatur_szenarien/tas_yearly_RCP8.5_CH_transient.csv", faktor)
+
+# Plotten
 st.subheader("📊 Temperaturentwicklung im Ankunftsmonat")
 fig, ax = plt.subplots(figsize=(10, 4))
 
-if szenario in ["RCP 2.6", "Alle"]:
-    ax.plot(years, rcp_26, label="RCP 2.6", color="blue")
-if szenario in ["RCP 4.5", "Alle"]:
-    ax.plot(years, rcp_45, label="RCP 4.5", color="orange")
-if szenario in ["RCP 8.5", "Alle"]:
-    ax.plot(years, rcp_85, label="RCP 8.5", color="red")
+colors = {"RCP 2.6": "blue", "RCP 4.5": "orange", "RCP 8.5": "red"}
+
+for label, series in data.items():
+    ax.plot(series.index.astype(int), series.values, label=label, color=colors[label])
 
 ax.axhspan(info["temp_range"][0], info["temp_range"][1], color="green", alpha=0.1, label="Komfortbereich")
 ax.set_xlabel("Jahr")
-ax.set_ylabel("Monatstemperatur (geschätzt, °C)")
+ax.set_ylabel("Temperatur im Ankunftsmonat (°C)")
 ax.grid(True)
 ax.legend()
 st.pyplot(fig)
 
 # Fazit
 st.subheader("🔍 Möglicher Einfluss des Klimawandels")
-st.markdown(f"Wenn sich der Temperaturtrend wie im gewählten Szenario fortsetzt, könnten **{vogel}** in Zukunft **früher oder später zurückkehren** – oder das Verbreitungsgebiet verschiebt sich. Hohe Temperaturen im Ankunftsmonat können das Verhalten beeinflussen.")
+st.markdown(
+    f"Wenn sich der Temperaturtrend wie im gewählten Szenario fortsetzt, könnten **{vogel}** in Zukunft "
+    f"**früher oder später zurückkehren** – oder das Verbreitungsgebiet verschiebt sich. "
+    f"Hohe Temperaturen im Ankunftsmonat können das Verhalten beeinflussen."
+)
