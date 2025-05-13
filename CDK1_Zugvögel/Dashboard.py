@@ -2,90 +2,98 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# === Vogel-Daten ===
-bird_data = {
-    "Weißstorch": {
-        "month": "März",
-        "temp_range": (5, 28),
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Ciconia_ciconia_1_Luc_Viatour.jpg/320px-Ciconia_ciconia_1_Luc_Viatour.jpg",
-        "desc": "Zieht im Winter nach Afrika, Rückkehr meist im März.",
-    },
-    "Kuckuck": {
-        "month": "April",
-        "temp_range": (5, 28),
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Cuculus_canorus_brodyaga.jpg/320px-Cuculus_canorus_brodyaga.jpg",
-        "desc": "Der Kuckuck ist ein klassischer Langstreckenzieher mit markantem Ruf.",
-    },
-    "Mauersegler": {
-        "month": "Juli",
-        "temp_range": (18, 28),
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Common_Swift_apus_apus.jpg/320px-Common_Swift_apus_apus.jpg",
-        "desc": "Fliegt monatelang ohne zu landen. Rückkehr im Hochsommer.",
-    },
-}
+# === Daten einlesen ===
+@st.cache_data
+def load_vogeldaten():
+    df = pd.read_csv("Daten/Voegeldaten/zugvögel.csv", encoding="ISO-8859-1")
+    df.columns = df.columns.str.strip()  # Whitespace entfernen
+    return df
 
-# === Monats-Faktoren zur Annäherung an Monatsmittel aus Jahresmittel (vereinfacht) ===
-month_factors = {
-    "März": 0.65,
-    "April": 0.72,
-    "Juli": 1.12,
-}
+@st.cache_data
+def load_temp_1995(monat):
+    df = pd.read_csv("Daten/temperatur_szenarien/Temperatur_Luzern_1995.csv")
+    if monat == "Jahresmittel":
+        return df["Temperatur_1995_°C"].mean()
+    month_map = {
+        "Januar": "Jan", "Februar": "Feb", "März": "Mar", "April": "Apr",
+        "Mai": "May", "Juni": "Jun", "Juli": "Jul", "August": "Aug",
+        "September": "Sep", "Oktober": "Oct", "November": "Nov", "Dezember": "Dez"
+    }
+    abbr = month_map.get(monat)
+    return df[df["Monat"] == abbr]["Temperatur_1995_°C"].values[0]
 
-# === Temperaturdaten laden ===
-def load_scenario(file_path, month_factor):
+def load_scenario_with_baseline(file_path, month_factor, temp_1995):
     df = pd.read_csv(file_path, index_col=0)
-    yearly_mean = df.mean(axis=0)  # Mittelwert über alle Modelle
-    monthly = yearly_mean * month_factor
-    return monthly
+    yearly_mean = df.mean(axis=0)
+    delta = yearly_mean - yearly_mean["1995"]
+    return temp_1995 + delta * month_factor
 
-# === Streamlit Layout ===
+# === Monats-Faktoren ===
+month_factors = {
+    "Januar": 0.60, "Februar": 0.62, "März": 0.65, "April": 0.72,
+    "Mai": 0.85, "Juni": 1.00, "Juli": 1.12, "August": 1.10,
+    "September": 0.95, "Oktober": 0.80, "November": 0.68, "Dezember": 0.60,
+}
+
+# === Layout ===
 st.set_page_config(page_title="Klimadashboard Vogelzug", layout="wide")
 
-# Header
 st.title("🌍📈 Klimawandel & Vogelzug in der Schweiz")
 st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/White_storks.jpg/800px-White_storks.jpg")
+
 st.markdown("Dieses Dashboard zeigt, wie steigende Temperaturen das Zugverhalten ausgewählter Vogelarten beeinflussen könnten.")
 
-# Auswahl
-col1, col2 = st.columns([1, 2])
-with col1:
-    szenario = st.selectbox("🌡️ Emissionsszenario wählen", ["RCP 2.6", "RCP 4.5", "RCP 8.5", "Alle"])
-    vogel = st.selectbox("🕊️ Vogelart wählen", list(bird_data.keys()))
+vogeldaten = load_vogeldaten()
+alle_vögel = vogeldaten["Artname"].dropna().unique()
+vogel = st.selectbox("🕊️ Vogelart wählen", sorted(alle_vögel))
 
-with col2:
-    info = bird_data[vogel]
-    st.image(info["image"], width=200)
-    st.subheader(vogel)
-    with st.expander("ℹ️ Beschreibung"):
-        st.markdown(info["desc"])
-    st.markdown(f"**Ankunftsmonat:** {info['month']}")
-    st.markdown(f"**Komfortbereich:** {info['temp_range'][0]}–{info['temp_range'][1]} °C")
+eintrag = vogeldaten[vogeldaten["Artname"] == vogel].iloc[0]
 
-# Monat bestimmen
-monat = info["month"]
-faktor = month_factors[monat]
+# === Dynamisch Temperaturbereich und Monat aus CSV lesen ===
+monat = st.selectbox("📅 Monat wählen", ["Jahresmittel"] + list(month_factors.keys()))
+faktor = 1.0 if monat == "Jahresmittel" else month_factors[monat]
+temp_1995 = load_temp_1995(monat)
 
-# Temperaturdaten vorbereiten
+# === Temperaturdaten vorbereiten ===
+szenario = st.selectbox("🌡️ Emissionsszenario wählen", ["RCP 2.6", "RCP 4.5", "RCP 8.5", "Alle"])
+jahr_range = st.slider("📆 Zeitraum wählen", min_value=1995, max_value=2100, value=(2020, 2080))
+
 data = {}
 if szenario in ["RCP 2.6", "Alle"]:
-    data["RCP 2.6"] = load_scenario("Daten/temperatur_szenarien/tas_yearly_RCP2.6_CH_transient.csv", faktor)
+    data["RCP 2.6"] = load_scenario_with_baseline("Daten/temperatur_szenarien/tas_yearly_RCP2.6_CH_transient.csv", faktor, temp_1995)
 if szenario in ["RCP 4.5", "Alle"]:
-    data["RCP 4.5"] = load_scenario("Daten/temperatur_szenarien/tas_yearly_RCP4.5_CH_transient.csv", faktor)
+    data["RCP 4.5"] = load_scenario_with_baseline("Daten/temperatur_szenarien/tas_yearly_RCP4.5_CH_transient.csv", faktor, temp_1995)
 if szenario in ["RCP 8.5", "Alle"]:
-    data["RCP 8.5"] = load_scenario("Daten/temperatur_szenarien/tas_yearly_RCP8.5_CH_transient.csv", faktor)
+    data["RCP 8.5"] = load_scenario_with_baseline("Daten/temperatur_szenarien/tas_yearly_RCP8.5_CH_transient.csv", faktor, temp_1995)
 
-# Plotten
-st.subheader("📊 Temperaturentwicklung im Ankunftsmonat")
+# === Anzeige der CSV-Daten zum Vogel ===
+st.subheader(f"🧬 Informationen zu {vogel}")
+st.markdown(f"""
+- **Ankunftsmonat(e):** {eintrag['Ankunftszeitraum']}
+- **Zugziel:** {eintrag['zieht nach']}
+- **Zugverhalten:** 
+    - Brutvogel: {eintrag['Brutvogel']}
+    - Durchzügler: {eintrag['Durchzuegler']}
+    - Wintergast: {eintrag['Wintergast']}
+    - Kurzstreckenzieher: {eintrag['Kurzstreckenzieher']}
+    - Langstreckenzieher: {eintrag['Langstreckenzieher']}
+    - Teilzieher: {eintrag['Teilzieher']}
+- **Komforttemperatur:** {eintrag['avg_comf_temp_low']} – {eintrag['avg_comf_temp_high']} °C
+- **Saison:** {eintrag['Season']}
+""")
+
+# === Plot ===
+st.subheader(f"📊 Temperaturentwicklung im Monat: {monat}")
 fig, ax = plt.subplots(figsize=(10, 4))
-
 colors = {"RCP 2.6": "blue", "RCP 4.5": "orange", "RCP 8.5": "red"}
 
 for label, series in data.items():
+    series = series.loc[(series.index.astype(int) >= jahr_range[0]) & (series.index.astype(int) <= jahr_range[1])]
     ax.plot(series.index.astype(int), series.values, label=label, color=colors[label])
 
-ax.axhspan(info["temp_range"][0], info["temp_range"][1], color="green", alpha=0.1, label="Komfortbereich")
+ax.axhspan(eintrag["avg_comf_temp_low"], eintrag["avg_comf_temp_high"], color="green", alpha=0.1, label="Komfortbereich")
 ax.set_xlabel("Jahr")
-ax.set_ylabel("Temperatur im Ankunftsmonat (°C)")
+ax.set_ylabel("Temperatur (°C)")
 ax.grid(True)
 ax.legend()
 st.pyplot(fig)
@@ -93,7 +101,7 @@ st.pyplot(fig)
 # Fazit
 st.subheader("🔍 Möglicher Einfluss des Klimawandels")
 st.markdown(
-    f"Wenn sich der Temperaturtrend wie im gewählten Szenario fortsetzt, könnten **{vogel}** in Zukunft "
+    f"Wenn sich der Temperaturtrend wie im gewählten Szenario fortsetzt, könnte **{vogel}** künftig "
     f"**früher oder später zurückkehren** – oder das Verbreitungsgebiet verschiebt sich. "
-    f"Hohe Temperaturen im Ankunftsmonat können das Verhalten beeinflussen."
+    f"Hohe Temperaturen im gewählten Monat können das Verhalten beeinflussen."
 )

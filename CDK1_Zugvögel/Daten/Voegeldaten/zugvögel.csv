@@ -1,103 +1,103 @@
-Artname,Abflugszeitraum,Ankunftszeitraum ,zieht nach,Brutvogel,DurchzÃ¼gler,Wintergast,Kurzstreckenzieher,Langstreckenzieher,Teilzieher,avg_comf_temp_low,avg_comf_temp_high,Season
+Artname,Abflugszeitraum,Ankunftszeitraum ,zieht nach,Brutvogel,Durchzuegler,Wintergast,Kurzstreckenzieher,Langstreckenzieher,Teilzieher,avg_comf_temp_low,avg_comf_temp_high,Season
 Fluss-regenpfeifer,Juli,Juli,Tropsches Afrika,TRUE,TRUE,FALSE,FALSE,TRUE,FALSE,18,28,Sommer
-FlussluftfŠhler,Juli,Juli,Tropsches Afrika,TRUE,TRUE,FALSE,FALSE,TRUE,FALSE,18,28,Sommer
+Flussluftfï¿½hler,Juli,Juli,Tropsches Afrika,TRUE,TRUE,FALSE,FALSE,TRUE,FALSE,18,28,Sommer
 Mauresogler,Juli,Juli,SÃ¼dlich der Sahara,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,18,28,Sommer
-Fluss-sesschwŠbe,Juli,Juli,KÃ¼sten in Afrika,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,18,28,Sommer
-Wald-wasserlŠufer,Juli,Juli,Afrika,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE,18,28,Sommer
-Schwarzmilan,August,MŠrz,SÃ¼dlich der Sahara,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,FrŸhling - Sommer
-Grauschnapper,August,April,SÃ¼dlich der Sahara,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,FrŸhling - Sommer
-TŸpfel-sumpfunktion,August,April,SÃ¼dlich der Sahara,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,FrŸhling - Sommer
-Piroi,August,Mai,Zentral- und SÃ¼dafrika,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,FrŸhling - Sommer
-Kuckuck,August,April,Afrika sÃ¼dlich des Aquators,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,FrŸhling - Sommer
-Weissstorch,August,"August, MŠrz","Sahel,  Ost-bis SÃ¼dafrika",TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,FrŸhling - Sommer
-GrŸnschenkel,August,August ,Tropsches Afrika,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE,18,28,Sommer
-SteinwŠlzer,August,"August, April",KÃ¼sten und Seen in Afrika,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE,18,28,Sommer
-Sichel-strandlŠufer,August,August,KÃ¼sten und Seen in Afrika,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE,18,28,Sommer
-Garten-rotschwarz,August,MŠrz,Saheizone,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,FrŸhling - Sommer
-Braunkehlchen,August,April,Ost- und Westafrika,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,FrŸhling - Sommer
-Trauer-schnapper,August,April,Westafrika,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,FrŸhling - Sommer
-Fitis,August,MŠrz,SÃ¼dlich der Sahara,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,FrŸhling - Sommer
-Neuntšter,August,Mai,Ost- und SÃ¼dafrika,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,FrŸhling - Sommer
-Klappe-grasmŸcke,August,April,Ostafrika,TRUE,TRUE,FALSE,FALSE,TRUE,FALSE,5,28,FrŸhling - Sommer
-Uferschwalbe,August,April,Sahel und Ostafrika,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,FrŸhling - Sommer
-Garten-grasmŸcke,August,Mai,SÃ¼dlich der Sahara,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,FrŸhling - Sommer
-Wiespenbussard,August,Mai,Tropsches Afrika,TRUE,TRUE,FALSE,FALSE,TRUE,FALSE,5,28,FrŸhling - Sommer
-Alpensegler,August,MŠrz,Tropsches Afrika,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,FrŸhling - Sommer
-Nachtigall,August,April,Tropsches Afrika,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,FrŸhling - Sommer
-Rauchschwalbe,August,MŠrz,SÃ¼dlich der Sahara,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,FrŸhling - Sommer
-Wiesenweihle,August,April,SÃ¼dlich der Sahara,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE,5,28,FrŸhling - Sommer
-Zwerg-strandlŠufer,August,N/A,SÃ¼dlich der Sahara bis Indien,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE,5,28,FrŸhling - Sommer
-Wachtel,August,April,Saheizone,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,FrŸhling - Sommer
-Wendehals,August,April,"Sahel,  Mittelmeerraum",TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,FrŸhling - Sommer
-Schafstelze,August,April,SÃ¼dlich der Sahara,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,FrŸhling - Sommer
-Turteltaube,August,April,SÃ¼dlich der Sahara,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,FrŸhling - Sommer
-Baumpieper,August,April,SÃ¼dlich der Sahara,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,FrŸhling - Sommer
-Rohrwehle,August,MŠrz,SÃ¼dlich der Sahara,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,FrŸhling - Sommer
-KampflŠufer,August,April,"SÃ¼dlich der Sahara,  Mittel-meerraum",TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,FrŸhling - Sommer
-Baumfalke,September,April,Tropsches Afrika,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,FrŸhling - Sommer
-SteinschmŠtzer,September,August,SÃ¼dlich der Sahara,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,18,28,Sommer
-Mšnchs-grasmŸcke,September,MŠrz,West- und Ostafrika,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,FrŸhling - Sommer
-Schwarz-kehlchen,September,MŠrz,West- und SÃ¼deuropa,TRUE,FALSE,FALSE,TRUE,FALSE,TRUE,5,28,FrŸhling - Sommer
-Alpen-strandlŠufer,September,September,Mittelmeerraum und Nordafrika,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE,8,28,Sommer - Herbst
-Mehlschwalbe,September,April,SÃ¼dlich der Sahara,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,FrŸhling - Sommer
-Haus-rotschwarz,September,MŠrz,West- und SÃ¼deuropa,TRUE,FALSE,FALSE,TRUE,FALSE,TRUE,5,28,FrŸhling - Sommer
-Ringdrossel,September,MŠrz,Nordafrika,TRUE,FALSE,FALSE,TRUE,FALSE,FALSE,5,28,FrŸhling - Sommer
-Zipzalp,September,MŠrz,"West- SÃ¼deuropa,  Nord- afrika,  sÃ¼dlich der Sahara",TRUE,FALSE,FALSE,FALSE,TRUE,TRUE,5,28,FrŸhling - Sommer
-Kiebitz-regenpfeifer,September,"September , MŠrz",KÃ¼sten Europas und Afrikas,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE,5,28,FrŸhling - Sommer
-Rotmilan,September,Februar,Spanien,TRUE,FALSE,FALSE,TRUE,FALSE,TRUE,5,28,FrŸhling - Sommer
-Turmfalke,September,MŠrz,SÃ¼d- und Westeuropa,TRUE,FALSE,FALSE,TRUE,FALSE,TRUE,5,28,FrŸhling - Sommer
-Kiebitz,September,Februar,SÃ¼dwesteuropa und Nordafrika,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,FrŸhling - Sommer
-Singdrossel,September,"September, Februar",West- und SÃ¼deuropa,TRUE,FALSE,FALSE,TRUE,FALSE,TRUE,5,28,FrŸhling - Sommer
-Felsenschwalbe,September,MŠrz,Mittelmeerraum,TRUE,FALSE,FALSE,TRUE,FALSE,TRUE,5,28,FrŸhling - Sommer
-Feldschwirl,September,April,SÃ¼dlich der Sahara,TRUE,FALSE,FALSE,FALSE,TRUE,TRUE,5,28,FrŸhling - Sommer
-Sperber,September,MŠrz,"Nordafrika,  Mittel- und Westeuropa",TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,FrŸhling - Sommer
-Buchfink,October,Februar,West- und SÃ¼deuropa,TRUE,FALSE,FALSE,TRUE,FALSE,TRUE,8,28,FrŸhling - Herbst
-Ringeltaube,Oktober,Februar,West- und SÃ¼deuropa,TRUE,FALSE,FALSE,TRUE,FALSE,TRUE,8,28,FrŸhling - Herbst
-Zitronengilz,Oktober,MŠrz,SÃ¼deuropa,TRUE,FALSE,FALSE,FALSE,FALSE,TRUE,8,28,FrŸhling - Herbst
-Star,Oktober,Februar,West- und SÃ¼deuropa,TRUE,FALSE,FALSE,TRUE,FALSE,TRUE,8,28,FrŸhling - Herbst
-MŠusebussard,Oktober,MŠrz,West- und SÃ¼deuropa,TRUE,FALSE,FALSE,TRUE,FALSE,TRUE,8,28,FrŸhling - Herbst
-Wiesenpieger,Oktober,MŠrz,West- und SÃ¼deuropa,TRUE,FALSE,FALSE,TRUE,FALSE,TRUE,8,28,FrŸhling - Herbst
-Feldtorche,Oktober,MŠrz,Mittelmeerraum,TRUE,FALSE,FALSE,FALSE,FALSE,TRUE,8,28,FrŸhling - Herbst
-Waldschnepfe,Oktober,MŠrz,SÃ¼dwesteuropa,TRUE,FALSE,FALSE,FALSE,FALSE,TRUE,8,28,FrŸhling - Herbst
-Rohrammer,Oktober,Februar,West- und SÃ¼deuropa,TRUE,FALSE,FALSE,FALSE,FALSE,TRUE,8,28,FrŸhling - Herbst
-Ringdrossel,Oktober,MŠrz,West- und SÃ¼deuropa,TRUE,FALSE,FALSE,FALSE,FALSE,TRUE,8,28,FrŸhling - Herbst
+Fluss-sesschwï¿½be,Juli,Juli,KÃ¼sten in Afrika,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,18,28,Sommer
+Wald-wasserlï¿½ufer,Juli,Juli,Afrika,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE,18,28,Sommer
+Schwarzmilan,August,Mï¿½rz,SÃ¼dlich der Sahara,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,Frï¿½hling - Sommer
+Grauschnapper,August,April,SÃ¼dlich der Sahara,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,Frï¿½hling - Sommer
+Tï¿½pfel-sumpfunktion,August,April,SÃ¼dlich der Sahara,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,Frï¿½hling - Sommer
+Piroi,August,Mai,Zentral- und SÃ¼dafrika,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,Frï¿½hling - Sommer
+Kuckuck,August,April,Afrika sÃ¼dlich des Aquators,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,Frï¿½hling - Sommer
+Weissstorch,August,"August, Mï¿½rz","Sahel,  Ost-bis SÃ¼dafrika",TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,Frï¿½hling - Sommer
+Grï¿½nschenkel,August,August ,Tropsches Afrika,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE,18,28,Sommer
+Steinwï¿½lzer,August,"August, April",KÃ¼sten und Seen in Afrika,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE,18,28,Sommer
+Sichel-strandlï¿½ufer,August,August,KÃ¼sten und Seen in Afrika,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE,18,28,Sommer
+Garten-rotschwarz,August,Mï¿½rz,Saheizone,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,Frï¿½hling - Sommer
+Braunkehlchen,August,April,Ost- und Westafrika,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,Frï¿½hling - Sommer
+Trauer-schnapper,August,April,Westafrika,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,Frï¿½hling - Sommer
+Fitis,August,Mï¿½rz,SÃ¼dlich der Sahara,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,Frï¿½hling - Sommer
+Neuntï¿½ter,August,Mai,Ost- und SÃ¼dafrika,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,Frï¿½hling - Sommer
+Klappe-grasmï¿½cke,August,April,Ostafrika,TRUE,TRUE,FALSE,FALSE,TRUE,FALSE,5,28,Frï¿½hling - Sommer
+Uferschwalbe,August,April,Sahel und Ostafrika,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,Frï¿½hling - Sommer
+Garten-grasmï¿½cke,August,Mai,SÃ¼dlich der Sahara,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,Frï¿½hling - Sommer
+Wiespenbussard,August,Mai,Tropsches Afrika,TRUE,TRUE,FALSE,FALSE,TRUE,FALSE,5,28,Frï¿½hling - Sommer
+Alpensegler,August,Mï¿½rz,Tropsches Afrika,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,Frï¿½hling - Sommer
+Nachtigall,August,April,Tropsches Afrika,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,Frï¿½hling - Sommer
+Rauchschwalbe,August,Mï¿½rz,SÃ¼dlich der Sahara,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,Frï¿½hling - Sommer
+Wiesenweihle,August,April,SÃ¼dlich der Sahara,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE,5,28,Frï¿½hling - Sommer
+Zwerg-strandlï¿½ufer,August,N/A,SÃ¼dlich der Sahara bis Indien,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE,5,28,Frï¿½hling - Sommer
+Wachtel,August,April,Saheizone,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,Frï¿½hling - Sommer
+Wendehals,August,April,"Sahel,  Mittelmeerraum",TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,Frï¿½hling - Sommer
+Schafstelze,August,April,SÃ¼dlich der Sahara,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,Frï¿½hling - Sommer
+Turteltaube,August,April,SÃ¼dlich der Sahara,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,Frï¿½hling - Sommer
+Baumpieper,August,April,SÃ¼dlich der Sahara,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,Frï¿½hling - Sommer
+Rohrwehle,August,Mï¿½rz,SÃ¼dlich der Sahara,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,Frï¿½hling - Sommer
+Kampflï¿½ufer,August,April,"SÃ¼dlich der Sahara,  Mittel-meerraum",TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,Frï¿½hling - Sommer
+Baumfalke,September,April,Tropsches Afrika,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,Frï¿½hling - Sommer
+Steinschmï¿½tzer,September,August,SÃ¼dlich der Sahara,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,18,28,Sommer
+Mï¿½nchs-grasmï¿½cke,September,Mï¿½rz,West- und Ostafrika,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,Frï¿½hling - Sommer
+Schwarz-kehlchen,September,Mï¿½rz,West- und SÃ¼deuropa,TRUE,FALSE,FALSE,TRUE,FALSE,TRUE,5,28,Frï¿½hling - Sommer
+Alpen-strandlï¿½ufer,September,September,Mittelmeerraum und Nordafrika,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE,8,28,Sommer - Herbst
+Mehlschwalbe,September,April,SÃ¼dlich der Sahara,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,Frï¿½hling - Sommer
+Haus-rotschwarz,September,Mï¿½rz,West- und SÃ¼deuropa,TRUE,FALSE,FALSE,TRUE,FALSE,TRUE,5,28,Frï¿½hling - Sommer
+Ringdrossel,September,Mï¿½rz,Nordafrika,TRUE,FALSE,FALSE,TRUE,FALSE,FALSE,5,28,Frï¿½hling - Sommer
+Zipzalp,September,Mï¿½rz,"West- SÃ¼deuropa,  Nord- afrika,  sÃ¼dlich der Sahara",TRUE,FALSE,FALSE,FALSE,TRUE,TRUE,5,28,Frï¿½hling - Sommer
+Kiebitz-regenpfeifer,September,"September , Mï¿½rz",KÃ¼sten Europas und Afrikas,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE,5,28,Frï¿½hling - Sommer
+Rotmilan,September,Februar,Spanien,TRUE,FALSE,FALSE,TRUE,FALSE,TRUE,5,28,Frï¿½hling - Sommer
+Turmfalke,September,Mï¿½rz,SÃ¼d- und Westeuropa,TRUE,FALSE,FALSE,TRUE,FALSE,TRUE,5,28,Frï¿½hling - Sommer
+Kiebitz,September,Februar,SÃ¼dwesteuropa und Nordafrika,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,Frï¿½hling - Sommer
+Singdrossel,September,"September, Februar",West- und SÃ¼deuropa,TRUE,FALSE,FALSE,TRUE,FALSE,TRUE,5,28,Frï¿½hling - Sommer
+Felsenschwalbe,September,Mï¿½rz,Mittelmeerraum,TRUE,FALSE,FALSE,TRUE,FALSE,TRUE,5,28,Frï¿½hling - Sommer
+Feldschwirl,September,April,SÃ¼dlich der Sahara,TRUE,FALSE,FALSE,FALSE,TRUE,TRUE,5,28,Frï¿½hling - Sommer
+Sperber,September,Mï¿½rz,"Nordafrika,  Mittel- und Westeuropa",TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,Frï¿½hling - Sommer
+Buchfink,October,Februar,West- und SÃ¼deuropa,TRUE,FALSE,FALSE,TRUE,FALSE,TRUE,8,28,Frï¿½hling - Herbst
+Ringeltaube,Oktober,Februar,West- und SÃ¼deuropa,TRUE,FALSE,FALSE,TRUE,FALSE,TRUE,8,28,Frï¿½hling - Herbst
+Zitronengilz,Oktober,Mï¿½rz,SÃ¼deuropa,TRUE,FALSE,FALSE,FALSE,FALSE,TRUE,8,28,Frï¿½hling - Herbst
+Star,Oktober,Februar,West- und SÃ¼deuropa,TRUE,FALSE,FALSE,TRUE,FALSE,TRUE,8,28,Frï¿½hling - Herbst
+Mï¿½usebussard,Oktober,Mï¿½rz,West- und SÃ¼deuropa,TRUE,FALSE,FALSE,TRUE,FALSE,TRUE,8,28,Frï¿½hling - Herbst
+Wiesenpieger,Oktober,Mï¿½rz,West- und SÃ¼deuropa,TRUE,FALSE,FALSE,TRUE,FALSE,TRUE,8,28,Frï¿½hling - Herbst
+Feldtorche,Oktober,Mï¿½rz,Mittelmeerraum,TRUE,FALSE,FALSE,FALSE,FALSE,TRUE,8,28,Frï¿½hling - Herbst
+Waldschnepfe,Oktober,Mï¿½rz,SÃ¼dwesteuropa,TRUE,FALSE,FALSE,FALSE,FALSE,TRUE,8,28,Frï¿½hling - Herbst
+Rohrammer,Oktober,Februar,West- und SÃ¼deuropa,TRUE,FALSE,FALSE,FALSE,FALSE,TRUE,8,28,Frï¿½hling - Herbst
+Ringdrossel,Oktober,Mï¿½rz,West- und SÃ¼deuropa,TRUE,FALSE,FALSE,FALSE,FALSE,TRUE,8,28,Frï¿½hling - Herbst
 Gold-regenpfeifer,November,November,Mittelmeerraum und Nordafrika,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE,-2,7,Winter
 Spiessente,Februar,September,Nord- und Osteuropa,FALSE,TRUE,TRUE,FALSE,TRUE,FALSE,-2,15,Herbst-Winter
 Singschwan,Februar,November,Nord- und Osteuropa,FALSE,TRUE,TRUE,FALSE,TRUE,FALSE,-2,7,Winter
 Saatgans,Februar,November,Nordosteuropa,FALSE,TRUE,TRUE,FALSE,TRUE,FALSE,-2,7,Winter
 Sterntaucher,Februar,November,Skandinavien,FALSE,TRUE,TRUE,FALSE,TRUE,FALSE,-2,7,Winter
 Reiherente,Februar,Oktober,Nord- und Osteuropa,FALSE,TRUE,TRUE,FALSE,TRUE,FALSE,-2,15,Herbst-Winter
-ZwergsŠger,Februar,N/A,Nordosteuropa,FALSE,TRUE,TRUE,TRUE,FALSE,FALSE,-2,15,Herbst-Winter
-RaubwŸrger,Februar,Oktober,Nord- und Osteuropa,FALSE,TRUE,TRUE,TRUE,FALSE,FALSE,-2,15,Herbst-Winter
+Zwergsï¿½ger,Februar,N/A,Nordosteuropa,FALSE,TRUE,TRUE,TRUE,FALSE,FALSE,-2,15,Herbst-Winter
+Raubwï¿½rger,Februar,Oktober,Nord- und Osteuropa,FALSE,TRUE,TRUE,TRUE,FALSE,FALSE,-2,15,Herbst-Winter
 Kolbenente,Februar,September,Nord- und Osteuropa,FALSE,FALSE,TRUE,TRUE,FALSE,FALSE,-2,15,Herbst-Winter
 Kiebitz,Februar,September,Nord- und Osteuropa,TRUE,TRUE,FALSE,FALSE,FALSE,FALSE,-2,15,Herbst-Winter
 Singdrossel,Februar,September,Nord- und Osteuropa,TRUE,FALSE,FALSE,TRUE,FALSE,FALSE,-2,15,Herbst-Winter
-Kormoran,MŠrz,August,Nordosteuropa,TRUE,FALSE,TRUE,TRUE,FALSE,FALSE,-2,15,Herbst-FrŸhling
-KnŠkente,MŠrz,August,Nord- und Osteuropa,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE,-2,15,Herbst-FrŸhling
-Pfeifente,MŠrz,Oktober,Nord- und Osteuropa,TRUE,FALSE,TRUE,FALSE,TRUE,FALSE,-2,15,Herbst-FrŸhling
-Samtente,MŠrz,November,Skandinavien,FALSE,TRUE,TRUE,TRUE,FALSE,FALSE,-2,15,Winter-FrŸhling
-Schellente,MŠrz,November,Nordosteuropa,FALSE,TRUE,TRUE,TRUE,FALSE,FALSE,-2,15,Winter-FrŸhling
-Sturmmšwe,MŠrz,November,Nord- und Osteuropa,FALSE,TRUE,TRUE,TRUE,FALSE,FALSE,-2,15,Winter-FrŸhling
-Bekassine,MŠrz,N/A,Nordeuropa,FALSE,TRUE,TRUE,FALSE,TRUE,FALSE,5,15,FrŸhling
-Bergfink,MŠrz,September,Nordosteuropa,FALSE,TRUE,TRUE,TRUE,FALSE,FALSE,-2,15,Herbst-FrŸhling
-Tafelente,MŠrz,September,Nord- und Osteuropa,TRUE,FALSE,TRUE,FALSE,TRUE,FALSE,-2,15,Herbst-FrŸhling
-Lachmšwe,MŠrz,Juli,Nord- und Osteuropa,TRUE,FALSE,TRUE,FALSE,TRUE,FALSE,-2,28,Sommer-FrŸhling
-Gold-regenpfeifer,MŠrz,MŠrz,Skandinavien,FALSE,TRUE,FALSE,FALSE,FALSE,FALSE,5,15,FrŸhling
-Seidenschwanz,MŠrz,N/A,Nordosteuropa,FALSE,TRUE,TRUE,TRUE,FALSE,FALSE,5,15,FrŸhling
-Kornweihe,MŠrz,MŠrz,Nord- und Osteuropa,FALSE,TRUE,TRUE,TRUE,FALSE,FALSE,5,15,FrŸhling
-Grosser Brachvogel,MŠrz,Juli,Nordeuropa,FALSE,TRUE,TRUE,FALSE,TRUE,FALSE,-2,28,Sommer-FrŸhling
-Rotdrossel,MŠrz,Oktober,Nordosteuropa,FALSE,TRUE,TRUE,TRUE,FALSE,FALSE,-2,15,Herbst-FrŸhling
-Wald-wasserlŠufer,MŠrz,Juli,Nordosteuropa,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE,-2,28,Sommer-FrŸhling
-Rohrwehle,MŠrz,"August, MŠrz",Mittel- und Nordeuropa,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE,-2,28,Sommer-FrŸhling
-Uferschnepte,MŠrz,MŠrz,Nordosteuropa,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE,5,15,FrŸhling
-Lšffelente,MŠrz,August,Nord- und Osteuropa,FALSE,TRUE,TRUE,FALSE,TRUE,FALSE,-2,28,Sommer-FrŸhling
-Fluss-regenpfeifer,MŠrz,Juli,Nord- und Osteuropa,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE,-2,28,Sommer-FrŸhling
-GrŸnschenkel,April,"August, April",Nordosteuropa,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE,-2,28,Sommer-FrŸhling
-KampflŠufer,April,"August, April",Nordeuropa,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE,-2,28,Sommer-FrŸhling
-Wiesenwehle,April,August ,Mittel- und Nordeuropa,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE,-2,28,Sommer-FrŸhling
-Klapper-grasmŸcke,April,"August, April",Nord- und Osteuropa,TRUE,TRUE,FALSE,FALSE,TRUE,FALSE,-2,28,Sommer-FrŸhling
-SteinwŠlzer,April,"August, April",Skandinavien,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE,-2,28,Sommer-FrŸhling
-Zwergmšwe,April,April,Nordosteuropa,FALSE,TRUE,FALSE,TRUE,FALSE,FALSE,5,15,FrŸhling
-Bruch-wasserlŠufer,April,April,Nord- und Osteuropa,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE,5,15,FrŸhling
-FlussluftfŠhler,April,"Juli, april",Nord- und Osteuropa,TRUE,TRUE,FALSE,FALSE,TRUE,FALSE,-2,28,Sommer-FrŸhling
-Wespenbussard,Mai,Mai,Nord- und Osteuropa,TRUE,TRUE,FALSE,FALSE,TRUE,FALSE,5,15,FrŸhling
+Kormoran,Mï¿½rz,August,Nordosteuropa,TRUE,FALSE,TRUE,TRUE,FALSE,FALSE,-2,15,Herbst-Frï¿½hling
+Knï¿½kente,Mï¿½rz,August,Nord- und Osteuropa,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE,-2,15,Herbst-Frï¿½hling
+Pfeifente,Mï¿½rz,Oktober,Nord- und Osteuropa,TRUE,FALSE,TRUE,FALSE,TRUE,FALSE,-2,15,Herbst-Frï¿½hling
+Samtente,Mï¿½rz,November,Skandinavien,FALSE,TRUE,TRUE,TRUE,FALSE,FALSE,-2,15,Winter-Frï¿½hling
+Schellente,Mï¿½rz,November,Nordosteuropa,FALSE,TRUE,TRUE,TRUE,FALSE,FALSE,-2,15,Winter-Frï¿½hling
+Sturmmï¿½we,Mï¿½rz,November,Nord- und Osteuropa,FALSE,TRUE,TRUE,TRUE,FALSE,FALSE,-2,15,Winter-Frï¿½hling
+Bekassine,Mï¿½rz,N/A,Nordeuropa,FALSE,TRUE,TRUE,FALSE,TRUE,FALSE,5,15,Frï¿½hling
+Bergfink,Mï¿½rz,September,Nordosteuropa,FALSE,TRUE,TRUE,TRUE,FALSE,FALSE,-2,15,Herbst-Frï¿½hling
+Tafelente,Mï¿½rz,September,Nord- und Osteuropa,TRUE,FALSE,TRUE,FALSE,TRUE,FALSE,-2,15,Herbst-Frï¿½hling
+Lachmï¿½we,Mï¿½rz,Juli,Nord- und Osteuropa,TRUE,FALSE,TRUE,FALSE,TRUE,FALSE,-2,28,Sommer-Frï¿½hling
+Gold-regenpfeifer,Mï¿½rz,Mï¿½rz,Skandinavien,FALSE,TRUE,FALSE,FALSE,FALSE,FALSE,5,15,Frï¿½hling
+Seidenschwanz,Mï¿½rz,N/A,Nordosteuropa,FALSE,TRUE,TRUE,TRUE,FALSE,FALSE,5,15,Frï¿½hling
+Kornweihe,Mï¿½rz,Mï¿½rz,Nord- und Osteuropa,FALSE,TRUE,TRUE,TRUE,FALSE,FALSE,5,15,Frï¿½hling
+Grosser Brachvogel,Mï¿½rz,Juli,Nordeuropa,FALSE,TRUE,TRUE,FALSE,TRUE,FALSE,-2,28,Sommer-Frï¿½hling
+Rotdrossel,Mï¿½rz,Oktober,Nordosteuropa,FALSE,TRUE,TRUE,TRUE,FALSE,FALSE,-2,15,Herbst-Frï¿½hling
+Wald-wasserlï¿½ufer,Mï¿½rz,Juli,Nordosteuropa,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE,-2,28,Sommer-Frï¿½hling
+Rohrwehle,Mï¿½rz,"August, Mï¿½rz",Mittel- und Nordeuropa,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE,-2,28,Sommer-Frï¿½hling
+Uferschnepte,Mï¿½rz,Mï¿½rz,Nordosteuropa,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE,5,15,Frï¿½hling
+Lï¿½ffelente,Mï¿½rz,August,Nord- und Osteuropa,FALSE,TRUE,TRUE,FALSE,TRUE,FALSE,-2,28,Sommer-Frï¿½hling
+Fluss-regenpfeifer,Mï¿½rz,Juli,Nord- und Osteuropa,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE,-2,28,Sommer-Frï¿½hling
+Grï¿½nschenkel,April,"August, April",Nordosteuropa,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE,-2,28,Sommer-Frï¿½hling
+Kampflï¿½ufer,April,"August, April",Nordeuropa,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE,-2,28,Sommer-Frï¿½hling
+Wiesenwehle,April,August ,Mittel- und Nordeuropa,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE,-2,28,Sommer-Frï¿½hling
+Klapper-grasmï¿½cke,April,"August, April",Nord- und Osteuropa,TRUE,TRUE,FALSE,FALSE,TRUE,FALSE,-2,28,Sommer-Frï¿½hling
+Steinwï¿½lzer,April,"August, April",Skandinavien,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE,-2,28,Sommer-Frï¿½hling
+Zwergmï¿½we,April,April,Nordosteuropa,FALSE,TRUE,FALSE,TRUE,FALSE,FALSE,5,15,Frï¿½hling
+Bruch-wasserlï¿½ufer,April,April,Nord- und Osteuropa,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE,5,15,Frï¿½hling
+Flussluftfï¿½hler,April,"Juli, april",Nord- und Osteuropa,TRUE,TRUE,FALSE,FALSE,TRUE,FALSE,-2,28,Sommer-Frï¿½hling
+Wespenbussard,Mai,Mai,Nord- und Osteuropa,TRUE,TRUE,FALSE,FALSE,TRUE,FALSE,5,15,Frï¿½hling
