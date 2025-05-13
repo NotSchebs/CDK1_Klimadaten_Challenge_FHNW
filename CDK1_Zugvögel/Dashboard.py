@@ -1,6 +1,76 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
+import base64  # für das Einbetten des Bilds
+
+import streamlit as st
+import base64  # für das Einbetten des Bilds
+
+# === Streamlit-Layout & Design ===
+st.set_page_config(
+    page_title="Klimadashboard Vogelzug",
+    layout="wide",
+    initial_sidebar_state="auto",
+    page_icon="🌍"
+)
+
+
+# === Hintergrundbild setzen ===
+def set_background(image_file_path):
+    with open(image_file_path, "rb") as f:
+        encoded = f.read()
+    b64 = base64.b64encode(encoded).decode()
+
+    st.markdown(
+        f"""
+        <style>
+        .stApp {{
+            background-image: url("data:image/png;base64,{b64}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+set_background("Daten/Bilder/title.png")  # ← ggf. Pfad anpassen
+
+st.markdown("""
+    <style>
+    /* Eingabefeld (sichtbar im geschlossenen Zustand) */
+    div[data-baseweb="select"] > div {
+        background-color: #fff9e6 !important;
+        color: #111 !important;
+        border: 1px solid #aaa !important;
+        border-radius: 5px !important;
+    }
+
+    /* Geöffnete Dropdownliste */
+    div[data-baseweb="popover"] {
+        background-color: #fff9e6 !important;
+        color: #111 !important;
+        border: 1px solid #aaa !important;
+        border-radius: 5px !important;
+    }
+
+    /* Einzelne Optionen in der Liste */
+    div[role="option"] {
+        background-color: #fff9e6 !important;
+        color: #111 !important;
+    }
+
+    /* Hover-Effekt für Dropdown-Optionen */
+    div[role="option"]:hover {
+        background-color: #faedcd !important;
+        color: #000 !important;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+
 
 # === Daten einlesen ===
 @st.cache_data
@@ -36,7 +106,7 @@ month_factors = {
 }
 
 # === Layout ===
-st.set_page_config(page_title="Klimadashboard Vogelzug", layout="wide")
+#st.set_page_config(page_title="Klimadashboard Vogelzug", layout="wide")
 
 st.title("🌍📈 Klimawandel & Vogelzug in der Schweiz")
 st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/White_storks.jpg/800px-White_storks.jpg")
