@@ -32,52 +32,55 @@ st.markdown("""
     padding: 2rem;
     border-radius: 15px;
     margin: 2rem auto;
-    width: 95%;
+    width: 100%;
     color: black;
 '>
 
 <h2 style='text-align: center;'>Die Vögel bleiben – und mit ihnen kommt das Ungleichgewicht</h2>
 <h3 style='text-align: center;'>Wie der Klimawandel den Vogelzug verändert</h3>
 
-<h4 id="einleitung">Einleitung</h4>
+<!-- Einleitung Geschichte Flachsee und Vögel -->
 <p>
-Der Flachsee im Aargauer Reusstal ist ein wichtiger Rast- und Überwinterungsort für viele Zugvögel.
-Doch immer mehr Arten bleiben den Winter über in der Schweiz – eine stille Folge des Klimawandels.
+Der Flachsee im Reusstal ist ein einzigartiges Naturrefugium im Schweizer Mittelland. Er gilt als wichtiger Rast- und Überwinterungsort für zahlreiche Zugvögel, die auf ihren weiten Reisen zwischen Europa und Afrika hier Halt machen – oder mittlerweile ganz bleiben.
+</p><p>
+Doch das vertraute saisonale Muster des Vogelzugs verändert sich. Steigende Wintertemperaturen, mildere Bedingungen und ein verschobenes Nahrungsangebot führen dazu, dass immer mehr Zugvögel ihre Reise in den Süden verkürzen oder ganz auslassen. Was zunächst unscheinbar wirkt, hat weitreichende Folgen – nicht nur für die Vogelwelt selbst, sondern auch für die empfindlichen ökologischen Gleichgewichte in der Schweiz und in den angestammten Überwinterungsgebieten der Tiere.
+</p><p>
+Diese Datenstory zeigt anhand von lokalen Beispielen rund um den Flachsee, wie sich der Klimawandel bereits heute auf das Verhalten von Zugvögeln auswirkt – und welche ökologischen Konsequenzen daraus erwachsen.
 </p>
 
-<h4>Inhalt</h4>
-<ul style='list-style-type: disc; padding-left: 1.5rem; font-size: 1.1rem;'>
-  <li><a href="#einleitung">Einleitung</a></li>
-  <li><a href="#vogelzug">Der Vogelzug</a></li>
-  <li><a href="#klimawandel">Der Klimawandel in der Schweiz</a></li>
-  <li>
-    Ökologische Folgen
-    <ul style='list-style-type: circle; padding-left: 1.5rem;'>
-      <li><a href="#folgen-ch">In der Schweiz</a></li>
-      <li><a href="#folgen-afrika">In Afrika</a></li>
-    </ul>
-  </li>
-  <li><a href="#flachsee">Flachsee</a></li>
-  <li><a href="#fazit">Fazit</a></li>
-</ul>
-
-<h4 id="vogelzug">Der Vogelzug</h4>
-<h5>Was passiert mit den Zugvögeln?</h5>
+            
+<!-- Bilder Flachsee -->
+            
+            
+            
+<!-- der Vogelzug  -->
 <ul>
 <li>milde Winter</li>
 <li>genug Nahrung</li>
 <li>weniger Anreiz zum Weiterzug</li>
 </ul>
 
-<h4 id="klimawandel">Der Klimawandel in der Schweiz</h4>
+<!-- Klimawandel und den einfluss auf Vögel -->
 
-<h4 id="folgen-ch">Ökologische Folgen – In der Schweiz</h4>
+""", unsafe_allow_html=True)
 
-<h4 id="folgen-afrika">Ökologische Folgen – In Afrika</h4>
+st.image("Daten/Bilder/problem.png", use_container_width=True)
 
-<h4 id="flachsee">Flachsee</h4>
+st.markdown("""
+<div style='
+    background-color: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 2rem;
+    border-radius: 15px;
+    margin: 2rem auto;
+    width: 100%;
+    color: black;
+'>
+<!-- ökologische Folgen Flachsee, Schweiz und Afrika -->
+            
+<!-- abschluss / Fazit -->
+<!-- Quellen -->
+</div>         
 
-<h4 id="fazit">Fazit</h4>
-
-</div>
 """, unsafe_allow_html=True)
