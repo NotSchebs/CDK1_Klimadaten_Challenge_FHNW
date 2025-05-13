@@ -52,7 +52,6 @@ Diese Datenstory zeigt anhand von lokalen Beispielen rund um den Flachsee, wie s
 <!-- Bilder Flachsee -->
             
             
-            
 <!-- der Vogelzug  -->
 <ul>
 <li>milde Winter</li>
