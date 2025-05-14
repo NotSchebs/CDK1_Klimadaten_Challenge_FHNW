@@ -134,8 +134,7 @@ ax.legend()
 fig.tight_layout()
 
 st.pyplot(fig)
-
-        
+  
 
 st.markdown("""
 <div style='
@@ -191,6 +190,23 @@ was dort zu Ungleichgewichten führt.
     - CH: Dichte überwinternder Vögel (z. B. Storch, Schwalbe)
     - Afrika: Rückgang gemeldeter Winterbeobachtungen
 -->
+
+""", unsafe_allow_html=True)
+
+st.image("Daten/Bilder/problem.png", use_container_width=True)
+
+st.markdown("""
+<div style='
+    background-color: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 2rem;
+    border-radius: 15px;
+    margin: 2rem auto;
+    width: 100%;
+    color: black;
+'>
+<!-- ökologische Folgen Flachsee, Schweiz und Afrika -->
 <!-- ökologische Folgen -->
             
 <p>
@@ -214,24 +230,7 @@ Damit gehen wichtige ökologische Funktionen verloren, ein oft unterschätzter A
     "Ökologische Rollen der Zugvögel" – Schweiz vs. Afrika
     (Samenverbreitung, Nahrung, Schädlingskontrolle)
 -->
-
-""", unsafe_allow_html=True)
-
-st.image("Daten/Bilder/problem.png", use_container_width=True)
-
-st.markdown("""
-<div style='
-    background-color: rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    padding: 2rem;
-    border-radius: 15px;
-    margin: 2rem auto;
-    width: 100%;
-    color: black;
-'>
-<!-- ökologische Folgen Flachsee, Schweiz und Afrika -->
-            
+              
 <!-- abschluss / Fazit -->
 <!-- Quellen -->
 </div>         
