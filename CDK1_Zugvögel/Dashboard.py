@@ -70,6 +70,40 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+st.markdown("""
+    <style>
+    /* Allgemeine Textgröße */
+    html, body, .stApp {
+        font-size: 18px !important;
+    }
+
+    /* Überschriften */
+    h1 {
+        font-size: 36px !important;
+    }
+    h2 {
+        font-size: 30px !important;
+    }
+    h3 {
+        font-size: 26px !important;
+    }
+
+    /* Untertitel / Abschnittsüberschriften */
+    .stMarkdown, .stSubheader {
+        font-size: 20px !important;
+    }
+
+    /* Liste (Bullet Points) */
+    ul, ol {
+        font-size: 18px !important;
+    }
+
+    /* Slider-Label etc. */
+    label {
+        font-size: 18px !important;
+    }
+    </style>
+""", unsafe_allow_html=True)
 
 
 # === Daten einlesen ===
@@ -86,8 +120,8 @@ def load_temp_1995(monat):
         return df["Temperatur_1995_°C"].mean()
     month_map = {
         "Januar": "Jan", "Februar": "Feb", "März": "Mar", "April": "Apr",
-        "Mai": "May", "Juni": "Jun", "Juli": "Jul", "August": "Aug",
-        "September": "Sep", "Oktober": "Oct", "November": "Nov", "Dezember": "Dez"
+        "Mai": "Mai", "Juni": "Jun", "Juli": "Jul", "August": "Aug",
+        "September": "Sep", "Oktober": "Okt", "November": "Nov", "Dezember": "Dez"
     }
     abbr = month_map.get(monat)
     return df[df["Monat"] == abbr]["Temperatur_1995_°C"].values[0]
@@ -109,7 +143,7 @@ month_factors = {
 #st.set_page_config(page_title="Klimadashboard Vogelzug", layout="wide")
 
 st.title("🌍📈 Klimawandel & Vogelzug in der Schweiz")
-st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/White_storks.jpg/800px-White_storks.jpg")
+#st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/White_storks.jpg/800px-White_storks.jpg")
 
 st.markdown("Dieses Dashboard zeigt, wie steigende Temperaturen das Zugverhalten ausgewählter Vogelarten beeinflussen könnten.")
 
