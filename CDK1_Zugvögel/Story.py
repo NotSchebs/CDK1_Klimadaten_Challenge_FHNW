@@ -27,7 +27,7 @@ add_bg_from_local('Daten/Bilder/back.png')
 
 st.markdown("""
 <div style='
-    background-color: rgba(255, 255, 255, 0.4);
+    background-color: rgba(255, 255, 255, 0.6);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     padding: 2rem;
@@ -59,10 +59,9 @@ Heute jedoch lassen sich auch während der kalten Monate immer mehr Störche beo
 Der einstige Langstreckenzieher wird zunehmend zum Standvogel.
 </p>
 <p>
-Wie hat sich das Verhalten des Weissstorchs in den letzten Jahrzehnten verändert? \n
-Was hat der Klimawandel damit zu tun? \n
-Welche ökologischen Folgen könnten daraus für die Schweiz, aber auch für die Herkunfts- und Überwinterungsgebiete entstehen?
+Diese Entwicklung wirft Fragen auf: Wie stark hat sich das Verhalten des Weissstorchs verändert? Welche Rolle spielt der Klimawandel dabei? Und was bedeutet das für die Ökologie in der Schweiz und in Afrika?
 </p>
+
 
 
 <!-- Klimawandel und den einfluss auf Vögel -->
@@ -80,7 +79,7 @@ with col2:
 
 st.markdown("""
 <div style='
-    background-color: rgba(255, 255, 255, 0.4);
+    background-color: rgba(255, 255, 255, 0.6);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     padding: 2rem;
@@ -134,11 +133,11 @@ ax.legend()
 fig.tight_layout()
 
 st.pyplot(fig)
-  
+
 
 st.markdown("""
 <div style='
-    background-color: rgba(255, 255, 255, 0.4);
+    background-color: rgba(255, 255, 255, 0.6);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     padding: 2rem;
@@ -148,23 +147,94 @@ st.markdown("""
     color: black;
 '>
             
-<!-- Klimawandel und den einfluss auf Vögel -->
+<!-- Klimawandel und den Einfluss auf Vögel -->
 
 <p>
-Die Gründe dafür sind vielfältig: 
-Mildere Winter, verfügbare Nahrung auf offenen Feldern oder Kompostplätzen und weniger 
-Energieverbrauch durch kürzere Flugstrecken.
-Für den einzelnen Vogel scheint das bequem, doch das ökologische Gleichgewicht gerät ins Wanken.
+Die Gründe für das veränderte Zugverhalten vieler Vogelarten sind vielfältig: 
+Mildere Winter, verfügbare Nahrung auf offenen Feldern oder Kompostplätzen und ein geringerer Energieverbrauch durch kürzere Flugstrecken 
+machen es für viele Arten attraktiv, über den Winter in der Schweiz zu bleiben.
 </p>
 
-<!-- 🌡️ GRAFIK-VORSCHLAG:
-    Durchschnittliche Wintertemperaturen in der Schweiz (z. B. 1980–2024)
-    Typ: Liniendiagramm oder Heatmap
-    Ziel: Zusammenhang Temperaturanstieg ↔ Zugverhalten andeuten
--->
+<p>
+Doch diese Anpassung an veränderte klimatische Bedingungen hat ihren Preis: 
+Das ökologische Gleichgewicht gerät ins Wanken – sowohl in der Schweiz als auch in den ursprünglichen Überwinterungsgebieten in Afrika. 
+Der Klimawandel wirkt dabei wie ein schleichender Verstärker: Er verändert nicht nur das Verhalten einzelner Arten, 
+sondern auch das Zusammenspiel ganzer Ökosysteme.
+</p>
+
+<p>
+Die folgende Grafik zeigt, wie sich die durchschnittliche Jahrestemperatur in der Schweiz unter verschiedenen 
+Klimaszenarien (RCP 2.6, 4.5 und 8.5) bis Ende des Jahrhunderts entwickeln könnte. 
+Je nach globalem Emissionsverlauf steigen die Temperaturen unterschiedlich stark an – mit direkten Folgen 
+für Lebensräume, Nahrungsketten und das saisonale Verhalten vieler Tierarten wie dem Weissstorch.
+</p>
+""", unsafe_allow_html=True)
+
+# CSVs einlesen
+rcp26 = pd.read_csv("Daten/temperatur_szenarien/tas_yearly_RCP2.6_CH_transient.csv")
+rcp45 = pd.read_csv("Daten/temperatur_szenarien/tas_yearly_RCP4.5_CH_transient.csv")
+rcp85 = pd.read_csv("Daten/temperatur_szenarien/tas_yearly_RCP8.5_CH_transient.csv")
+
+# Helper-Funktion
+def preprocess(df, label):
+    df_long = df.melt(id_vars=["tas"], var_name="Jahr", value_name="Temperatur")
+    df_long["Jahr"] = df_long["Jahr"].astype(int)
+    df_long["Szenario"] = label
+    return df_long.groupby(["Jahr", "Szenario"])["Temperatur"].mean().reset_index()
+
+# Daten vorbereiten
+df_26 = preprocess(rcp26, "RCP 2.6")
+df_45 = preprocess(rcp45, "RCP 4.5")
+df_85 = preprocess(rcp85, "RCP 8.5")
+
+# Zusammenführen
+df_all = pd.concat([df_26, df_45, df_85])
+
+# Plot
+fig, ax = plt.subplots(figsize=(12, 6))
+farben = {
+    "RCP 2.6": "#1f77b4",
+    "RCP 4.5": "#ff7f0e",
+    "RCP 8.5": "#d62728"
+}
+
+for scenario in df_all["Szenario"].unique():
+    data = df_all[df_all["Szenario"] == scenario]
+    ax.plot(data["Jahr"], data["Temperatur"], label=scenario, color=farben[scenario])
+
+ax.set_xlabel("Jahr")
+ax.set_ylabel("Ø Temperatur [°C]")
+ax.set_title("Temperaturentwicklung in der Schweiz (nach RCP-Szenarien)")
+ax.grid(True)
+ax.legend()
+fig.tight_layout()
+
+st.pyplot(fig)
+
+st.markdown("""
+<div style='
+    background-color: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 2rem;
+    border-radius: 15px;
+    margin: 2rem auto;
+    width: 100%;
+    color: black;
+'>
+
 
 <!-- andere Arten -->
-            
+
+<p>
+Der Weissstorch ernährt sich vor allem von Insekten, Regenwürmern, Amphibien, kleinen Säugetieren und gelegentlich auch Fischen. 
+In einem typischen Winter war diese Nahrung früher in der Schweiz kaum verfügbar – der Boden war gefroren, die Tiere im Winterschlaf oder inaktiv.
+</p>
+<p>
+Doch mit den steigenden Wintertemperaturen ändern sich diese Bedingungen: Der Boden friert vielerorts nicht mehr durch, Amphibien sind früher aktiv und Kompostplätze bieten ganzjährig Nahrung.
+Diese Entwicklung macht die Schweiz auch im Winter zu einem geeigneten Lebensraum – mit weitreichenden Folgen für die einheimischen Ökosysteme.
+</p>
+
 
 <p>
 Der Weissstorch ist nicht allein. 
@@ -197,7 +267,7 @@ st.image("Daten/Bilder/problem.png", use_container_width=True)
 
 st.markdown("""
 <div style='
-    background-color: rgba(255, 255, 255, 0.4);
+    background-color: rgba(255, 255, 255, 0.6);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     padding: 2rem;
