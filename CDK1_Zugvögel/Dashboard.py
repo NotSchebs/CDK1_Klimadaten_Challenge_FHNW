@@ -109,7 +109,7 @@ st.markdown("""
 # === Daten einlesen ===
 @st.cache_data
 def load_vogeldaten():
-    df = pd.read_csv("Daten/Voegeldaten/zugvögel.csv", encoding="ISO-8859-1")
+    df = pd.read_csv("Daten/Voegeldaten/zugvögel_16V2.csv", encoding="utf-8")
     df.columns = df.columns.str.strip()  # Whitespace entfernen
     return df
 
@@ -133,10 +133,18 @@ def load_scenario_with_baseline(file_path, month_factor, temp_1995):
     return temp_1995 + delta * month_factor
 
 # === Monats-Faktoren ===
+
+#month_factors = {
+#    "Januar": 0.60, "Februar": 0.62, "März": 0.65, "April": 0.72,
+#    "Mai": 0.85, "Juni": 1.00, "Juli": 1.12, "August": 1.10,
+#    "September": 0.95, "Oktober": 0.80, "November": 0.68, "Dezember": 0.60,
+#}
+
+
 month_factors = {
-    "Januar": 0.60, "Februar": 0.62, "März": 0.65, "April": 0.72,
-    "Mai": 0.85, "Juni": 1.00, "Juli": 1.12, "August": 1.10,
-    "September": 0.95, "Oktober": 0.80, "November": 0.68, "Dezember": 0.60,
+    "Januar": 1.0, "Februar": 1.0, "März": 1.0, "April": 1.0,
+    "Mai": 1.0, "Juni": 1.0, "Juli": 1.0, "August": 1.0,
+    "September": 1.0, "Oktober": 1.0, "November": 1.0, "Dezember": 1.0,
 }
 
 # === Layout ===
@@ -171,9 +179,10 @@ if szenario in ["RCP 8.5", "Alle"]:
     data["RCP 8.5"] = load_scenario_with_baseline("Daten/temperatur_szenarien/tas_yearly_RCP8.5_CH_transient.csv", faktor, temp_1995)
 
 # === Anzeige der CSV-Daten zum Vogel ===
-st.subheader(f"🧬 Informationen zu {vogel}")
+st.subheader(f"🧬 Informationen zu {vogel} stand 2025")
 st.markdown(f"""
 - **Ankunftsmonat(e):** {eintrag['Ankunftszeitraum']}
+- **Abflugszeitraum(e):** {eintrag['Abflugszeitraum']}
 - **Zugziel:** {eintrag['zieht nach']}
 - **Zugverhalten:** 
     - Brutvogel: {eintrag['Brutvogel']}
@@ -184,6 +193,8 @@ st.markdown(f"""
     - Teilzieher: {eintrag['Teilzieher']}
 - **Komforttemperatur:** {eintrag['avg_comf_temp_low']} – {eintrag['avg_comf_temp_high']} °C
 - **Saison:** {eintrag['Season']}
+- **Nahrung:** {eintrag.get('Nahrung', 'nicht verfügbar')}
+
 """)
 
 # === Plot ===
