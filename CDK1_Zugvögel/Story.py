@@ -41,25 +41,30 @@ st.markdown("""
 <h3 style='text-align: center;'>Wie der Klimawandel den Vogelzug verändert</h3>
 
 <!-- Einleitung: Flachsee & Verbindung zur Vogelwelt -->
+            
 <p>
-Der Flachsee im Reusstal ist ein beliebter Ort für Naturbeobachtungen und ein ökologisch wertvolles Gebiet im Kanton Aargau. 
-Besonders im Frühling und Herbst lassen sich hier zahlreiche Zugvögel beobachten, darunter auch Arten, die früher nur im Sommer oder gar nicht in der Region anzutreffen waren.
+Im Kelleramt im Aargau liegt der Flachsee, eingebettet im Reusstal. 
+            Wer hier lebt oder unterwegs ist, kennt den See als Rückzugsort für zahlreiche Vogelarten. 
+            Besonders im Frühling und Herbst ist er ein beliebter Ort für Naturbeobachtungen. 
+            Doch in den letzten Jahren fällt etwas auf: Immer mehr Zugvögel bleiben das ganze Jahr über in der Region.
 </p>
 <p>
-Der Ort bietet uns einen direkten Einblick in eine tiefgreifende Veränderung: 
-Das Zugverhalten vieler Vogelarten wandelt sich. 
-Mildere Winter und veränderte Nahrungsverfügbarkeit führen dazu, dass immer mehr Vögel nicht mehr in ihre angestammten Winterquartiere ziehen, sondern den Winter über in der Schweiz bleiben.
+Was auf den ersten Blick harmlos oder gar erfreulich wirkt, kann ökologisch problematisch sein. 
+            Wenn Vögel ihr Zugverhalten aufgeben, entstehen neue Konkurrenzverhältnisse um Nahrung und Lebensraum. 
+            Die natürlichen Rhythmen zwischen ziehenden und heimischen Arten geraten aus dem Gleichgewicht – nicht nur hier, 
+            sondern auch in den ursprünglichen Winterquartieren in Afrika.
 </p>
 
 <!-- Einführung zum Fokus: der Storch -->
 <p>
-Besonders auffällig ist dieser Wandel beim Weissstorch. 
-Jahrzehntelang war er im Winter kaum in der Schweiz anzutreffen. 
-Heute jedoch lassen sich auch während der kalten Monate immer mehr Störche beobachten, selbst bei Schnee und Eis. 
-Der einstige Langstreckenzieher wird zunehmend zum Standvogel.
+Ein besonders auffälliges Beispiel ist der Weissstorch. Früher war er in der Schweiz nur im Sommer zu sehen, im Winter zog er nach Afrika. 
+            Heute bleiben immer mehr Störche auch in der kalten Jahreszeit. Selbst bei Schnee und Eis lassen sie sich beobachten. 
+            Der einstige Langstreckenzieher wird zunehmend zum Standvogel.
 </p>
 <p>
-Diese Entwicklung wirft Fragen auf: Wie stark hat sich das Verhalten des Weissstorchs verändert? Welche Rolle spielt der Klimawandel dabei? Und was bedeutet das für die Ökologie in der Schweiz und in Afrika?
+Diese Entwicklung ist mehr als ein lokales Phänomen. 
+            Sie zeigt, wie stark sich das Verhalten des Weissstorches bereits verändert hat – ein deutliches Zeichen für den Einfluss des Klimawandels. 
+            Die Folgen betreffen nicht nur die Schweiz, sondern auch die Ökosysteme entlang der traditionellen Zugrouten bis nach Afrika.
 </p>
 
 
@@ -70,7 +75,7 @@ Diese Entwicklung wirft Fragen auf: Wie stark hat sich das Verhalten des Weissst
 
 col1, col2 = st.columns(2)
 with col1:
-    st.image("Daten/Bilder/storch_schnee.webp", use_container_width=True)
+    st.image("Daten/Bilder/storch_schnee.webp", caption="Weissstorch im Winter", use_container_width=True)
 
 with col2:
     st.image("Daten/Bilder/Flachsee.jpg", caption="Flachsee im Aargau", use_container_width=True)
@@ -103,12 +108,20 @@ selbst bei Schnee und tiefen Temperaturen.
 Besonders entlang des Jurasüdfusses, am Bodensee oder in 
 Feuchtgebieten wie dem Flachsee lassen sich überwinternde Individuen nachweisen.
 </p>
+<p>
+Diese Entwicklung spiegelt sich auch in den jährlichen Winterzählungen wider. 
+            Im Winter 2016/2017 wurden in der Schweiz rund 290 überwinternde Weissstörche erfasst, 
+            2024/2025 waren es bereits über 1'000, fast die Hälfte der in der Schweiz brütenden Population. 
+            Der deutliche Anstieg innerhalb weniger Jahre zeigt, wie stark sich der Weissstorch inzwischen 
+            an die milderen Winterbedingungen angepasst hat. 
+            Was einst Ausnahme war, wird zur neuen Normalität.
+</p>
 """, unsafe_allow_html=True)    
 
 df = pd.read_csv("Daten/Voegeldaten/storchenzahlen_2017_2025.csv")
 
 # Prozentanteil Winterstörche berechnen
-df["Anteil_Winter"] = (df["Winterstoerche"] / (df["Brutstoerche"] + df["Winterstoerche"])) * 100
+df["Anteil_Winter"] = (df["Winterstoerche"] / df["Brutstoerche"]) * 100
 
 fig, ax = plt.subplots(figsize=(12, 6))
 bar_width = 0.4
@@ -134,6 +147,41 @@ fig.tight_layout()
 
 st.pyplot(fig)
 
+st.markdown("""
+<div style='
+    background-color: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 2rem;
+    border-radius: 15px;
+    margin: 2rem auto;
+    width: 100%;
+    color: black;
+'>
+            
+<!-- Klimawandel und den Einfluss auf Vögel -->
+<p>
+Die Ursachen für das veränderte Zugverhalten vieler Vogelarten sind vielfältig: 
+            Mildere Winter, verfügbare Nahrung auf Feldern oder Kompostplätzen und ein geringerer 
+            Energieaufwand durch kürzere Flugstrecken machen es für viele Arten attraktiv, in der Schweiz zu überwintern.
+</p>
+<p>
+Doch diese Anpassung an veränderte klimatische Bedingungen hat ihren Preis. 
+            Bleiben Weissstörche vermehrt in der Schweiz, verändert sich ihr Einfluss auf das lokale Ökosystem. 
+            In Feuchtgebieten und landwirtschaftlich genutzten Regionen wie dem Aargauer Mittelland kann das erhöhte 
+            Vorkommen zu einem stärkeren Druck auf Kleinsäuger, Amphibien und Insekten führen. Arten wie Graureiher oder Krähen, 
+            die ähnliche Beute nutzen, könnten dadurch beeinträchtigt werden. Gleichzeitig sind viele Störche im Winter zunehmend auf 
+            Nahrungsquellen angewiesen, die durch menschliche Aktivität entstehen – etwa auf Feldern, in Kompostanlagen oder bei offenen 
+            Abfalldeponien. Diese neue Nähe zum Menschen bringt Chancen, etwa für Beobachtung und Bildung, birgt aber auch Risiken wie 
+            Konflikte in der Landwirtschaft oder die Verbreitung von Krankheiten.
+
+</p>
+
+
+""", unsafe_allow_html=True)
+
+st.image("Daten/Bilder/winterstork.png", use_container_width=True)
+
 
 st.markdown("""
 <div style='
@@ -149,24 +197,21 @@ st.markdown("""
             
 <!-- Klimawandel und den Einfluss auf Vögel -->
 
-<p>
-Die Gründe für das veränderte Zugverhalten vieler Vogelarten sind vielfältig: 
-Mildere Winter, verfügbare Nahrung auf offenen Feldern oder Kompostplätzen und ein geringerer Energieverbrauch durch kürzere Flugstrecken 
-machen es für viele Arten attraktiv, über den Winter in der Schweiz zu bleiben.
-</p>
 
 <p>
-Doch diese Anpassung an veränderte klimatische Bedingungen hat ihren Preis: 
-Das ökologische Gleichgewicht gerät ins Wanken – sowohl in der Schweiz als auch in den ursprünglichen Überwinterungsgebieten in Afrika. 
-Der Klimawandel wirkt dabei wie ein schleichender Verstärker: Er verändert nicht nur das Verhalten einzelner Arten, 
-sondern auch das Zusammenspiel ganzer Ökosysteme.
-</p>
+    Der Weissstorch ist damit nur ein Beispiel für eine Veränderung, die sich auch bei anderen Vogelarten abzeichnen könnte. 
+            Denn was ihn in der Schweiz hält – mildere Winter, neue Nahrungsquellen und kürzere Zugstrecken – trifft zunehmend auch 
+            auf andere Arten zu. Wie sich diese Entwicklungen in den kommenden Jahrzehnten konkret auswirken, hängt stark vom weiteren 
+            Verlauf des Klimawandels ab.
 
+</p>
 <p>
-Die folgende Grafik zeigt, wie sich die durchschnittliche Jahrestemperatur in der Schweiz unter verschiedenen 
-Klimaszenarien (RCP 2.6, 4.5 und 8.5) bis Ende des Jahrhunderts entwickeln könnte. 
-Je nach globalem Emissionsverlauf steigen die Temperaturen unterschiedlich stark an – mit direkten Folgen 
-für Lebensräume, Nahrungsketten und das saisonale Verhalten vieler Tierarten wie dem Weissstorch.
+Um abzuschätzen, wie sich das Verhalten von Zugvögeln künftig verändern könnte, lohnt sich ein Blick auf mögliche Klimaverläufe. 
+            Dazu arbeiten wir mit drei international anerkannten Szenarien: RCP 2.6, 4.5 und 8.5. Je nach globalem 
+            Emissionspfad steigen die Temperaturen in der Schweiz unterschiedlich stark an, von einer weitgehenden 
+            Stabilisierung bis hin zu einem markanten Anstieg um mehrere Grad bis Ende des Jahrhunderts. 
+            Diese Entwicklungen betreffen nicht nur das Klima selbst, sondern auch Lebensräume, Nahrungsketten und das 
+            jahreszeitliche Verhalten zahlreicher Vogelarten.
 </p>
 """, unsafe_allow_html=True)
 
@@ -179,8 +224,9 @@ rcp85 = pd.read_csv("Daten/temperatur_szenarien/tas_yearly_RCP8.5_CH_transient.c
 def preprocess(df, label):
     df_long = df.melt(id_vars=["tas"], var_name="Jahr", value_name="Temperatur")
     df_long["Jahr"] = df_long["Jahr"].astype(int)
+    df_long["Dekade"] = (df_long["Jahr"] // 10) * 10  # Neue Spalte für Jahrzehnte
     df_long["Szenario"] = label
-    return df_long.groupby(["Jahr", "Szenario"])["Temperatur"].mean().reset_index()
+    return df_long.groupby(["Dekade", "Szenario"])["Temperatur"].mean().reset_index()
 
 # Daten vorbereiten
 df_26 = preprocess(rcp26, "RCP 2.6")
@@ -200,16 +246,17 @@ farben = {
 
 for scenario in df_all["Szenario"].unique():
     data = df_all[df_all["Szenario"] == scenario]
-    ax.plot(data["Jahr"], data["Temperatur"], label=scenario, color=farben[scenario])
+    ax.plot(data["Dekade"], data["Temperatur"], label=scenario, color=farben[scenario], marker="o")
 
-ax.set_xlabel("Jahr")
+ax.set_xlabel("Jahrzehnt")
 ax.set_ylabel("Ø Temperatur [°C]")
-ax.set_title("Temperaturentwicklung in der Schweiz (nach RCP-Szenarien)")
+ax.set_title("Temperaturentwicklung in der Schweiz (nach RCP-Szenarien, dekadisch geglättet)")
 ax.grid(True)
 ax.legend()
 fig.tight_layout()
 
 st.pyplot(fig)
+
 
 st.markdown("""
 <div style='
@@ -223,31 +270,42 @@ st.markdown("""
     color: black;
 '>
 
-
+<h4>Vom Einzelfall zum System </h4>
 <!-- andere Arten -->
-
 <p>
-Der Weissstorch ernährt sich vor allem von Insekten, Regenwürmern, Amphibien, kleinen Säugetieren und gelegentlich auch Fischen. 
-In einem typischen Winter war diese Nahrung früher in der Schweiz kaum verfügbar – der Boden war gefroren, die Tiere im Winterschlaf oder inaktiv.
+  Nicht alle Zugvögel reagieren auf veränderte klimatische Bedingungen gleich.
+  Einige Arten, sogenannte <em>Kurzstreckenzieher</em> wie die <strong>Mönchsgrasmücke</strong>,
+  bleiben inzwischen immer häufiger als Wintergast in der Schweiz oder angrenzenden Regionen.
+  Andere Vögel, wie die <strong>Nachtigall</strong>, gehören hingegen zu den klassischen
+  <em>Langstreckenziehern</em>, die weiterhin weite Strecken bis nach Afrika zurücklegen und daher besonders
+  empfindlich auf Veränderungen entlang ihrer Zugroute reagieren. Wieder andere Arten, wie die
+  <strong>Samtente</strong> aus Skandinavien, ebenfalls überwiegend <em>Kurzstreckenzieher</em>,
+  könnten künftig ihre Zugstrecken noch weiter verkürzen oder ganz neue Überwinterungsgebiete
+  erschliessen, falls mildere Winter das Überleben auch in nördlicheren Regionen ermöglichen.
 </p>
+    """, unsafe_allow_html=True)     
+
+
+
+st.markdown("""
+<div style='
+    background-color: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 2rem;
+    border-radius: 15px;
+    margin: 2rem auto;
+    width: 100%;
+    color: black;
+'>
+            
 <p>
-Doch mit den steigenden Wintertemperaturen ändern sich diese Bedingungen: Der Boden friert vielerorts nicht mehr durch, Amphibien sind früher aktiv und Kompostplätze bieten ganzjährig Nahrung.
-Diese Entwicklung macht die Schweiz auch im Winter zu einem geeigneten Lebensraum – mit weitreichenden Folgen für die einheimischen Ökosysteme.
+  Diese unterschiedlichen Reaktionen auf den Klimawandel verdeutlichen, dass die Auswirkungen weit über einzelne Arten hinausgehen.
+  Vielmehr verändern sich die gesamten <em>Ökosysteme</em>, in denen diese Vögel leben.
+  Die Wechselwirkungen zwischen Zugvögeln, Standvögeln und anderen Tierarten werden komplexer,
+  da sich Nahrungsnetze und Lebensräume zunehmend anpassen müssen.
+  Dadurch wird auch die Konkurrenz um Nahrung, Nistplätze und Lebensraum weiter zunehmen.
 </p>
-
-
-<p>
-Der Weissstorch ist nicht allein. 
-Auch Arten wie der <strong>Mauersegler</strong> oder die <strong>Rauchschwalbe</strong> verändern ihr Zugverhalten. 
-Während sie früher zuverlässig nach Zentralafrika flogen, bleiben heute mehr Tiere über längere Zeiträume in der Schweiz, 
-einige sogar ganzjährig.
-</p>
-
-<!-- 📊 GRAFIK-VORSCHLAG:
-    Vergleich: Anzahl gemeldeter Sichtungen Mauersegler/Rauchschwalbe im Winter
-    Typ: gestapeltes Balkendiagramm nach Art & Jahr
--->
-
 <p>
 Gerade bei insektenfressenden Arten wirkt sich das unmittelbar auf die Ökosysteme aus: 
 Ein höherer Jagddruck auf heimische Insektenpopulationen im Winter verschärft bestehende Rückgänge. 
