@@ -294,6 +294,9 @@ def get_base64_img(path):
 img1 = get_base64_img("Daten/Bilder/zugMücke.png")
 img2 = get_base64_img("Daten/Bilder/nachtigallzug.png")
 img3 = get_base64_img("Daten/Bilder/zugEnte.png")
+img4 = get_base64_img("Daten/Bilder/Mönchsgrasmücke.jpg")
+img5 = get_base64_img("Daten/Bilder/nachtigall.jpeg")
+img6 = get_base64_img("Daten/Bilder/Samtente.jpeg")
 
 html_content = f"""
 <style>
@@ -336,31 +339,50 @@ html_content = f"""
         <tr>
             <td style="padding:5px;">
                 <div class="image-container">
+                    <img src="{img4}" style="width:100%; border-radius:10px;">
+                </div>
+                <strong>Mönchsgrasmücke</strong>
+            </td>
+            <td style="padding:5px;">
+                <div class="image-container">
+                    <img src="{img5}" style="width:100%; border-radius:10px;">
+                </div>
+                <strong>Nachtigall</strong>
+            </td>
+            <td style="padding:5px;">
+                <div class="image-container">
+                    <img src="{img6}" style="width:100%; border-radius:10px;">
+                </div>
+                <strong>Samtente</strong>
+            </td>
+        </tr>
+    </table>
+    <table class="table-container">
+        <tr>
+            <td style="padding:5px;">
+                <div class="image-container">
                     <img src="{img1}" style="width:100%; border-radius:10px;">
                 </div>
-                <strong>Gebiete Mönchsgrasmücke</strong>
             </td>
             <td style="padding:5px;">
                 <div class="image-container">
                     <img src="{img2}" style="width:100%; border-radius:10px;">
                 </div>
-                <strong>Gebiete Nachtigall</strong>
             </td>
             <td style="padding:5px;">
                 <div class="image-container">
                     <img src="{img3}" style="width:100%; border-radius:10px;">
                 </div>
-                <strong>Gebiete Samtente</strong>
             </td>
         </tr>
     </table>
     <div class="legend">
         <strong>Legend:</strong><br>
-        <span style="color:#00ff00;">■</span> Extant, breeding |
-        <span style="color:#008000;">■</span> Extant, resident |
-        <span style="color:#00ffff;">■</span> Extant, passage |
-        <span style="color:#007fff;">■</span> Extant, non-breeding |
-        <span style="color:#FF8080;">■</span> Probably extinct
+        <span style="color:#00ff00;">■</span>  Brutgebiete |
+        <span style="color:#008000;">■</span>  Ganzjähriges Vorkommen |
+        <span style="color:#00ffff;">■</span>  Migration |
+        <span style="color:#007fff;">■</span>  Überwinterungsgebiete |   <br>  
+        <span style="color:#FF8080;">■</span>  Population wahrscheinlich erloschen
     </div>
 </div>
 """
@@ -386,18 +408,33 @@ st.markdown("""
   da sich Nahrungsnetze und Lebensräume zunehmend anpassen müssen.
   Dadurch wird auch die Konkurrenz um Nahrung, Nistplätze und Lebensraum weiter zunehmen.
 </p>
+
 <p>
-Gerade bei insektenfressenden Arten wirkt sich das unmittelbar auf die Ökosysteme aus: 
-Ein höherer Jagddruck auf heimische Insektenpopulationen im Winter verschärft bestehende Rückgänge. 
-Gleichzeitig fehlen diese Vögel als Fressfeinde oder Nahrung in ihren afrikanischen Winterquartieren,
-was dort zu Ungleichgewichten führt.
+  Besonders betroffen sind <strong>insektenfressende Arten</strong>, deren Nahrungsspektrum stark saisonal geprägt ist.
+  Wenn Zugvögel wie die Mönchsgrasmücke vermehrt überwintern, steigt der Jagddruck auf ohnehin rückläufige Insektenpopulationen.
+  Gleichzeitig geraten bisherige Gleichgewichte ins Wanken – etwa wenn heimische Standvögel plötzlich in Konkurrenz zu überwinternden Zugvögeln stehen.
 </p>
 
-<!-- 🌍 GRAFIK-VORSCHLAG:
-    Zwei Karten nebeneinander:
-    - CH: Dichte überwinternder Vögel (z. B. Storch, Schwalbe)
-    - Afrika: Rückgang gemeldeter Winterbeobachtungen
--->
+<p>
+  Ein weiteres Problem, das sich mit der Zeit verstärken könnte, ist das sogenannte <em>Mismatch</em>: 
+  Die Brutzeiten vieler Vogelarten sind auf den Höhepunkt des Insektenvorkommens im Frühling abgestimmt. 
+  Verschiebt sich dieser jedoch durch steigende Temperaturen, kann es zu einem zeitlichen Auseinanderfallen von Nahrungsangebot und Brutbedarf kommen – 
+  mit negativen Folgen für das Überleben der Jungvögel.
+</p>
+
+<p>
+  Auch in Gebieten wie dem <strong>Flachsee</strong> sind diese Veränderungen spürbar. Die Artenzusammensetzung verändert sich, neue Arten treten vermehrt auf,
+  während andere seltener werden. In sensiblen Feuchtgebieten kann dies langfristig zu einer ökologischen Destabilisierung führen –
+  mit Folgen für Pflanzen, Insekten, Amphibien und natürlich die Vögel selbst.
+</p>
+<p>
+Doch die Auswirkungen reichen weit über die Schweiz hinaus. 
+Wenn Arten wie die <strong>Mönchsgrasmücke</strong> oder die <strong>Nachtigall</strong> ihre Zugrouten verkürzen oder ganz auf den Zug verzichten, 
+verändert sich auch in ihren ursprünglichen Wintergebieten – etwa in Westafrika – das ökologische Gleichgewicht. 
+Gleichzeitig geraten in nördlicheren Regionen, etwa in <strong>Skandinavien</strong>, neue Lebensräume unter Druck, 
+wenn Arten wie die <strong>Samtente</strong> früher zurückkehren oder dort ganz überwintern. 
+So zeigt sich: Der Wandel ist nicht lokal begrenzt – er vernetzt weit entfernte Ökosysteme auf neue, oft unvorhersehbare Weise.
+</p>
 
 """, unsafe_allow_html=True)
 
@@ -414,33 +451,24 @@ st.markdown("""
     width: 100%;
     color: black;
 '>
-<!-- ökologische Folgen Flachsee, Schweiz und Afrika -->
-<!-- ökologische Folgen -->
-            
+    <h4>Flachsee, Verantwortung und der Blick nach vorne</h4>
 <p>
-In der Schweiz kommt es zunehmend zu Konkurrenz zwischen Zugvögeln, die bleiben, und Standvögeln wie Amsel oder Meise. Nahrung, Nistplätze und Lebensräume werden knapper. Das kann zu Verdrängung führen – oder zu veränderten Brutzeiten mit erhöhtem Risiko für Brutverluste.
+Der <strong>Flachsee</strong> steht sinnbildlich für viele Feuchtgebiete in Europa. Er ist ein Ort des Wandels, ein Fenster in eine sich verändernde Welt. 
+Was sich hier beobachten lässt, ist Teil eines grösseren Zusammenhangs: Das Zugverhalten der Vögel verändert sich, Ökosysteme geraten unter Druck und alte Gleichgewichte verschieben sich.
 </p>
 
-<!-- 📈 GRAFIK-VORSCHLAG:
-    Modellhafte Darstellung oder Diagramm:
-    Brutbeginn vs. Insektenverfügbarkeit (z. B. „Mismatch“)
-    Typ: 2 Kurven auf Zeitachse (Frühling), zeitliche Verschiebung zeigen
--->
-
 <p>
-Gleichzeitig fehlen die Vögel im Süden als Samenverbreiter, 
-Schädlingsvertilger oder Nahrungsquelle für andere Tiere. 
-Damit gehen wichtige ökologische Funktionen verloren, ein oft unterschätzter Aspekt des Klimawandels.
+Diese Entwicklungen sind weder rein biologisch noch rein global. Sie sind <em>auch politisch und persönlich</em>. 
+Denn wie wir heute mit unserer Umwelt, unserem Konsum und unserem Energieverbrauch umgehen, prägt die Welt von morgen – für Menschen und Tiere gleichermassen.
 </p>
 
-<!-- 🌱 GRAFIK-VORSCHLAG:
-    Infografik oder Flussdiagramm:
-    "Ökologische Rollen der Zugvögel" – Schweiz vs. Afrika
-    (Samenverbreitung, Nahrung, Schädlingskontrolle)
--->
-              
-<!-- abschluss / Fazit -->
-<!-- Quellen -->
+<p>
+Der Weissstorch, die Mönchsgrasmücke oder die Samtente zeigen uns: Der Klimawandel ist nicht abstrakt. 
+Er hat Flügel, er ist sichtbar, hörbar und zählbar. Und vielleicht liegt gerade darin eine Chance: 
+Die Veränderung beginnt mit dem, was wir beobachten. Und wer genau hinschaut, versteht mehr – und kann handeln.
+</p>
+  
 </div>         
 
 """, unsafe_allow_html=True)
+
