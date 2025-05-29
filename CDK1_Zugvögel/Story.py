@@ -285,7 +285,87 @@ st.markdown("""
 </p>
     """, unsafe_allow_html=True)     
 
+def get_base64_img(path):
+    with open(path, "rb") as img_file:
+        encoded = base64.b64encode(img_file.read()).decode()
+    return f"data:image/png;base64,{encoded}"
 
+# Bilder vorbereiten
+img1 = get_base64_img("Daten/Bilder/zugMücke.png")
+img2 = get_base64_img("Daten/Bilder/nachtigallzug.png")
+img3 = get_base64_img("Daten/Bilder/zugEnte.png")
+
+html_content = f"""
+<style>
+    .image-container {{
+        position: relative;
+        transition: transform 0.4s ease-in-out;
+        cursor: pointer;
+        z-index: 1;
+    }}
+    .image-container:hover {{
+        transform: scale(1.6);
+        z-index: 10;
+    }}
+    .table-container {{
+        width: 100%;
+        table-layout: fixed;
+    }}
+    .legend {{
+        margin-top: 15px;
+        text-align: center;
+        font-size: 1rem;
+        position: relative;
+        z-index: 5;
+    }}
+</style>
+
+<div style='
+    background-color: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 2rem;
+    border-radius: 15px;
+    margin: 2rem auto;
+    width: 100%;
+    color: black;
+    text-align: center;
+    overflow: visible;
+'>
+    <table class="table-container">
+        <tr>
+            <td style="padding:5px;">
+                <div class="image-container">
+                    <img src="{img1}" style="width:100%; border-radius:10px;">
+                </div>
+                <strong>Gebiete Mönchsgrasmücke</strong>
+            </td>
+            <td style="padding:5px;">
+                <div class="image-container">
+                    <img src="{img2}" style="width:100%; border-radius:10px;">
+                </div>
+                <strong>Gebiete Nachtigall</strong>
+            </td>
+            <td style="padding:5px;">
+                <div class="image-container">
+                    <img src="{img3}" style="width:100%; border-radius:10px;">
+                </div>
+                <strong>Gebiete Samtente</strong>
+            </td>
+        </tr>
+    </table>
+    <div class="legend">
+        <strong>Legend:</strong><br>
+        <span style="color:#00ff00;">■</span> Extant, breeding |
+        <span style="color:#008000;">■</span> Extant, resident |
+        <span style="color:#00ffff;">■</span> Extant, passage |
+        <span style="color:#007fff;">■</span> Extant, non-breeding |
+        <span style="color:#FF8080;">■</span> Probably extinct
+    </div>
+</div>
+"""
+# HTML-Inhalt rendern
+st.markdown(html_content, unsafe_allow_html=True)
 
 st.markdown("""
 <div style='
