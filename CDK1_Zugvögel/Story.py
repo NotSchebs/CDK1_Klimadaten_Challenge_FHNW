@@ -215,48 +215,61 @@ Um abzuschätzen, wie sich das Verhalten von Zugvögeln künftig verändern kön
 </p>
 """, unsafe_allow_html=True)
 
-# CSVs einlesen
+# Daten laden
 rcp26 = pd.read_csv("Daten/temperatur_szenarien/tas_yearly_RCP2.6_CH_transient.csv")
 rcp45 = pd.read_csv("Daten/temperatur_szenarien/tas_yearly_RCP4.5_CH_transient.csv")
 rcp85 = pd.read_csv("Daten/temperatur_szenarien/tas_yearly_RCP8.5_CH_transient.csv")
 
-# Helper-Funktion
-def preprocess(df, label):
-    df_long = df.melt(id_vars=["tas"], var_name="Jahr", value_name="Temperatur")
-    df_long["Jahr"] = df_long["Jahr"].astype(int)
-    df_long["Dekade"] = (df_long["Jahr"] // 10) * 10  # Neue Spalte für Jahrzehnte
-    df_long["Szenario"] = label
-    return df_long.groupby(["Dekade", "Szenario"])["Temperatur"].mean().reset_index()
+# Long-Format-Funktion
+def melt_rcp(df, label):
+    df_melted = df.melt(id_vars=["tas"], var_name="Jahr", value_name="Temperatur")
+    df_melted["Jahr"] = df_melted["Jahr"].astype(int)
+    df_melted["Szenario"] = label
+    return df_melted[["Jahr", "Temperatur", "Szenario"]]
 
-# Daten vorbereiten
-df_26 = preprocess(rcp26, "RCP 2.6")
-df_45 = preprocess(rcp45, "RCP 4.5")
-df_85 = preprocess(rcp85, "RCP 8.5")
+# Daten zusammenführen
+df_proj = pd.concat([
+    melt_rcp(rcp26, "RCP2.6"),
+    melt_rcp(rcp45, "RCP4.5"),
+    melt_rcp(rcp85, "RCP8.5")
+])
 
-# Zusammenführen
-df_all = pd.concat([df_26, df_45, df_85])
+# Mittelwert und Standardabweichung berechnen
+df_stats = df_proj.groupby(["Jahr", "Szenario"])["Temperatur"].agg(["mean", "std"]).reset_index().dropna()
 
-# Plot
-fig, ax = plt.subplots(figsize=(12, 6))
+# Farben definieren
 farben = {
-    "RCP 2.6": "#1f77b4",
-    "RCP 4.5": "#ff7f0e",
-    "RCP 8.5": "#d62728"
+    "RCP2.6": "#58a9fb",
+    "RCP4.5": "#ffc156",
+    "RCP8.5": "#ff725c"
 }
 
-for scenario in df_all["Szenario"].unique():
-    data = df_all[df_all["Szenario"] == scenario]
-    ax.plot(data["Dekade"], data["Temperatur"], label=scenario, color=farben[scenario], marker="o")
+# Plot erstellen
+fig, ax = plt.subplots(figsize=(12, 6))
 
-ax.set_xlabel("Jahrzehnt")
-ax.set_ylabel("Ø Temperatur [°C]")
-ax.set_title("Temperaturentwicklung in der Schweiz (nach RCP-Szenarien, dekadisch geglättet)")
+for szenario, color in farben.items():
+    raw = df_proj[(df_proj["Szenario"] == szenario) & (df_proj["Jahr"] >= 1980)]
+    stats = df_stats[(df_stats["Szenario"] == szenario) & (df_stats["Jahr"] >= 1980)]
+
+    ax.plot(raw["Jahr"], raw["Temperatur"], color=color, alpha=0.2)
+    ax.plot(stats["Jahr"], stats["mean"], color=color, linewidth=2, label=szenario)
+    ax.fill_between(stats["Jahr"],
+                    stats["mean"] - stats["std"],
+                    stats["mean"] + stats["std"],
+                    color='gray', alpha=0.1)
+
+# Achsen und Design
+ax.axhline(0, color="gray", linestyle="--", linewidth=1)
+ax.set_title("Temperaturentwicklung in der Schweiz (Abweichung zur Normperiode 1981–2100)")
+ax.set_xlabel("Jahr")
+ax.set_ylabel("Abweichung (°C)")
+ax.set_xlim(1980, 2100)
+ax.set_ylim(2, 14)  # Y-Achse bis 15 °C
+ax.legend(title="Szenarien")
 ax.grid(True)
-ax.legend()
 fig.tight_layout()
 
 st.pyplot(fig)
-
 
 st.markdown("""
 <div style='
