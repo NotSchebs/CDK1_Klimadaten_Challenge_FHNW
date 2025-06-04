@@ -1,5 +1,5 @@
 Artname,Abflugszeitraum,Ankunftszeitraum,zieht nach,Brutvogel,Durchzuegler,Wintergast,Kurzstreckenzieher,Langstreckenzieher,Teilzieher,avg_comf_temp_low,avg_comf_temp_high,Season,Nahrung
-Weissstorch,August,Maerz,"Sahel und Ost-bis Südafrika",TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,Frühling - Sommer,"Insekten, Kleinsäuger, Amphibien, Würmer"
+Weissstorch,August,März,"Sahel und Ost-bis Südafrika",TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,Frühling - Sommer,"Insekten, Kleinsäuger, Amphibien, Würmer"
 Mauersegler,Juli,Juli,Südlich der Sahara,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,18,28,Sommer,"Insekten, Spinnen"
 Hausrotschwanz,September,März,West- und Südeuropa,TRUE,FALSE,FALSE,TRUE,FALSE,TRUE,5,28,Frühling - Sommer,"Insekten, Spinnen"
 Rauchschwalbe,August,März,Südlich der Sahara,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE,5,28,Frühling - Sommer,"Insekten, Spinnen"
