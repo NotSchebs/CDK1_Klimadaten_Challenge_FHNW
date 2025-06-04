@@ -1,7 +1,5 @@
-import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-import base64  # für das Einbetten des Bilds
 
 import streamlit as st
 import base64  # für das Einbetten des Bilds
