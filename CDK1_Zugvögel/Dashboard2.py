@@ -166,7 +166,23 @@ def main():
         label_visibility="collapsed"
     )
 
-    jahr_range = st.slider("📆 Zeitraum wählen", min_value=1995, max_value=2100, value=(2020, 2080))
+    with st.container():
+        st.markdown("""
+        <div class="glass-box">
+            <div class="label-box">📆 Zeitraum wählen</div>
+        """, unsafe_allow_html=True)
+
+        jahr_range = st.slider(
+            label="",
+            min_value=1995,
+            max_value=2100,
+            value=(2020, 2080),
+            label_visibility="collapsed"
+        )
+
+        st.markdown("""
+        </div>
+        """, unsafe_allow_html=True)
 
     data = {}
     if szenario in ["RCP 2.6", "Alle"]:
