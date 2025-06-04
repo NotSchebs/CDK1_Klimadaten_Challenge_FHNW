@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 from PIL import Image
 import base64
+import os
 
 def add_bg_from_local(image_file):
     with open(image_file, "rb") as image:
@@ -435,6 +436,115 @@ st.markdown("""
   mit negativen Folgen für das Überleben der Jungvögel.
 </p>
 
+""", unsafe_allow_html=True)
+
+# Funktion zum Einlesen lokaler Bilder als base64
+def get_base64_img(path):
+    with open(path, "rb") as img_file:
+        encoded = base64.b64encode(img_file.read()).decode()
+    return f"data:image/png;base64,{encoded}"
+
+# Lokaler Bilderpfad
+image_dir = "Daten/Bilder"
+
+# Bildpfade
+img1 = get_base64_img(os.path.join(image_dir, "match.png"))
+img2 = get_base64_img(os.path.join(image_dir, "mismatch_insects_early.png"))
+img3 = get_base64_img(os.path.join(image_dir, "mismatch_birds_early.png"))
+
+# HTML-Inhalt
+html = f"""
+<style>
+    .image-container {{
+        position: relative;
+        transition: transform 0.4s ease-in-out;
+        cursor: pointer;
+        z-index: 1;
+    }}
+    .image-container:hover {{
+        transform: scale(2.5);
+        z-index: 10;
+    }}
+    .card-grid {{
+        width: 100%;
+        table-layout: fixed;
+    }}
+    .desc {{
+        text-align: center;
+        font-size: 0.9rem;
+        margin-top: 5px;
+    }}
+    .legend {{
+        margin: 20px auto 10px;
+        text-align: center;
+        font-size: 0.9rem;
+        font-style: italic;
+    }}
+</style>
+
+<div style='
+    background-color: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(8px);
+    padding: 2rem;
+    border-radius: 12px;
+    margin: 2rem auto;
+    width: 100%;
+    color: black;
+    text-align: center;
+'>
+<h5>Beispiel für Mismatch zwischen Vogelbrut und Insektenpeak</h5>
+
+<table class="card-grid">
+    <tr>
+        <td style="padding:10px;">
+            <div class="image-container">
+                <img src="{img2}" style="width:100%; border-radius:10px;">
+            </div>
+            <div class="desc"><strong>Mismatch A</strong><br>Insektenpeak tritt zu früh auf.</div>
+        </td>
+        <td style="padding:10px;">
+            <div class="image-container">
+                <img src="{img1}" style="width:100%; border-radius:10px;">
+            </div>
+            <div class="desc"><strong>Match</strong><br>Bedarf und Angebot überlappen optimal.</div>
+        </td>
+        <td style="padding:10px;">
+            <div class="image-container">
+                <img src="{img3}" style="width:100%; border-radius:10px;">
+            </div>
+            <div class="desc"><strong>Mismatch B</strong><br>Vogelbrut beginnt zu früh.</div>
+        </td>
+    </tr>
+</table>
+
+<div class="legend">
+    <span style="color: brown; font-weight: bold;">▇</span> Vogelbedarf&nbsp;&nbsp;&nbsp;
+    <span style="color: green; font-weight: bold;">▇</span> Insektenangebot
+</div>
+
+<div style="margin-top: 10px;">
+    Ein "Mismatch" beschreibt die zeitliche Entkopplung zwischen der Brutphase von Vögeln und dem Insektenangebot, 
+    wodurch Jungvögeln weniger Nahrung zur Verfügung steht – verursacht durch Klimawandel und sinkende Insektenbiomasse.
+</div>
+</div>
+"""
+
+# Anzeige in Streamlit
+st.markdown(html, unsafe_allow_html=True)
+
+
+st.markdown("""
+<div style='
+    background-color: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 2rem;
+    border-radius: 15px;
+    margin: 2rem auto;
+    width: 100%;
+    color: black;
+'>
+
 <p>
   Auch in Gebieten wie dem <strong>Flachsee</strong> sind diese Veränderungen spürbar. Die Artenzusammensetzung verändert sich, neue Arten treten vermehrt auf,
   während andere seltener werden. In sensiblen Feuchtgebieten kann dies langfristig zu einer ökologischen Destabilisierung führen –
@@ -444,7 +554,7 @@ st.markdown("""
 Doch die Auswirkungen reichen weit über die Schweiz hinaus. 
 Wenn Arten wie die <strong>Mönchsgrasmücke</strong> oder die <strong>Nachtigall</strong> ihre Zugrouten verkürzen oder ganz auf den Zug verzichten, 
 verändert sich auch in ihren ursprünglichen Wintergebieten – etwa in Westafrika – das ökologische Gleichgewicht. 
-Gleichzeitig geraten in nördlicheren Regionen, etwa in <strong>Skandinavien</strong>, neue Lebensräume unter Druck, 
+Gleichzeitig geraten in nördlicheren Regionen, etwa in Skandinavien, neue Lebensräume unter Druck, 
 wenn Arten wie die <strong>Samtente</strong> früher zurückkehren oder dort ganz überwintern. 
 So zeigt sich: Der Wandel ist nicht lokal begrenzt – er vernetzt weit entfernte Ökosysteme auf neue, oft unvorhersehbare Weise.
 </p>
@@ -484,4 +594,3 @@ Die Veränderung beginnt mit dem, was wir beobachten. Und wer genau hinschaut, v
 </div>         
 
 """, unsafe_allow_html=True)
-
