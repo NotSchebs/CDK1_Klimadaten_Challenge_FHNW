@@ -2,8 +2,9 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import base64
+import os
 
-# === Seiteneinstellungen ===
+# === Seiteneinstellungen (ganz oben!) ===
 st.set_page_config(page_title="Klimadashboard Vogelzug", layout="wide", page_icon="🌍")
 
 # === Hintergrundbild & Design ===
@@ -39,16 +40,29 @@ def set_background(image_file_path):
                 margin-bottom: 0.2rem;
                 font-weight: 500;
             }}
-
             </style>
         """, unsafe_allow_html=True)
     except FileNotFoundError:
         st.warning("Hintergrundbild konnte nicht geladen werden.")
 
+# === Hilfsfunktion für Zeitraum ===
+def with_glassbox(content_func):
+    with st.container():
+        st.markdown('<div class="glass-box">', unsafe_allow_html=True)
+        result = content_func()
+        st.markdown('</div>', unsafe_allow_html=True)
+        return result
+
+def encode_image_to_base64(path):
+    if not os.path.exists(path):
+        return ""
+    with open(path, "rb") as f:
+        return base64.b64encode(f.read()).decode()
+
 # === Daten laden ===
 @st.cache_data
 def load_vogeldaten():
-    df = pd.read_csv("Daten/Voegeldaten/zugvögel_16V2.csv", encoding="utf-8")
+    df = pd.read_csv("Daten/Voegeldaten/zugvögel_16V2.csv", encoding="utf-8", quotechar='"', skipinitialspace=True)
     df.columns = df.columns.str.strip()
     return df
 
@@ -78,33 +92,41 @@ month_factors = {monat: 1.0 for monat in [
     "Juli", "August", "September", "Oktober", "November", "Dezember"
 ]}
 
-# === Vogelinfo anzeigen ===
+# === Info & Plots ===
 def render_vogel_info(vogel, eintrag):
+    bild_base64 = encode_image_to_base64(eintrag['Bild_pfad'])
+
     st.markdown(f"""
-    <div class="glass-box">
-        <h2>🧬 Informationen zu {vogel} stand 2025</h2>
-        <ul>
-            <li><strong>Ankunftsmonat(e):</strong> {eintrag['Ankunftszeitraum']}</li>
-            <li><strong>Abflugszeitraum(e):</strong> {eintrag['Abflugszeitraum']}</li>
-            <li><strong>Zugziel:</strong> {eintrag['zieht nach']}</li>
-            <li><strong>Zugverhalten:</strong>
-                <ul>
-                    <li>Brutvogel: {eintrag['Brutvogel']}</li>
-                    <li>Durchzügler: {eintrag['Durchzuegler']}</li>
-                    <li>Wintergast: {eintrag['Wintergast']}</li>
-                    <li>Kurzstreckenzieher: {eintrag['Kurzstreckenzieher']}</li>
-                    <li>Langstreckenzieher: {eintrag['Langstreckenzieher']}</li>
-                    <li>Teilzieher: {eintrag['Teilzieher']}</li>
-                </ul>
-            </li>
-            <li><strong>Komforttemperatur:</strong> {eintrag['avg_comf_temp_low']} – {eintrag['avg_comf_temp_high']} °C</li>
-            <li><strong>Saison:</strong> {eintrag['Season']}</li>
-            <li><strong>Nahrung:</strong> {eintrag.get('Nahrung', 'nicht verfügbar')}</li>
-        </ul>
+    <div class="glass-box" style="display: flex; justify-content: space-between;">
+        <div style="flex: 1.2;">
+            <h2>🧬 Informationen zu {vogel} stand 2025</h2>
+            <ul>
+                <li><strong>Ankunftsmonat(e):</strong> {eintrag['Ankunftszeitraum']}</li>
+                <li><strong>Abflugszeitraum(e):</strong> {eintrag['Abflugszeitraum']}</li>
+                <li><strong>Zugziel:</strong> {eintrag['zieht nach']}</li>
+                <li><strong>Zugverhalten:</strong>
+                    <ul>
+                        <li>Brutvogel: {eintrag['Brutvogel']}</li>
+                        <li>Durchzügler: {eintrag['Durchzuegler']}</li>
+                        <li>Wintergast: {eintrag['Wintergast']}</li>
+                        <li>Kurzstreckenzieher: {eintrag['Kurzstreckenzieher']}</li>
+                        <li>Langstreckenzieher: {eintrag['Langstreckenzieher']}</li>
+                        <li>Teilzieher: {eintrag['Teilzieher']}</li>
+                    </ul>
+                </li>
+                <li><strong>Komforttemperatur:</strong> {eintrag['avg_comf_temp_low']} – {eintrag['avg_comf_temp_high']} °C</li>
+                <li><strong>Saison:</strong> {eintrag['Season']}</li>
+                <li><strong>Nahrung:</strong> {eintrag.get('Nahrung', 'nicht verfügbar')}</li>
+            </ul>
+        </div>
+        <div style="flex: 0.8; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+            <img src="data:image/jpeg;base64,{bild_base64}" alt="Vogelbild" style="max-width: 340px; width: 100%; border-radius: 10px;"><br>
+            <small>Vogelbild</small>
+        </div>
     </div>
     """, unsafe_allow_html=True)
 
-# === Temperaturplot anzeigen ===
+
 def render_temperature_plot(data, eintrag, jahr_range, monat):
     st.markdown(f"""
     <div class="glass-box">
@@ -141,48 +163,21 @@ def main():
     vogeldaten = load_vogeldaten()
     alle_vögel = vogeldaten["Artname"].dropna().unique()
     st.markdown('<div class="label-box">🕊️ Vogelart wählen</div>', unsafe_allow_html=True)
-    vogel = st.selectbox(
-        label="",
-        options=sorted(alle_vögel),
-        label_visibility="collapsed"
-    )
+    vogel = st.selectbox("", options=sorted(alle_vögel), label_visibility="collapsed")
 
     eintrag = vogeldaten[vogeldaten["Artname"] == vogel].iloc[0]
 
     st.markdown('<div class="label-box">📅 Monat wählen</div>', unsafe_allow_html=True)
-    monat = st.selectbox(
-        label="",
-        options=["Jahresmittel"] + list(month_factors.keys()),
-        label_visibility="collapsed"
-    )
+    monat = st.selectbox("", options=["Jahresmittel"] + list(month_factors.keys()), label_visibility="collapsed")
 
     faktor = 1.0 if monat == "Jahresmittel" else month_factors[monat]
     temp_1995 = load_temp_1995(monat)
 
     st.markdown('<div class="label-box">🌡️ Emissionsszenario wählen</div>', unsafe_allow_html=True)
-    szenario = st.selectbox(
-        label="",
-        options=["RCP 2.6", "RCP 4.5", "RCP 8.5", "Alle"],
-        label_visibility="collapsed"
-    )
+    szenario = st.selectbox("", options=["RCP 2.6", "RCP 4.5", "RCP 8.5", "Alle"], label_visibility="collapsed")
 
-    with st.container():
-        st.markdown("""
-        <div class="glass-box">
-            <div class="label-box">📆 Zeitraum wählen</div>
-        """, unsafe_allow_html=True)
-
-        jahr_range = st.slider(
-            label="",
-            min_value=1995,
-            max_value=2100,
-            value=(2020, 2080),
-            label_visibility="collapsed"
-        )
-
-        st.markdown("""
-        </div>
-        """, unsafe_allow_html=True)
+    st.markdown('<div class="label-box">🗓️ Zeitraum wählen</div>', unsafe_allow_html=True)
+    jahr_range = st.slider("", 1995, 2100, (2020, 2080), label_visibility="collapsed")
 
     data = {}
     if szenario in ["RCP 2.6", "Alle"]:
