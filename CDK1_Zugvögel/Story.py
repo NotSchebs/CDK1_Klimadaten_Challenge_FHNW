@@ -74,13 +74,70 @@ Diese Entwicklung ist mehr als ein lokales Phänomen.
 
 """, unsafe_allow_html=True)
 
-col1, col2 = st.columns(2)
-with col1:
-    st.image("Daten/Bilder/storch_schnee.webp", caption="Weissstorch im Winter", use_container_width=True)
+# Funktion: Bild als base64-String
+def image_to_base64(path):
+    with open(path, "rb") as f:
+        data = f.read()
+    return base64.b64encode(data).decode()
 
-with col2:
-    st.image("Daten/Bilder/Flachsee.jpg", caption="Flachsee im Aargau", use_container_width=True)
+# Bildpfade
+img1_path = "Daten/Bilder/storch_schnee.webp"
+img2_path = "Daten/Bilder/Flachsee.jpg"
 
+# Base64 konvertieren
+img1_base64 = image_to_base64(img1_path)
+img2_base64 = image_to_base64(img2_path)
+
+# Custom CSS und HTML
+st.markdown(
+    f"""
+    <style>
+    .image-container {{
+        background-color: rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        padding: 2rem;
+        border-radius: 15px;
+        margin: 2rem auto;
+        color: black;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+    }}
+    .image-wrapper {{
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+    }}
+    .image-container img {{
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+        border-radius: 10px;
+    }}
+    .caption {{
+        margin-top: 1rem;
+        font-style: italic;
+        font-size: 0.9rem;
+        text-align: center;
+    }}
+    </style>
+
+    <div class="image-wrapper">
+        <div class="image-container">
+            <img src="data:image/webp;base64,{img1_base64}" alt="Storch im Winter">
+            <p class="caption">Bild 1: Weissstorch im Winter</p>
+        </div>
+        <div class="image-container">
+            <img src="data:image/jpeg;base64,{img2_base64}" alt="Flachsee">
+            <p class="caption">Bild 2: Flachsee im Aargau</p>
+        </div>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
 
 st.markdown("""
@@ -110,14 +167,18 @@ Besonders entlang des Jurasüdfusses, am Bodensee oder in
 Feuchtgebieten wie dem Flachsee lassen sich überwinternde Individuen nachweisen.
 </p>
 <p>
-Diese Entwicklung spiegelt sich auch in den jährlichen Winterzählungen wider. 
+Diese Entwicklung spiegelt sich auch in den jährlichen Winterzählungen wider (Grafik 1). 
             Im Winter 2016/2017 wurden in der Schweiz rund 290 überwinternde Weissstörche erfasst, 
             2024/2025 waren es bereits über 1'000, fast die Hälfte der in der Schweiz brütenden Population. 
             Der deutliche Anstieg innerhalb weniger Jahre zeigt, wie stark sich der Weissstorch inzwischen 
             an die milderen Winterbedingungen angepasst hat. 
             Was einst Ausnahme war, wird zur neuen Normalität.
 </p>
-""", unsafe_allow_html=True)    
+""", unsafe_allow_html=True)   
+
+st.markdown("""
+<div style='margin: 2rem 0;'>
+""", unsafe_allow_html=True) 
 
 df = pd.read_csv("Daten/Voegeldaten/storchenzahlen_2017_2025.csv")
 
@@ -147,6 +208,16 @@ ax.legend()
 fig.tight_layout()
 
 st.pyplot(fig)
+st.markdown(
+    "<div style='text-align: center; font-size: 0.875rem; color: rgba(0, 0, 0, 0.6); font-style: italic;'>"
+    "Graphik 1: Vergleich von Brut- und Winterstörchen in der Schweiz (2017–2025)"
+    "</div>",
+    unsafe_allow_html=True
+)
+
+st.markdown("""
+<div style='margin: 2rem 0;'>
+""", unsafe_allow_html=True)
 
 st.markdown("""
 <div style='
@@ -180,9 +251,15 @@ Doch diese Anpassung an veränderte klimatische Bedingungen hat ihren Preis.
 
 
 """, unsafe_allow_html=True)
+st.markdown("""
+<div style='margin: 2rem 0;'>
+""", unsafe_allow_html=True)
 
-st.image("Daten/Bilder/winterstork.png", use_container_width=True)
+st.image("Daten/Bilder/winterstork.png",caption="Bild 3: KI generiertes Bild", use_container_width=True)
 
+st.markdown("""
+<div style='margin: 2rem 0;'>
+""", unsafe_allow_html=True)
 
 st.markdown("""
 <div style='
@@ -207,13 +284,17 @@ st.markdown("""
 
 </p>
 <p>
-Um abzuschätzen, wie sich das Verhalten von Zugvögeln künftig verändern könnte, lohnt sich ein Blick auf mögliche Klimaverläufe. 
+Um abzuschätzen, wie sich das Verhalten von Zugvögeln künftig verändern könnte, lohnt sich ein Blick auf die Klimaprojektionen in Grafik 2.
             Dazu arbeiten wir mit drei international anerkannten Szenarien: RCP 2.6, 4.5 und 8.5. Je nach globalem 
             Emissionspfad steigen die Temperaturen in der Schweiz unterschiedlich stark an, von einer weitgehenden 
             Stabilisierung bis hin zu einem markanten Anstieg um mehrere Grad bis Ende des Jahrhunderts. 
             Diese Entwicklungen betreffen nicht nur das Klima selbst, sondern auch Lebensräume, Nahrungsketten und das 
             jahreszeitliche Verhalten zahlreicher Vogelarten.
 </p>
+""", unsafe_allow_html=True)
+
+st.markdown("""
+<div style='margin: 2rem 0;'>
 """, unsafe_allow_html=True)
 
 # Daten laden
@@ -271,6 +352,16 @@ ax.grid(True)
 fig.tight_layout()
 
 st.pyplot(fig)
+st.markdown(
+    "<div style='text-align: center; font-size: 0.875rem; color: rgba(0, 0, 0, 0.6); font-style: italic;'>"
+    "Graphik 2: RCP-Szenarien für die Temperaturentwicklung in der Schweiz (1980–2100)"
+    "</div>",
+    unsafe_allow_html=True
+)
+
+st.markdown("""
+<div style='margin: 2rem 0;'>
+""", unsafe_allow_html=True)
 
 st.markdown("""
 <div style='
@@ -314,17 +405,17 @@ img6 = get_base64_img("Daten/Bilder/Samtente.jpeg")
 
 html_content = f"""
 <style>
-    .image-container {{
+    .image-container-B {{
         position: relative;
         transition: transform 0.4s ease-in-out;
         cursor: pointer;
         z-index: 1;
     }}
-    .image-container:hover {{
+    .image-container-B:hover {{
         transform: scale(1.6);
         z-index: 10;
     }}
-    .table-container {{
+    .table-container-B {{
         width: 100%;
         table-layout: fixed;
     }}
@@ -349,42 +440,42 @@ html_content = f"""
     text-align: center;
     overflow: visible;
 '>
-    <table class="table-container">
+    <table class="table-container-B">
         <tr>
             <td style="padding:5px;">
-                <div class="image-container">
+                <div class="image-container-B">
                     <img src="{img4}" style="width:100%; border-radius:10px;">
                 </div>
                 <strong>Mönchsgrasmücke</strong>
             </td>
             <td style="padding:5px;">
-                <div class="image-container">
+                <div class="image-container-B">
                     <img src="{img5}" style="width:100%; border-radius:10px;">
                 </div>
                 <strong>Nachtigall</strong>
             </td>
             <td style="padding:5px;">
-                <div class="image-container">
+                <div class="image-container-B">
                     <img src="{img6}" style="width:100%; border-radius:10px;">
                 </div>
                 <strong>Samtente</strong>
             </td>
         </tr>
     </table>
-    <table class="table-container">
+    <table class="table-container-B">
         <tr>
             <td style="padding:5px;">
-                <div class="image-container">
+                <div class="image-container-B">
                     <img src="{img1}" style="width:100%; border-radius:10px;">
                 </div>
             </td>
             <td style="padding:5px;">
-                <div class="image-container">
+                <div class="image-container-B">
                     <img src="{img2}" style="width:100%; border-radius:10px;">
                 </div>
             </td>
             <td style="padding:5px;">
-                <div class="image-container">
+                <div class="image-container-B">
                     <img src="{img3}" style="width:100%; border-radius:10px;">
                 </div>
             </td>
@@ -455,13 +546,13 @@ img3 = get_base64_img(os.path.join(image_dir, "mismatch_birds_early.png"))
 # HTML-Inhalt
 html = f"""
 <style>
-    .image-container {{
+    .image-container-G {{
         position: relative;
         transition: transform 0.4s ease-in-out;
         cursor: pointer;
         z-index: 1;
     }}
-    .image-container:hover {{
+    .image-container-G:hover {{
         transform: scale(2.5);
         z-index: 10;
     }}
@@ -497,19 +588,19 @@ html = f"""
 <table class="card-grid">
     <tr>
         <td style="padding:10px;">
-            <div class="image-container">
+            <div class="image-container-G">
                 <img src="{img2}" style="width:100%; border-radius:10px;">
             </div>
             <div class="desc"><strong>Mismatch A</strong><br>Insektenpeak tritt zu früh auf.</div>
         </td>
         <td style="padding:10px;">
-            <div class="image-container">
+            <div class="image-container-G">
                 <img src="{img1}" style="width:100%; border-radius:10px;">
             </div>
-            <div class="desc"><strong>Match</strong><br>Bedarf und Angebot überlappen optimal.</div>
+            <div class="desc"><strong>Match</strong><br>Bedarf optimal.</div>
         </td>
         <td style="padding:10px;">
-            <div class="image-container">
+            <div class="image-container-G">
                 <img src="{img3}" style="width:100%; border-radius:10px;">
             </div>
             <div class="desc"><strong>Mismatch B</strong><br>Vogelbrut beginnt zu früh.</div>
@@ -560,8 +651,13 @@ So zeigt sich: Der Wandel ist nicht lokal begrenzt – er vernetzt weit entfernt
 </p>
 
 """, unsafe_allow_html=True)
+st.markdown("""
+<div style='margin: 2rem 0;'>
+""", unsafe_allow_html=True)
 
-st.image("Daten/Bilder/problem.png", use_container_width=True)
+st.image("Daten/Bilder/problem.png",caption="Bild 3: KI generiertes Bild", use_container_width=True)
+
+
 
 st.markdown("""
 <div style='
