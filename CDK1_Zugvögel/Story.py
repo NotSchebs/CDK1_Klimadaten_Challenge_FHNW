@@ -655,7 +655,7 @@ st.markdown("""
 <div style='margin: 2rem 0;'>
 """, unsafe_allow_html=True)
 
-st.image("Daten/Bilder/problem.png",caption="Bild 3: KI generiertes Bild", use_container_width=True)
+st.image("Daten/Bilder/problem.png",caption="Bild 4: KI generiertes Bild", use_container_width=True)
 
 
 
