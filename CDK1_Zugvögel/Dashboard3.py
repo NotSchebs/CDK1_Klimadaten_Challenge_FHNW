@@ -4,67 +4,77 @@
 import streamlit as st
 import pandas as pd
 import altair as alt
-import base64
-import os
+import base64, os
 
-# ---------------------------------------------------------------
-# 1) Seiteneinstellungen & Grund-Styles
-# ---------------------------------------------------------------
 st.set_page_config(page_title="Klimadashboard Vogelzug",
-                   layout="wide",
-                   page_icon="🌍")
+                   layout="wide", page_icon="🌍")
 
-def set_background(img_path: str):
-    """Fixes Hintergrundbild als CSS-Inline‐Base64."""
-    if not os.path.exists(img_path):
-        st.warning("Hintergrundbild nicht gefunden.")
+# ----------------------------------------------------------------
+# 1) Hilfs-CSS & Hintergrund
+# ----------------------------------------------------------------
+def set_background(path: str):
+    if not os.path.exists(path):
         return
-    b64 = base64.b64encode(open(img_path, "rb").read()).decode()
-    st.markdown(
-        f"""
+    b64 = base64.b64encode(open(path, "rb").read()).decode()
+    st.markdown(f"""
         <style>
         .stApp {{
-            background-image: url("data:image/png;base64,{b64}");
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
+            background-image:url("data:image/png;base64,{b64}");
+            background-size:cover;
+            background-attachment:fixed;
         }}
         .glass-box {{
-            background: rgba(255, 249, 230, 0.85);
-            padding: 1.5rem 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-            margin: 2rem auto;
-            max-width: 1000px;
-        }}
-        .glass-box h1, .glass-box h2, .glass-box p, .glass-box li {{
-            color: #111;
+            background:rgba(255,249,230,.85);
+            padding:1.5rem 2rem;
+            border-radius:12px;
+            box-shadow:0 4px 10px rgba(0,0,0,.15);
         }}
         .label-box {{
-            background: rgba(255, 249, 230, 0.85);
-            display: inline-block;
-            padding: 0.2rem 0.8rem;
-            border-radius: 8px;
-            margin-bottom: 0.2rem;
-            font-weight: 500;
+            background:rgba(255,249,230,.85);
+            display:inline-block;
+            padding:.2rem .8rem;
+            border-radius:8px;
+            margin-bottom:.3rem;
+            font-weight:500;
         }}
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
+        .label-side {{
+            background:rgba(255,249,230,.85);
+            padding:.2rem .8rem;
+            border-radius:8px;
+            height:40px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-weight:600;
+            margin:0;
+        }}
+        .custom-button {{
+            padding: 0.4rem 1.2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-right: 0.5rem;
+            cursor: pointer;
+            border: none;
+            color: white;
+        }}
+        .rcp26-on {{ background-color: #2ca02c; }}
+        .rcp26-off {{ background-color: #cdeccd; }}
+        .rcp45-on {{ background-color: #1f77b4; }}
+        .rcp45-off {{ background-color: #cce4f5; }}
+        .rcp85-on {{ background-color: #d62728; }}
+        .rcp85-off {{ background-color: #f5cccc; }}
+        </style>""", unsafe_allow_html=True)
 
-def img_to_b64(path: str) -> str:
+def img_b64(path: str) -> str:
     return "" if not os.path.exists(path) else base64.b64encode(open(path, "rb").read()).decode()
 
-# ---------------------------------------------------------------
+# ----------------------------------------------------------------
 # 2) Daten-Helper
-# ---------------------------------------------------------------
+# ----------------------------------------------------------------
 @st.cache_data
-def load_vogeldaten():
+def load_vogeldaten() -> pd.DataFrame:
     df = pd.read_csv("Daten/Voegeldaten/zugvögel_16V2.csv",
-                     encoding="utf-8",
-                     quotechar='"',
-                     skipinitialspace=True)
+                     encoding="utf-8", quotechar='"', skipinitialspace=True)
     df.columns = df.columns.str.strip()
     return df
 
@@ -73,35 +83,37 @@ def load_temp_1995(monat: str) -> float:
     df = pd.read_csv("Daten/temperatur_szenarien/Temperatur_Luzern_1995.csv")
     if monat == "Jahresmittel":
         return df["Temperatur_1995_°C"].mean()
-    m_map = {"Januar":"Jan","Februar":"Feb","März":"Mar","April":"Apr","Mai":"Mai","Juni":"Jun",
-             "Juli":"Jul","August":"Aug","September":"Sep","Oktober":"Okt","November":"Nov","Dezember":"Dez"}
-    return df.loc[df["Monat"] == m_map[monat], "Temperatur_1995_°C"].iloc[0]
+    m = {"Januar":"Jan","Februar":"Feb","März":"Mar","April":"Apr","Mai":"Mai","Juni":"Jun",
+         "Juli":"Jul","August":"Aug","September":"Sep","Oktober":"Okt","November":"Nov","Dezember":"Dez"}
+    return df.loc[df["Monat"] == m[monat], "Temperatur_1995_°C"].iloc[0]
 
 @st.cache_data
-def scenario_with_baseline(csv_path: str, factor: float, t1995: float) -> pd.Series:
-    """Lädt Szenario-CSV → Jahresmittel, Delta zu 1995, Monatfaktor, Index=int."""
-    df = pd.read_csv(csv_path, index_col=0)        # Jahre als Spalten
-    yearly = df.mean(axis=0)
-    yearly.index = yearly.index.astype(int)        # wichtig: Index wird int
-    delta = yearly - yearly.loc[1995]
-    return t1995 + delta * factor
+def scen(csv_path: str, factor: float, baseline: float) -> pd.Series:
+    df = pd.read_csv(csv_path, index_col=0)
+    y  = df.mean(axis=0)
+    y.index = y.index.astype(int)
+    return baseline + (y - y.loc[1995]) * factor
 
-# Monatsfaktoren (alle 1.0 als Platzhalter)
-month_factors = {m: 1.0 for m in [
-    "Januar","Februar","März","April","Mai","Juni",
-    "Juli","August","September","Oktober","November","Dezember"
-]}
+month_factors = {m: 1.0 for m in
+    ["Januar","Februar","März","April","Mai","Juni","Juli",
+     "August","September","Oktober","November","Dezember"]}
 
-# ---------------------------------------------------------------
-# 3) UI-Bausteine
-# ---------------------------------------------------------------
-def vogel_info(vogel: str, rec: pd.Series):
-    img_b64 = img_to_b64(rec["Bild_pfad"])
-    st.markdown(f"""
-    <div class="glass-box" style="display:flex;justify-content:space-between;">
-      <div style="flex:1.3;">
-        <h2>🧬 Informationen zu {vogel} (2025)</h2>
-        <ul>
+COLOR_SCEN = {
+    "RCP 2.6": "#2ca02c",
+    "RCP 4.5": "#1f77b4",
+    "RCP 8.5": "#d62728",
+}
+
+# ----------------------------------------------------------------
+# 3) Info-Box (HTML)
+# ----------------------------------------------------------------
+def info_box_html(vogel: str, rec: pd.Series) -> str:
+    pic = img_b64(rec["Bild_pfad"])
+    return f"""
+    <div class="glass-box">
+      <h2>🧬 Informationen zu {vogel} (2025)</h2>
+      <div style="display:flex;gap:2rem">
+        <ul style="flex:1">
           <li><strong>Ankunft:</strong> {rec['Ankunftszeitraum']}</li>
           <li><strong>Abflug:</strong> {rec['Abflugszeitraum']}</li>
           <li><strong>Ziel:</strong> {rec['zieht nach']}</li>
@@ -110,144 +122,143 @@ def vogel_info(vogel: str, rec: pd.Series):
               <li>Brutvogel: {rec['Brutvogel']}</li>
               <li>Durchzügler: {rec['Durchzuegler']}</li>
               <li>Wintergast: {rec['Wintergast']}</li>
-              <li>Kurzstrecke: {rec['Kurzstreckenzieher']}</li>
-              <li>Langstrecke: {rec['Langstreckenzieher']}</li>
+              <li>Kurzstreckenzieher: {rec['Kurzstreckenzieher']}</li>
+              <li>Langstreckenzieher: {rec['Langstreckenzieher']}</li>
               <li>Teilzieher: {rec['Teilzieher']}</li>
             </ul>
           </li>
-          <li><strong>Komforttemp.:</strong> {rec['avg_comf_temp_low']}–{rec['avg_comf_temp_high']} °C</li>
+          <li><strong>Komforttemp.:</strong> {rec['avg_comf_temp_low']} – {rec['avg_comf_temp_high']} °C</li>
           <li><strong>Saison:</strong> {rec['Season']}</li>
           <li><strong>Nahrung:</strong> {rec.get('Nahrung','–')}</li>
         </ul>
+        <div style="flex:0 0 320px;text-align:center">
+          <img src="data:image/jpeg;base64,{pic}" style="width:100%;border-radius:10px"/><br>
+          <small>Vogelbild</small>
+        </div>
       </div>
-      <div style="flex:0.7;display:flex;flex-direction:column;align-items:center;">
-        <img src="data:image/jpeg;base64,{img_b64}" style="width:100%;max-width:340px;border-radius:10px;" />
-        <small>Vogelbild</small>
-      </div>
-    </div>
-    """, unsafe_allow_html=True)
+    </div>"""
 
-def temp_chart(data_dict: dict, rec: pd.Series, monat: str, year_range: tuple[int,int]):
-    df = (pd.DataFrame(data_dict)
-            .rename_axis("Jahr")
-            .reset_index()
-            .melt(id_vars="Jahr", var_name="Szenario", value_name="Temperatur"))
-
-    # Absicherung: Jahr → int
-    df["Jahr"] = pd.to_numeric(df["Jahr"], errors="coerce").astype("Int64")
-    df = df.dropna(subset=["Jahr"])
-    df = df[(df["Jahr"] >= year_range[0]) & (df["Jahr"] <= year_range[1])]
+# ----------------------------------------------------------------
+# 4) Diagramm
+# ----------------------------------------------------------------
+def chart(data_dict, rec, monat, jahr_spann):
+    df = pd.DataFrame(data_dict).rename_axis("Jahr").reset_index()
+    df = df.melt(id_vars="Jahr", var_name="Szenario", value_name="Temp")
+    df["Jahr"] = pd.to_numeric(df["Jahr"]).astype("Int64")
+    df = df[(df["Jahr"] >= jahr_spann[0]) & (df["Jahr"] <= jahr_spann[1])]
 
     comfort = alt.Chart(pd.DataFrame({
-        "low":[rec["avg_comf_temp_low"]],
-        "high":[rec["avg_comf_temp_high"]]
-    })).mark_area(opacity=0.15, color="green").encode(y="low:Q", y2="high:Q")
+        "x": [jahr_spann[0]], "x2": [jahr_spann[1]],
+        "low": [rec["avg_comf_temp_low"]],
+        "high": [rec["avg_comf_temp_high"]],
+    })).mark_rect(opacity=.15, color="green").encode(
+        x=alt.X("x:Q", scale=alt.Scale(domain=jahr_spann, nice=False)),
+        x2="x2:Q", y="low:Q", y2="high:Q")
 
     lines = alt.Chart(df).mark_line().encode(
-        x=alt.X("Jahr:Q", title="Jahr"),
-        y=alt.Y("Temperatur:Q", title="Temperatur (°C)"),
-        color=alt.Color("Szenario:N", title="Szenario"))
+        x=alt.X("Jahr:Q", scale=alt.Scale(domain=jahr_spann, nice=False),
+                axis=alt.Axis(format=".0f"), title="Jahr"),
+        y="Temp:Q",
+        color=alt.Color("Szenario:N",
+                        scale=alt.Scale(domain=list(COLOR_SCEN.keys()),
+                                        range=list(COLOR_SCEN.values())),
+                        legend=alt.Legend(title="Szenario")))
 
-    st.altair_chart(
-        (comfort + lines).properties(
-            height=350,
-            title=f"📊 Temperaturentwicklung im Monat: {monat}"
-        ),
-        use_container_width=True
-    )
+    st.altair_chart((comfort + lines).properties(height=350,
+        title=f"📊 Temperaturentwicklung – {monat}"), use_container_width=True)
 
-# ---------------------------------------------------------------
-# 4) Haupt-App
-# ---------------------------------------------------------------
+# ----------------------------------------------------------------
+# 5) Main
+# ----------------------------------------------------------------
 def main():
     set_background("Daten/Bilder/title.png")
 
-    # Kopf
-    st.markdown("""
-    <div class="glass-box">
-      <h1>🌍📈 Klimawandel & Vogelzug in der Schweiz</h1>
-      <p>Wie ändern steigende Temperaturen das Zugverhalten ausgewählter Vogelarten?</p>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown('<div class="glass-box"><h1>🌍📈 Klimawandel & Vogelzug</h1></div>', unsafe_allow_html=True)
+    st.markdown("<div style='clear:both;height:1.5rem'></div>", unsafe_allow_html=True)
 
-    # Datenbasis
     dfv = load_vogeldaten()
+    left, right = st.columns([1.2, 1.4], gap="large")
 
-    # --- Auswahlfelder ----------------------------------------
-    st.markdown('<div class="label-box">🕊️ Vogelart wählen</div>', unsafe_allow_html=True)
-    vogel = st.selectbox("", sorted(dfv["Artname"].dropna().unique()), label_visibility="collapsed")
-    rec = dfv[dfv["Artname"] == vogel].iloc[0]
+    with left:
+        cv, cm = st.columns(2, gap="small")
+        with cv:
+            st.markdown('<div class="label-box">🕊️ Vogelart</div>', unsafe_allow_html=True)
+            vogel = st.selectbox("", sorted(dfv["Artname"].dropna()), label_visibility="collapsed")
+        with cm:
+            st.markdown('<div class="label-box">📅 Monat</div>', unsafe_allow_html=True)
+            monat = st.selectbox("", ["Jahresmittel"] + list(month_factors), label_visibility="collapsed")
 
-    st.markdown('<div class="label-box">📅 Monat wählen</div>', unsafe_allow_html=True)
-    monat = st.selectbox("", ["Jahresmittel"] + list(month_factors.keys()), label_visibility="collapsed")
-    factor = month_factors.get(monat, 1.0)
-    t1995  = load_temp_1995(monat)
+        st.markdown('<div class="label-box">🌡️ Szenarien</div>', unsafe_allow_html=True)
+        col26, col45, col85 = st.columns(3, gap="small")
 
-    st.markdown('<div class="label-box">🌡️ Emissionsszenario wählen</div>', unsafe_allow_html=True)
-    szenario = st.selectbox("", ["RCP 2.6", "RCP 4.5", "RCP 8.5", "Alle"], label_visibility="collapsed")
+        for s in ["RCP 2.6", "RCP 4.5", "RCP 8.5"]:
+            if s not in st.session_state:
+                st.session_state[s] = s == "RCP 2.6"
 
-    # --- Temperaturen laden -----------------------------------
-    data = {}
-    if szenario in ["RCP 2.6", "Alle"]:
-        data["RCP 2.6"] = scenario_with_baseline(
-            "Daten/temperatur_szenarien/tas_yearly_RCP2.6_CH_transient.csv", factor, t1995)
-    if szenario in ["RCP 4.5", "Alle"]:
-        data["RCP 4.5"] = scenario_with_baseline(
-            "Daten/temperatur_szenarien/tas_yearly_RCP4.5_CH_transient.csv", factor, t1995)
-    if szenario in ["RCP 8.5", "Alle"]:
-        data["RCP 8.5"] = scenario_with_baseline(
-            "Daten/temperatur_szenarien/tas_yearly_RCP8.5_CH_transient.csv", factor, t1995)
+        def toggle(scen):
+            st.session_state[scen] = not st.session_state[scen]
 
-    # ----------------------------------------------------------
-    #  Chart (links) | Zeitraum-Dropdowns (rechts)
-    # ----------------------------------------------------------
-    chart_col, sel_col = st.columns([5, 1], gap="medium")
+        with col26:
+            c = "rcp26-on" if st.session_state["RCP 2.6"] else "rcp26-off"
+            if st.button("RCP 2.6", key="btn_26"):
+                toggle("RCP 2.6")
+            st.markdown(f"<script>document.querySelector('button[data-testid=\"baseButton-btn_26\"]').classList.add('custom-button','{c}')</script>", unsafe_allow_html=True)
+        with col45:
+            c = "rcp45-on" if st.session_state["RCP 4.5"] else "rcp45-off"
+            if st.button("RCP 4.5", key="btn_45"):
+                toggle("RCP 4.5")
+            st.markdown(f"<script>document.querySelector('button[data-testid=\"baseButton-btn_45\"]').classList.add('custom-button','{c}')</script>", unsafe_allow_html=True)
+        with col85:
+            c = "rcp85-on" if st.session_state["RCP 8.5"] else "rcp85-off"
+            if st.button("RCP 8.5", key="btn_85"):
+                toggle("RCP 8.5")
+            st.markdown(f"<script>document.querySelector('button[data-testid=\"baseButton-btn_85\"]').classList.add('custom-button','{c}')</script>", unsafe_allow_html=True)
 
-    # Kleiner Glas-Effekt direkt auf die beiden Columns anwenden
-    st.markdown(
-        """
-        <style>
-        div[data-testid="column"] > div:first-child {
-            background: rgba(255, 249, 230, 0.85);
-            padding: 1.5rem 1.5rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-        }
-        </style>
-        """,
-        unsafe_allow_html=True)
+        selected = {k: st.session_state[k] for k in COLOR_SCEN}
 
-    with sel_col:
-        st.markdown('<div class="label-box">🗓️ Zeitraum</div>', unsafe_allow_html=True)
+        rec = dfv[dfv["Artname"] == vogel].iloc[0]
+
         years = list(range(1980, 2101, 10))
-        start_year = st.selectbox("Von", years, index=years.index(2020))
-        end_year   = st.selectbox("Bis", years, index=years.index(2080))
-        if end_year < start_year:
+        lbl_von, sel_von, lbl_bis, sel_bis = st.columns([0.12, 0.38, 0.12, 0.38], gap="small")
+        lbl_von.markdown("<div class='label-side'>Von</div>", unsafe_allow_html=True)
+        start = sel_von.selectbox("von", years, index=years.index(2020), label_visibility="collapsed")
+        lbl_bis.markdown("<div class='label-side'>Bis</div>", unsafe_allow_html=True)
+        end = sel_bis.selectbox("bis", years, index=years.index(2080), label_visibility="collapsed")
+
+        if end < start:
             st.error("Endjahr muss ≥ Startjahr sein", icon="⚠️")
-        year_range = (start_year, end_year)
+            st.stop()
 
-    with chart_col:
-        temp_chart(data, rec, monat, year_range)
+        yr = (start, end)
+        fac = month_factors.get(monat, 1.0)
+        t95 = load_temp_1995(monat)
 
-    # ----------------------------------------------------------
-    #  Vogel-Infos
-    # ----------------------------------------------------------
-    vogel_info(vogel, rec)
+        data = {}
+        if selected["RCP 2.6"]:
+            data["RCP 2.6"] = scen("Daten/temperatur_szenarien/tas_yearly_RCP2.6_CH_transient.csv", fac, t95)
+        if selected["RCP 4.5"]:
+            data["RCP 4.5"] = scen("Daten/temperatur_szenarien/tas_yearly_RCP4.5_CH_transient.csv", fac, t95)
+        if selected["RCP 8.5"]:
+            data["RCP 8.5"] = scen("Daten/temperatur_szenarien/tas_yearly_RCP8.5_CH_transient.csv", fac, t95)
 
-    # Fazit
-    st.markdown(f"""
-    <div class="glass-box">
-      <h2>🔍 Möglicher Einfluss des Klimawandels</h2>
-      <p>
-        Setzt sich der Temperaturtrend fort, könnte <strong>{vogel}</strong>
-        sein Zugverhalten verändern: frühere Ankunft, spätere Abreise oder eine
-        Verschiebung des Brutgebiets. Der gewählte Zeitraum
-        <strong>{year_range[0]} – {year_range[1]}</strong>
-        hilft, solche Tendenzen genauer zu betrachten.
-      </p>
-    </div>
-    """, unsafe_allow_html=True)
+        if not data:
+            st.warning("Bitte mindestens ein Szenario aktivieren.")
+            st.stop()
 
-# ---------------------------------------------------------------
+        chart(data, rec, monat, yr)
+
+        st.markdown(f"""
+        <div class="glass-box">
+          <h2>🔍 Einfluss des Klimawandels</h2>
+          <p>
+            Zeitraum <strong>{yr[0]} – {yr[1]}</strong>: {vogel} könnte sein
+            Zugverhalten bei steigenden Temperaturen anpassen.
+          </p>
+        </div>""", unsafe_allow_html=True)
+
+    with right:
+        st.markdown(info_box_html(vogel, rec), unsafe_allow_html=True)
+
+# ----------------------------------------------------------------
 if __name__ == "__main__":
     main()
