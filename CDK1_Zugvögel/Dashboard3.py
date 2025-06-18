@@ -48,22 +48,8 @@ def set_background(path: str):
             font-weight:600;
             margin:0;
         }}
-        .custom-button {{
-            padding: 0.4rem 1.2rem;
-            border-radius: 8px;
-            font-weight: 600;
-            margin-right: 0.5rem;
-            cursor: pointer;
-            border: none;
-            color: white;
-        }}
-        .rcp26-on {{ background-color: #2ca02c; }}
-        .rcp26-off {{ background-color: #cdeccd; }}
-        .rcp45-on {{ background-color: #1f77b4; }}
-        .rcp45-off {{ background-color: #cce4f5; }}
-        .rcp85-on {{ background-color: #d62728; }}
-        .rcp85-off {{ background-color: #f5cccc; }}
-        </style>""", unsafe_allow_html=True)
+        </style>
+    """, unsafe_allow_html=True)
 
 def img_b64(path: str) -> str:
     return "" if not os.path.exists(path) else base64.b64encode(open(path, "rb").read()).decode()
@@ -88,7 +74,8 @@ def load_temp_1995(monat: str) -> float:
     return df.loc[df["Monat"] == m[monat], "Temperatur_1995_°C"].iloc[0]
 
 @st.cache_data
-def scen(csv_path: str, factor: float, baseline: float) -> pd.Series:
+def load_szenario(csv_path: str, factor: float, baseline: float) -> pd.Series:
+
     df = pd.read_csv(csv_path, index_col=0)
     y  = df.mean(axis=0)
     y.index = y.index.astype(int)
@@ -189,33 +176,38 @@ def main():
             monat = st.selectbox("", ["Jahresmittel"] + list(month_factors), label_visibility="collapsed")
 
         st.markdown('<div class="label-box">🌡️ Szenarien</div>', unsafe_allow_html=True)
-        col26, col45, col85 = st.columns(3, gap="small")
+        col26, col45, col85 = st.columns(3)
 
-        for s in ["RCP 2.6", "RCP 4.5", "RCP 8.5"]:
-            if s not in st.session_state:
-                st.session_state[s] = s == "RCP 2.6"
+        for scen in COLOR_SCEN:
+            if scen not in st.session_state:
+                st.session_state[scen] = scen == "RCP 2.6"
 
-        def toggle(scen):
-            st.session_state[scen] = not st.session_state[scen]
+        def button(scen, key, on, off):
+            selected = st.session_state[scen]
+            color = on if selected else off
+            clicked = st.button(scen, key=key)
+            if clicked:
+                st.session_state[scen] = not selected
+            st.markdown(
+                f"""
+                <style>
+                [data-testid="baseButton-{key}"] {{
+                    background-color: {color} !important;
+                    color: white;
+                    font-weight: bold;
+                    border-radius: 8px;
+                    padding: 0.4rem 1.2rem;
+                    border: none;
+                }}
+                </style>
+                """,
+                unsafe_allow_html=True)
 
-        with col26:
-            c = "rcp26-on" if st.session_state["RCP 2.6"] else "rcp26-off"
-            if st.button("RCP 2.6", key="btn_26"):
-                toggle("RCP 2.6")
-            st.markdown(f"<script>document.querySelector('button[data-testid=\"baseButton-btn_26\"]').classList.add('custom-button','{c}')</script>", unsafe_allow_html=True)
-        with col45:
-            c = "rcp45-on" if st.session_state["RCP 4.5"] else "rcp45-off"
-            if st.button("RCP 4.5", key="btn_45"):
-                toggle("RCP 4.5")
-            st.markdown(f"<script>document.querySelector('button[data-testid=\"baseButton-btn_45\"]').classList.add('custom-button','{c}')</script>", unsafe_allow_html=True)
-        with col85:
-            c = "rcp85-on" if st.session_state["RCP 8.5"] else "rcp85-off"
-            if st.button("RCP 8.5", key="btn_85"):
-                toggle("RCP 8.5")
-            st.markdown(f"<script>document.querySelector('button[data-testid=\"baseButton-btn_85\"]').classList.add('custom-button','{c}')</script>", unsafe_allow_html=True)
+        with col26: button("RCP 2.6", "btn26", "#2ca02c", "#cdeccd")
+        with col45: button("RCP 4.5", "btn45", "#1f77b4", "#cce4f5")
+        with col85: button("RCP 8.5", "btn85", "#d62728", "#f5cccc")
 
         selected = {k: st.session_state[k] for k in COLOR_SCEN}
-
         rec = dfv[dfv["Artname"] == vogel].iloc[0]
 
         years = list(range(1980, 2101, 10))
@@ -235,11 +227,11 @@ def main():
 
         data = {}
         if selected["RCP 2.6"]:
-            data["RCP 2.6"] = scen("Daten/temperatur_szenarien/tas_yearly_RCP2.6_CH_transient.csv", fac, t95)
+            data["RCP 2.6"] = load_szenario("Daten/temperatur_szenarien/tas_yearly_RCP2.6_CH_transient.csv", fac, t95)
         if selected["RCP 4.5"]:
-            data["RCP 4.5"] = scen("Daten/temperatur_szenarien/tas_yearly_RCP4.5_CH_transient.csv", fac, t95)
+            data["RCP 4.5"] = load_szenario("Daten/temperatur_szenarien/tas_yearly_RCP4.5_CH_transient.csv", fac, t95)
         if selected["RCP 8.5"]:
-            data["RCP 8.5"] = scen("Daten/temperatur_szenarien/tas_yearly_RCP8.5_CH_transient.csv", fac, t95)
+            data["RCP 8.5"] = load_szenario("Daten/temperatur_szenarien/tas_yearly_RCP8.5_CH_transient.csv", fac, t95)
 
         if not data:
             st.warning("Bitte mindestens ein Szenario aktivieren.")
