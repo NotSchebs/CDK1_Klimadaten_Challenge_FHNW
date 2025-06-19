@@ -305,20 +305,32 @@ def main():
     with right:
         st.markdown(info_box_html(vogel, rec), unsafe_allow_html=True)
 
-    st.markdown(f"""
+    # Logiktext für Einfluss-Box
+    def klimawandel_text(vogel: str, rec: pd.Series, jahr_von: int, jahr_bis: int) -> str:
+        wintergast = str(rec.get("Wintergast", "False")).strip().lower() == "true"
+        temp_low = rec.get("avg_comf_temp_low", "–")
+        temp_high = rec.get("avg_comf_temp_high", "–")
+
+        aufenthalt = "im Winterhalbjahr" if wintergast else "im Sommerhalbjahr"
+
+        # Temperaturbereich formatieren
+        if pd.notna(temp_low) and pd.notna(temp_high):
+            temperatur = f"{temp_low}–{temp_high} °C"
+        else:
+            temperatur = "einem spezifischen Temperaturbereich"
+
+        return f"""
         <div class="glass-box">
           <h2>🔍 Einfluss des Klimawandels</h2>
           <p>
-            Zeitraum <strong>{yr[0]} – {yr[1]}</strong>: {vogel} könnte sein
-            Zugverhalten bei steigenden Temperaturen anpassen.
+            Zeitraum <strong>{jahr_von} – {jahr_bis}</strong>: Der {vogel} hält sich typischerweise {aufenthalt} in der Schweiz auf
+            und bevorzugt Temperaturen im Bereich von {temperatur}. Mit dem Klimawandel könnten sich seine Aufenthaltszeiten
+            oder Zugrouten langfristig verschieben.
           </p>
-        </div>""", unsafe_allow_html=True)
+        </div>
+        """
 
-    # Debug
-    st.write("Ankunftsmonat:", ankunftsmonat)
-    st.write("Ausgewählter Monat:", st.session_state.monat)
-    st.write("Monat gemanaged:", st.session_state.monat_gemanaged)
-
+    st.markdown(klimawandel_text(vogel, rec, yr[0], yr[1]), unsafe_allow_html=True)
 
 # ----------------------------------------------------------------
 if __name__ == "__main__":
