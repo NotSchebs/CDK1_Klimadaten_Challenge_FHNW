@@ -214,7 +214,7 @@ def main():
                 st.session_state.monat_gemanaged = True
             monat = st.selectbox(
                 "", ["Jahresmittel"] + list(month_factors),
-                index=(["Jahresmittel"] + list(month_factors)).index(st.session_state.monat),
+                ###### index=(["Jahresmittel"] + list(month_factors)).index(st.session_state.monat),
                 key="monat",
                 on_change=handle_monat_change,
                 label_visibility="collapsed"
