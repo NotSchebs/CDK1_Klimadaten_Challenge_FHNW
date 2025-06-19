@@ -3,7 +3,7 @@
 # ================================================================
 import streamlit as st
 import pandas as pd
-import altair as alt
+import matplotlib.pyplot as plt
 import base64, os
 
 st.set_page_config(page_title="Klimadashboard Vogelzug",
@@ -28,6 +28,7 @@ def set_background(path: str):
             padding:1.5rem 2rem;
             border-radius:12px;
             box-shadow:0 4px 10px rgba(0,0,0,.15);
+            margin-bottom:1.5rem;
         }}
         .label-box {{
             background:rgba(255,249,230,.85);
@@ -75,9 +76,8 @@ def load_temp_1995(monat: str) -> float:
 
 @st.cache_data
 def load_szenario(csv_path: str, factor: float, baseline: float) -> pd.Series:
-
     df = pd.read_csv(csv_path, index_col=0)
-    y  = df.mean(axis=0)
+    y = df.mean(axis=0)
     y.index = y.index.astype(int)
     return baseline + (y - y.loc[1995]) * factor
 
@@ -126,36 +126,7 @@ def info_box_html(vogel: str, rec: pd.Series) -> str:
     </div>"""
 
 # ----------------------------------------------------------------
-# 4) Diagramm
-# ----------------------------------------------------------------
-def chart(data_dict, rec, monat, jahr_spann):
-    df = pd.DataFrame(data_dict).rename_axis("Jahr").reset_index()
-    df = df.melt(id_vars="Jahr", var_name="Szenario", value_name="Temp")
-    df["Jahr"] = pd.to_numeric(df["Jahr"]).astype("Int64")
-    df = df[(df["Jahr"] >= jahr_spann[0]) & (df["Jahr"] <= jahr_spann[1])]
-
-    comfort = alt.Chart(pd.DataFrame({
-        "x": [jahr_spann[0]], "x2": [jahr_spann[1]],
-        "low": [rec["avg_comf_temp_low"]],
-        "high": [rec["avg_comf_temp_high"]],
-    })).mark_rect(opacity=.15, color="green").encode(
-        x=alt.X("x:Q", scale=alt.Scale(domain=jahr_spann, nice=False)),
-        x2="x2:Q", y="low:Q", y2="high:Q")
-
-    lines = alt.Chart(df).mark_line().encode(
-        x=alt.X("Jahr:Q", scale=alt.Scale(domain=jahr_spann, nice=False),
-                axis=alt.Axis(format=".0f"), title="Jahr"),
-        y="Temp:Q",
-        color=alt.Color("Szenario:N",
-                        scale=alt.Scale(domain=list(COLOR_SCEN.keys()),
-                                        range=list(COLOR_SCEN.values())),
-                        legend=alt.Legend(title="Szenario")))
-
-    st.altair_chart((comfort + lines).properties(height=350,
-        title=f"📊 Temperaturentwicklung – {monat}"), use_container_width=True)
-
-# ----------------------------------------------------------------
-# 5) Main
+# 4) Main
 # ----------------------------------------------------------------
 def main():
     set_background("Daten/Bilder/title.png")
@@ -175,39 +146,35 @@ def main():
             st.markdown('<div class="label-box">📅 Monat</div>', unsafe_allow_html=True)
             monat = st.selectbox("", ["Jahresmittel"] + list(month_factors), label_visibility="collapsed")
 
+        # Szenarien-Knöpfe
         st.markdown('<div class="label-box">🌡️ Szenarien</div>', unsafe_allow_html=True)
-        col26, col45, col85 = st.columns(3)
+        for key in ["toggle_26", "toggle_45", "toggle_85"]:
+            if key not in st.session_state:
+                st.session_state[key] = True
 
-        for scen in COLOR_SCEN:
-            if scen not in st.session_state:
-                st.session_state[scen] = scen == "RCP 2.6"
+        c1, c2, c3 = st.columns(3)
+        with c1:
+            icon = "🟢" if st.session_state["toggle_26"] else "⚪"
+            if st.button(f"{icon} RCP 2.6", key="btn_26"):
+                st.session_state["toggle_26"] = not st.session_state["toggle_26"]
+                st.rerun()
+        with c2:
+            icon = "🔵" if st.session_state["toggle_45"] else "⚪"
+            if st.button(f"{icon} RCP 4.5", key="btn_45"):
+                st.session_state["toggle_45"] = not st.session_state["toggle_45"]
+                st.rerun()
+        with c3:
+            icon = "🔴" if st.session_state["toggle_85"] else "⚪"
+            if st.button(f"{icon} RCP 8.5", key="btn_85"):
+                st.session_state["toggle_85"] = not st.session_state["toggle_85"]
+                st.rerun()
 
-        def button(scen, key, on, off):
-            selected = st.session_state[scen]
-            color = on if selected else off
-            clicked = st.button(scen, key=key)
-            if clicked:
-                st.session_state[scen] = not selected
-            st.markdown(
-                f"""
-                <style>
-                [data-testid="baseButton-{key}"] {{
-                    background-color: {color} !important;
-                    color: white;
-                    font-weight: bold;
-                    border-radius: 8px;
-                    padding: 0.4rem 1.2rem;
-                    border: none;
-                }}
-                </style>
-                """,
-                unsafe_allow_html=True)
+        selected = {
+            "RCP 2.6": st.session_state["toggle_26"],
+            "RCP 4.5": st.session_state["toggle_45"],
+            "RCP 8.5": st.session_state["toggle_85"],
+        }
 
-        with col26: button("RCP 2.6", "btn26", "#2ca02c", "#cdeccd")
-        with col45: button("RCP 4.5", "btn45", "#1f77b4", "#cce4f5")
-        with col85: button("RCP 8.5", "btn85", "#d62728", "#f5cccc")
-
-        selected = {k: st.session_state[k] for k in COLOR_SCEN}
         rec = dfv[dfv["Artname"] == vogel].iloc[0]
 
         years = list(range(1980, 2101, 10))
@@ -237,7 +204,27 @@ def main():
             st.warning("Bitte mindestens ein Szenario aktivieren.")
             st.stop()
 
-        chart(data, rec, monat, yr)
+        # Plot mit Matplotlib in "glass-box"
+        with st.container():
+            st.markdown("""
+            <div class="glass-box">
+                <h4>📊 Temperaturentwicklung – {}</h4>
+            """.format(monat), unsafe_allow_html=True)
+
+            fig, ax = plt.subplots(figsize=(10, 4))
+            for label, series in data.items():
+                s = series[(series.index >= start) & (series.index <= end)]
+                ax.plot(s.index, s.values, label=label, color=COLOR_SCEN[label])
+
+            ax.axhspan(rec["avg_comf_temp_low"], rec["avg_comf_temp_high"],
+                       color="green", alpha=0.1, label="Komfortbereich")
+            ax.set_xlabel("Jahr")
+            ax.set_ylabel("Temperatur (°C)")
+            ax.grid(True)
+            ax.legend()
+            st.pyplot(fig)
+
+            st.markdown("</div>", unsafe_allow_html=True)
 
         st.markdown(f"""
         <div class="glass-box">
