@@ -32,6 +32,26 @@ st.markdown("""
     background-color: rgba(255, 255, 255, 1);
     box-shadow: 0 4px 10px rgba(0,0,0,0.25);
 }
+.glass-title {
+    background: rgba(255,249,230,.85);
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,.1);
+    display: inline-block;
+    margin-bottom: 1rem;
+}
+.glass-title.fullwidth {
+    width: 100%;
+    display: block;
+}
+
+.glass-box.plot-box {
+    min-height: 600px;  /* passe an die Höhe der rechten Box an */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
 </style>
 
 <a href="/" class="top-right-button">Zurück zur Story</a>
@@ -166,15 +186,41 @@ def main():
     left, right = st.columns([1.2, 1.4], gap="large")
 
     with left:
-        cv, cm = st.columns(2, gap="small")
-        with cv:
+        # Zwei Spalten für Vogel und Monat
+        col1, col2 = st.columns(2, gap="small")
+        with col1:
             st.markdown('<div class="label-box">🕊️ Vogelart</div>', unsafe_allow_html=True)
-            vogel = st.selectbox("", sorted(dfv["Artname"].dropna()), label_visibility="collapsed")
-        with cm:
-            st.markdown('<div class="label-box">📅 Monat</div>', unsafe_allow_html=True)
-            monat = st.selectbox("", ["Jahresmittel"] + list(month_factors), label_visibility="collapsed")
+            vogel = st.selectbox("", sorted(dfv["Artname"].dropna()), key="vogel", label_visibility="collapsed")
 
-        # Szenarien-Knöpfe
+        # Lade Datensatz zu gewähltem Vogel
+        rec = dfv[dfv["Artname"] == vogel].iloc[0]
+        ankunftsmonat = rec["Ankunftszeitraum"]
+
+        # Initialisiere Session State (einmalig)
+        if "last_vogel" not in st.session_state:
+            st.session_state.last_vogel = vogel
+            st.session_state.monat = ankunftsmonat
+            st.session_state.monat_gemanaged = False
+
+        # Wenn Vogel geändert wurde → Monat zurücksetzen
+        if vogel != st.session_state.last_vogel:
+            st.session_state.last_vogel = vogel
+            st.session_state.monat = ankunftsmonat
+            st.session_state.monat_gemanaged = False
+
+        with col2:
+            st.markdown('<div class="label-box">📅 Monat</div>', unsafe_allow_html=True)
+            def handle_monat_change():
+                st.session_state.monat_gemanaged = True
+            monat = st.selectbox(
+                "", ["Jahresmittel"] + list(month_factors),
+                index=(["Jahresmittel"] + list(month_factors)).index(st.session_state.monat),
+                key="monat",
+                on_change=handle_monat_change,
+                label_visibility="collapsed"
+            )
+
+        # Szenarien-Toggles
         st.markdown('<div class="label-box">🌡️ Szenarien</div>', unsafe_allow_html=True)
         for key in ["toggle_26", "toggle_45", "toggle_85"]:
             if key not in st.session_state:
@@ -203,8 +249,7 @@ def main():
             "RCP 8.5": st.session_state["toggle_85"],
         }
 
-        rec = dfv[dfv["Artname"] == vogel].iloc[0]
-
+        # Zeitbereich
         years = list(range(1980, 2101, 10))
         lbl_von, sel_von, lbl_bis, sel_bis = st.columns([0.12, 0.38, 0.12, 0.38], gap="small")
         lbl_von.markdown("<div class='label-side'>Von</div>", unsafe_allow_html=True)
@@ -232,14 +277,15 @@ def main():
             st.warning("Bitte mindestens ein Szenario aktivieren.")
             st.stop()
 
-        # Plot mit Matplotlib in "glass-box"
+        # Plot
         with st.container():
-            st.markdown("""
-            <div class="glass-box">
-                <h4>📊 Temperaturentwicklung – {}</h4>
-            """.format(monat), unsafe_allow_html=True)
+            st.markdown(f"""
+            <div class="glass-title fullwidth">
+                <h4>📊 Temperaturentwicklung – {monat}</h4>
+            </div>
+            """, unsafe_allow_html=True)
 
-            fig, ax = plt.subplots(figsize=(10, 4))
+            fig, ax = plt.subplots(figsize=(10, 5))
             for label, series in data.items():
                 s = series[(series.index >= start) & (series.index <= end)]
                 ax.plot(s.index, s.values, label=label, color=COLOR_SCEN[label])
@@ -252,9 +298,10 @@ def main():
             ax.legend()
             st.pyplot(fig)
 
-            st.markdown("</div>", unsafe_allow_html=True)
+    with right:
+        st.markdown(info_box_html(vogel, rec), unsafe_allow_html=True)
 
-        st.markdown(f"""
+    st.markdown(f"""
         <div class="glass-box">
           <h2>🔍 Einfluss des Klimawandels</h2>
           <p>
@@ -262,9 +309,6 @@ def main():
             Zugverhalten bei steigenden Temperaturen anpassen.
           </p>
         </div>""", unsafe_allow_html=True)
-
-    with right:
-        st.markdown(info_box_html(vogel, rec), unsafe_allow_html=True)
 
 # ----------------------------------------------------------------
 if __name__ == "__main__":
