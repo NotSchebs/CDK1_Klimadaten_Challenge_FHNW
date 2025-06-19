@@ -186,23 +186,19 @@ def main():
     left, right = st.columns([1.2, 1.4], gap="large")
 
     with left:
-        # Zwei Spalten für Vogel und Monat
         col1, col2 = st.columns(2, gap="small")
         with col1:
             st.markdown('<div class="label-box">🕊️ Vogelart</div>', unsafe_allow_html=True)
             vogel = st.selectbox("", sorted(dfv["Artname"].dropna()), key="vogel", label_visibility="collapsed")
 
-        # Lade Datensatz zu gewähltem Vogel
         rec = dfv[dfv["Artname"] == vogel].iloc[0]
         ankunftsmonat = rec["Ankunftszeitraum"]
 
-        # Initialisiere Session State (einmalig)
         if "last_vogel" not in st.session_state:
             st.session_state.last_vogel = vogel
             st.session_state.monat = ankunftsmonat
             st.session_state.monat_gemanaged = False
 
-        # Wenn Vogel geändert wurde → Monat zurücksetzen
         if vogel != st.session_state.last_vogel:
             st.session_state.last_vogel = vogel
             st.session_state.monat = ankunftsmonat
@@ -214,13 +210,11 @@ def main():
                 st.session_state.monat_gemanaged = True
             monat = st.selectbox(
                 "", ["Jahresmittel"] + list(month_factors),
-                ###### index=(["Jahresmittel"] + list(month_factors)).index(st.session_state.monat),
                 key="monat",
                 on_change=handle_monat_change,
                 label_visibility="collapsed"
             )
 
-        # Szenarien-Toggles
         st.markdown('<div class="label-box">🌡️ Szenarien</div>', unsafe_allow_html=True)
         for key in ["toggle_26", "toggle_45", "toggle_85"]:
             if key not in st.session_state:
@@ -249,7 +243,6 @@ def main():
             "RCP 8.5": st.session_state["toggle_85"],
         }
 
-        # Zeitbereich
         years = list(range(1980, 2101, 10))
         lbl_von, sel_von, lbl_bis, sel_bis = st.columns([0.12, 0.38, 0.12, 0.38], gap="small")
         lbl_von.markdown("<div class='label-side'>Von</div>", unsafe_allow_html=True)
@@ -277,7 +270,6 @@ def main():
             st.warning("Bitte mindestens ein Szenario aktivieren.")
             st.stop()
 
-        # Plot
         with st.container():
             st.markdown(f"""
             <div class="glass-title fullwidth">
@@ -301,32 +293,87 @@ def main():
     with right:
         st.markdown(info_box_html(vogel, rec), unsafe_allow_html=True)
 
-    # Logiktext für Einfluss-Box
+    # Einfluss-Text generieren
     def klimawandel_text(vogel: str, rec: pd.Series, jahr_von: int, jahr_bis: int) -> str:
-        wintergast = str(rec.get("Wintergast", "False")).strip().lower() == "true"
-        temp_low = rec.get("avg_comf_temp_low", "–")
-        temp_high = rec.get("avg_comf_temp_high", "–")
+        ankunft = rec.get("Ankunftszeitraum", "–")
+        abflug = rec.get("Abflugszeitraum", "–")
+        temp_low = rec.get("avg_comf_temp_low", None)
+        temp_high = rec.get("avg_comf_temp_high", None)
+        wintergast = rec.get("Wintergast", False)
 
-        aufenthalt = "im Winterhalbjahr" if wintergast else "im Sommerhalbjahr"
+        aufenthalt = f"von {ankunft} bis {abflug}" if pd.notna(ankunft) and pd.notna(abflug) else "saisonabhängig"
+        halbjahr = "im Winterhalbjahr" if wintergast else "im Sommerhalbjahr"
+        temperatur = f"{temp_low}–{temp_high} °C" if pd.notna(temp_low) and pd.notna(
+            temp_high) else "einem spezifischen Temperaturbereich"
 
-        # Temperaturbereich formatieren
-        if pd.notna(temp_low) and pd.notna(temp_high):
-            temperatur = f"{temp_low}–{temp_high} °C"
-        else:
-            temperatur = "einem spezifischen Temperaturbereich"
+        # Vorverlagerungsanalyse (Monat -1 und -2)
+        hinweis = ""
+        if not wintergast:
+            month_list = list(month_factors)
+            if ankunft in month_list:
+                idx = month_list.index(ankunft)
+                frühere_szenarien_1 = []
+                frühere_szenarien_2 = []
 
+                # Analyse für Monat -1
+                if idx > 0:
+                    vor_monat = month_list[idx - 1]
+                    fac_prev = month_factors.get(vor_monat, 1.0)
+                    t95_prev = load_temp_1995(vor_monat)
+
+                    for szenario, enabled in selected.items():
+                        if not enabled:
+                            continue
+                        serie = load_szenario(
+                            f"Daten/temperatur_szenarien/tas_yearly_{szenario.replace(' ', '')}_CH_transient.csv",
+                            fac_prev, t95_prev
+                        )
+                        mask = (serie >= temp_low) & (serie <= temp_high)
+                        jahre = serie[mask].index[serie[mask].index >= jahr_von]
+                        if len(jahre) > 0:
+                            frühere_szenarien_1.append(f"{szenario} ab {jahre[0]}")
+
+                # Analyse für Monat -2
+                if idx > 1:
+                    vor2_monat = month_list[idx - 2]
+                    fac_prev2 = month_factors.get(vor2_monat, 1.0)
+                    t95_prev2 = load_temp_1995(vor2_monat)
+
+                    for szenario, enabled in selected.items():
+                        if not enabled:
+                            continue
+                        serie = load_szenario(
+                            f"Daten/temperatur_szenarien/tas_yearly_{szenario.replace(' ', '')}_CH_transient.csv",
+                            fac_prev2, t95_prev2
+                        )
+                        mask = (serie >= temp_low) & (serie <= temp_high)
+                        jahre = serie[mask].index[serie[mask].index >= jahr_von]
+                        if len(jahre) > 0:
+                            frühere_szenarien_2.append(f"{szenario} ab {jahre[0]}")
+
+                # Hinweise erzeugen
+                if frühere_szenarien_1:
+                    hinweis += f'<p>🔁 <strong>Frühere Ankunft möglich:</strong> Im Monat <em>{vor_monat}</em> könnten folgende Szenarien eine frühere Ankunft ermöglichen: {", ".join(frühere_szenarien_1)}.</p>'
+
+
+                if frühere_szenarien_2:
+                    hinweis += f'<p>🔄 <strong>Sehr frühe Ankunft:</strong> Im Monat <em>{vor2_monat}</em> könnte der {vogel} unter folgenden Szenarien sogar bereits früher eintreffen: {", ".join(frühere_szenarien_2)}.</p>'
+
+
+        # Ausgabe
         return f"""
         <div class="glass-box">
           <h2>🔍 Einfluss des Klimawandels</h2>
           <p>
-            Zeitraum <strong>{jahr_von} – {jahr_bis}</strong>: Der {vogel} hält sich typischerweise {aufenthalt} in der Schweiz auf
-            und bevorzugt Temperaturen im Bereich von {temperatur}. Mit dem Klimawandel könnten sich seine Aufenthaltszeiten
-            oder Zugrouten langfristig verschieben.
+            Zeitraum <strong>{jahr_von} – {jahr_bis}</strong>: Der <strong>{vogel}</strong> hält sich typischerweise {aufenthalt} ({halbjahr}) in der Schweiz auf
+            und bevorzugt Temperaturen im Bereich von {temperatur}.
+            Mit dem Klimawandel könnten sich seine Aufenthaltszeiten oder Zugrouten langfristig verschieben.
           </p>
+          {hinweis}
         </div>
         """
 
-    st.markdown(klimawandel_text(vogel, rec, yr[0], yr[1]), unsafe_allow_html=True)
+    st.markdown(klimawandel_text(vogel, rec, start, end), unsafe_allow_html=True)
 
 
 # ----------------------------------------------------------------
