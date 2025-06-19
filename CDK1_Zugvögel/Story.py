@@ -31,7 +31,7 @@ st.markdown("""
 }
 </style>
 
-<a href="/Dashboard2_1" class="top-right-button">Zum Dashboard</a>
+<a href="/Dashboard3" class="top-right-button">Zum Dashboard</a>
 """, unsafe_allow_html=True)
 
 

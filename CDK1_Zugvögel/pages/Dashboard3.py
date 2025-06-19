@@ -9,6 +9,34 @@ import base64, os
 st.set_page_config(page_title="Klimadashboard Vogelzug",
                    layout="wide", page_icon="🌍")
 
+st.markdown("""
+<style>
+.top-right-button {
+    position: fixed;
+    top: 40px;
+    right: 30px;
+    z-index: 9999;
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    padding: 0.5rem 1.1rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.95rem;
+    color: black;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    transition: all 0.3s ease-in-out;
+}
+.top-right-button:hover {
+    background-color: rgba(255, 255, 255, 1);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+}
+</style>
+
+<a href="/" class="top-right-button">Zurück zur Story</a>
+""", unsafe_allow_html=True)
+
 # ----------------------------------------------------------------
 # 1) Hilfs-CSS & Hintergrund
 # ----------------------------------------------------------------
