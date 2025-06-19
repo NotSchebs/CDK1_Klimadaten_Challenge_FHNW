@@ -498,11 +498,18 @@ def main():
         <div class="glass-box">
           <h2>🔍 Einfluss des Klimawandels</h2>
           <p>
-            Zeitraum <strong>{jahr_von} – {jahr_bis}</strong>: Der <strong>{vogel}</strong> hält sich typischerweise {aufenthalt} ({halbjahr}) in der Schweiz auf
+            <strong>Zeitraum {jahr_von} – {jahr_bis}</strong>: Der <strong>{vogel}</strong> hält sich typischerweise {aufenthalt} ({halbjahr}) in der Schweiz auf
             und bevorzugt Temperaturen im Bereich von {temperatur}.
             Mit dem Klimawandel könnten sich seine Aufenthaltszeiten oder Zugrouten langfristig verschieben.
           </p>
           {hinweis}
+          <p>
+            <strong>Hinweis:</strong> Die gezeigten Szenarien stellen fiktive Entwicklungen dar, die ausschliesslich auf Temperaturveränderungen basieren.
+            Weitere Einflussfaktoren wie Nahrungsverfügbarkeit, Witterung oder Veränderungen im Lebensraum können das Zugverhalten ebenfalls wesentlich beeinflussen.
+          </p>
+          <p style="font-size:0.9em;color:#555;">
+            🧠 <em>Wichtig:</em> Sowohl die Szenarien als auch der Zeitraum wird von den einstellungen beim Diagramm übernommen.
+          </p>
         </div>
         """
 
