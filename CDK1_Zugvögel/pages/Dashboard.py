@@ -179,7 +179,7 @@ def info_box_html(vogel: str, rec: pd.Series) -> str:
 def main():
     set_background("Daten/Bilder/title.png")
 
-    st.markdown('<div class="glass-box"><h1>🌍📈 Klimawandel & Vogelzug</h1></div>', unsafe_allow_html=True)
+    st.markdown('<div class="glass-box" style="text-align: center;"><h1>Einfluss des Klimas auf dem Vogelzug</h1></div>', unsafe_allow_html=True)
     st.markdown("<div style='clear:both;height:1.5rem'></div>", unsafe_allow_html=True)
 
     dfv = load_vogeldaten()
@@ -282,7 +282,8 @@ def main():
             fig, ax = plt.subplots(figsize=(10, 5))
             for label, series in data.items():
                 s = series[(series.index >= start) & (series.index <= end)]
-                ax.plot(s.index, s.values, label=label, color=COLOR_SCEN[label])
+                s_smooth = s.rolling(window=5, center=True, min_periods=1).mean()
+                ax.plot(s_smooth.index, s_smooth.values, label=label, color=COLOR_SCEN[label])
 
             ax.axhspan(rec["avg_comf_temp_low"], rec["avg_comf_temp_high"],
                        color="green", alpha=0.1, label="Komfortbereich")
