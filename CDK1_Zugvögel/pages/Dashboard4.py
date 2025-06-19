@@ -134,9 +134,9 @@ month_factors = {m: 1.0 for m in
      "August","September","Oktober","November","Dezember"]}
 
 COLOR_SCEN = {
-    "RCP 2.6": "#2ca02c",
-    "RCP 4.5": "#1f77b4",
-    "RCP 8.5": "#d62728",
+    "Klimaziel": "#2ca02c",
+    "Stabilisierung": "#1f77b4",
+    "Worst Case": "#d62728",
 }
 
 # ----------------------------------------------------------------
@@ -223,17 +223,17 @@ def main():
         c1, c2, c3 = st.columns(3)
         with c1:
             icon = "🟢" if st.session_state["toggle_26"] else "⚪"
-            if st.button(f"{icon} RCP 2.6", key="btn_26"):
+            if st.button(f"{icon} Klimaziel", key="btn_26"):
                 st.session_state["toggle_26"] = not st.session_state["toggle_26"]
                 st.rerun()
         with c2:
             icon = "🔵" if st.session_state["toggle_45"] else "⚪"
-            if st.button(f"{icon} RCP 4.5", key="btn_45"):
+            if st.button(f"{icon} Stabilisierung", key="btn_45"):
                 st.session_state["toggle_45"] = not st.session_state["toggle_45"]
                 st.rerun()
         with c3:
             icon = "🔴" if st.session_state["toggle_85"] else "⚪"
-            if st.button(f"{icon} RCP 8.5", key="btn_85"):
+            if st.button(f"{icon} Worst Case", key="btn_85"):
                 st.session_state["toggle_85"] = not st.session_state["toggle_85"]
                 st.rerun()
 
@@ -246,9 +246,9 @@ def main():
         years = list(range(1980, 2101, 10))
         lbl_von, sel_von, lbl_bis, sel_bis = st.columns([0.12, 0.38, 0.12, 0.38], gap="small")
         lbl_von.markdown("<div class='label-side'>Von</div>", unsafe_allow_html=True)
-        start = sel_von.selectbox("von", years, index=years.index(2020), label_visibility="collapsed")
+        start = sel_von.selectbox("von", years, index=years.index(1980), label_visibility="collapsed")
         lbl_bis.markdown("<div class='label-side'>Bis</div>", unsafe_allow_html=True)
-        end = sel_bis.selectbox("bis", years, index=years.index(2080), label_visibility="collapsed")
+        end = sel_bis.selectbox("bis", years, index=years.index(2100), label_visibility="collapsed")
 
         if end < start:
             st.error("Endjahr muss ≥ Startjahr sein", icon="⚠️")
@@ -260,11 +260,13 @@ def main():
 
         data = {}
         if selected["RCP 2.6"]:
-            data["RCP 2.6"] = load_szenario("Daten/temperatur_szenarien/tas_yearly_RCP2.6_CH_transient.csv", fac, t95)
+            data["Klimaziel"] = load_szenario("Daten/temperatur_szenarien/tas_yearly_RCP2.6_CH_transient.csv", fac, t95)
         if selected["RCP 4.5"]:
-            data["RCP 4.5"] = load_szenario("Daten/temperatur_szenarien/tas_yearly_RCP4.5_CH_transient.csv", fac, t95)
+            data["Stabilisierung"] = load_szenario("Daten/temperatur_szenarien/tas_yearly_RCP4.5_CH_transient.csv", fac,
+                                                   t95)
         if selected["RCP 8.5"]:
-            data["RCP 8.5"] = load_szenario("Daten/temperatur_szenarien/tas_yearly_RCP8.5_CH_transient.csv", fac, t95)
+            data["Worst Case"] = load_szenario("Daten/temperatur_szenarien/tas_yearly_RCP8.5_CH_transient.csv", fac,
+                                               t95)
 
         if not data:
             st.warning("Bitte mindestens ein Szenario aktivieren.")
@@ -306,61 +308,191 @@ def main():
         temperatur = f"{temp_low}–{temp_high} °C" if pd.notna(temp_low) and pd.notna(
             temp_high) else "einem spezifischen Temperaturbereich"
 
-        # Vorverlagerungsanalyse (Monat -1 und -2)
         hinweis = ""
+        month_list = list(month_factors)
+        rcp_to_label = {
+            "RCP 2.6": "🟢Klimaziel",
+            "RCP 4.5": "🔵Stabilisierung",
+            "RCP 8.5": "🔴Worst Case"
+        }
+
+        def jahre_innerhalb(series):
+            mask = (series >= temp_low) & (series <= temp_high)
+            return series[mask].index[series[mask].index >= jahr_von]
+
+        # === Frühere Abreise / kein Aufenthalt mehr im Winter ===
+        # === Frühere Abreise / kein Aufenthalt mehr im Winter (Wintergäste) ===
+        if wintergast and ankunft in month_list:
+            idx = month_list.index(ankunft)
+
+            # Monat der regulären Ankunft
+            t95 = load_temp_1995(ankunft)
+            fac = month_factors[ankunft]
+            szenarios1 = []
+            for szen, sel in selected.items():
+                if not sel:
+                    continue
+                serie = load_szenario(
+                    f"Daten/temperatur_szenarien/tas_yearly_{szen.replace(' ', '')}_CH_transient.csv",
+                    fac, t95
+                )
+                mask = ~((serie >= temp_low) & (serie <= temp_high))  # zu warm
+                jahre = serie[mask].index[serie[mask].index >= jahr_von]
+                if len(jahre):
+                    szenarios1.append(f"{rcp_to_label.get(szen, szen)} ab {jahre[0]}")
+
+            if szenarios1:
+                hinweis += f"""<p>🌡️ <strong>Künftig kein Aufenthalt mehr im Monat {ankunft}:</strong> 
+                In folgenden Szenarien könnten die Bedingungen ab bestimmten Jahren zu warm werden: {", ".join(szenarios1)}.</p>"""
+
+            # +1 Monat nach regulärer Ankunft
+            if idx < len(month_list) - 1:
+                nach_monat = month_list[idx + 1]
+                t95_nach = load_temp_1995(nach_monat)
+                fac_nach = month_factors[nach_monat]
+                szenarios2 = []
+                for szen, sel in selected.items():
+                    if not sel:
+                        continue
+                    serie = load_szenario(
+                        f"Daten/temperatur_szenarien/tas_yearly_{szen.replace(' ', '')}_CH_transient.csv",
+                        fac_nach, t95_nach
+                    )
+                    mask = ~((serie >= temp_low) & (serie <= temp_high))
+                    jahre = serie[mask].index[serie[mask].index >= jahr_von]
+                    if len(jahre):
+                        szenarios2.append(f"{rcp_to_label.get(szen, szen)} ab {jahre[0]}")
+
+                if szenarios2:
+                    hinweis += f"""<p>🔥 <strong>Auch ein Monat später ungeeignet:</strong> 
+                    Selbst im Monat <em>{nach_monat}</em> könnten diese Szenarien eine Abwesenheit begünstigen: {", ".join(szenarios2)}.</p>"""
+
+        # === Frühere Abreise prüfen (Wintergäste) ===
+        if wintergast and abflug in month_list:
+            idx = month_list.index(abflug)
+
+            # regulärer Abflugmonat
+            t95 = load_temp_1995(abflug)
+            fac = month_factors[abflug]
+            szenarios1 = []
+            for szen, sel in selected.items():
+                if not sel: continue
+                serie = load_szenario(
+                    f"Daten/temperatur_szenarien/tas_yearly_{szen.replace(' ', '')}_CH_transient.csv",
+                    fac, t95
+                )
+                mask = ~((serie >= temp_low) & (serie <= temp_high))  # zu warm
+                jahre = serie[mask].index[serie[mask].index >= jahr_von]
+                if len(jahre):
+                    szenarios1.append(f"{rcp_to_label.get(szen, szen)} ab {jahre[0]}")
+
+            if szenarios1:
+                hinweis += f"""<p>🚶‍♂️ <strong>Frühere Abreise möglich:</strong> Im Monat <em>{abflug}</em> könnten folgende Szenarien zu warm werden, was eine frühere Abreise begünstigen würde: {", ".join(szenarios1)}.</p>"""
+
+            # Monat davor
+            if idx > 0:
+                vor_monat = month_list[idx - 1]
+                t95_vor = load_temp_1995(vor_monat)
+                fac_vor = month_factors[vor_monat]
+                szenarios2 = []
+                for szen, sel in selected.items():
+                    if not sel: continue
+                    serie = load_szenario(
+                        f"Daten/temperatur_szenarien/tas_yearly_{szen.replace(' ', '')}_CH_transient.csv",
+                        fac_vor, t95_vor
+                    )
+                    mask = ~((serie >= temp_low) & (serie <= temp_high))
+                    jahre = serie[mask].index[serie[mask].index >= jahr_von]
+                    if len(jahre):
+                        szenarios2.append(f"{rcp_to_label.get(szen, szen)} ab {jahre[0]}")
+
+                if szenarios2:
+                    hinweis += f"""<p>🏃 <strong>Sogar noch früher:</strong> Auch im Monat <em>{vor_monat}</em> könnten diese Szenarien bereits unpassende Bedingungen schaffen: {", ".join(szenarios2)}.</p>"""
+
+
+        if not wintergast and ankunft in month_list:
+            idx = month_list.index(ankunft)
+            if idx > 0:
+                vor_monat = month_list[idx - 1]
+                t95 = load_temp_1995(vor_monat)
+                fac = month_factors[vor_monat]
+                szenarios = []
+                for szen, sel in selected.items():
+                    if not sel: continue
+                    serie = load_szenario(
+                        f"Daten/temperatur_szenarien/tas_yearly_{szen.replace(' ', '')}_CH_transient.csv", fac, t95)
+                    jahre = jahre_innerhalb(serie)
+                    if len(jahre):
+                        szenarios.append(f"{rcp_to_label.get(szen, szen)} ab {jahre[0]}")
+                if szenarios:
+                    hinweis += f"""<p>🔁 <strong>Frühere Ankunft möglich:</strong> Im Monat <em>{vor_monat}</em> könnten folgende Szenarien eine frühere Ankunft ermöglichen: {", ".join(szenarios)}.</p>"""
+
+            if idx > 1:
+                vor2_monat = month_list[idx - 2]
+                t95 = load_temp_1995(vor2_monat)
+                fac = month_factors[vor2_monat]
+                szenarios = []
+                for szen, sel in selected.items():
+                    if not sel: continue
+                    serie = load_szenario(
+                        f"Daten/temperatur_szenarien/tas_yearly_{szen.replace(' ', '')}_CH_transient.csv", fac, t95)
+                    jahre = jahre_innerhalb(serie)
+                    if len(jahre):
+                        szenarios.append(f"{rcp_to_label.get(szen, szen)} ab {jahre[0]}")
+                if szenarios:
+                    hinweis += f"""<p>🔄 <strong>Sehr frühe Ankunft:</strong> Im Monat <em>{vor2_monat}</em> könnte der {vogel} unter folgenden Szenarien sogar bereits früher eintreffen: {", ".join(szenarios)}.</p>"""
+
+        # === Spätbleibe-Analyse ===
+        if not wintergast and abflug in month_list:
+            idx = month_list.index(abflug)
+            if idx < 11:
+                nach_monat = month_list[idx + 1]
+                t95 = load_temp_1995(nach_monat)
+                fac = month_factors[nach_monat]
+                szenarios = []
+                for szen, sel in selected.items():
+                    if not sel: continue
+                    serie = load_szenario(
+                        f"Daten/temperatur_szenarien/tas_yearly_{szen.replace(' ', '')}_CH_transient.csv", fac, t95)
+                    jahre = jahre_innerhalb(serie)
+                    if len(jahre):
+                        szenarios.append(f"{rcp_to_label.get(szen, szen)} ab {jahre[0]}")
+                if szenarios:
+                    hinweis += f"""<p>🕓 <strong>Späterer Abflug möglich:</strong> Im Monat <em>{nach_monat}</em> könnten diese Szenarien eine längere Aufenthaltsdauer begünstigen: {", ".join(szenarios)}.</p>"""
+
+            if idx < 10:
+                nach2_monat = month_list[idx + 2]
+                t95 = load_temp_1995(nach2_monat)
+                fac = month_factors[nach2_monat]
+                szenarios = []
+                for szen, sel in selected.items():
+                    if not sel: continue
+                    serie = load_szenario(
+                        f"Daten/temperatur_szenarien/tas_yearly_{szen.replace(' ', '')}_CH_transient.csv", fac, t95)
+                    jahre = jahre_innerhalb(serie)
+                    if len(jahre):
+                        szenarios.append(f"{rcp_to_label.get(szen, szen)} ab {jahre[0]}")
+                if szenarios:
+                    hinweis += f"""<p>🕛 <strong>Sehr späte Anwesenheit:</strong> Im Monat <em>{nach2_monat}</em> könnte der {vogel} noch immer in der Schweiz vorkommen: {", ".join(szenarios)}.</p>"""
+
+        # === Ganzjahres-Aufenthalt prüfen ===
         if not wintergast:
-            month_list = list(month_factors)
-            if ankunft in month_list:
-                idx = month_list.index(ankunft)
-                frühere_szenarien_1 = []
-                frühere_szenarien_2 = []
+            ganzjahr_text = ""
+            for szen, sel in selected.items():
+                if not sel: continue
+                s_jan = load_szenario(f"Daten/temperatur_szenarien/tas_yearly_{szen.replace(' ', '')}_CH_transient.csv",
+                                      month_factors["Januar"], load_temp_1995("Januar"))
+                s_dez = load_szenario(f"Daten/temperatur_szenarien/tas_yearly_{szen.replace(' ', '')}_CH_transient.csv",
+                                      month_factors["Dezember"], load_temp_1995("Dezember"))
+                j_jan = jahre_innerhalb(s_jan)
+                j_dez = jahre_innerhalb(s_dez)
+                if len(j_jan) and len(j_dez):
+                    jahr_start = max(j_jan[0], j_dez[0])
+                    ganzjahr_text += f"{rcp_to_label.get(szen, szen)} ab {jahr_start}, "
 
-                # Analyse für Monat -1
-                if idx > 0:
-                    vor_monat = month_list[idx - 1]
-                    fac_prev = month_factors.get(vor_monat, 1.0)
-                    t95_prev = load_temp_1995(vor_monat)
+            if ganzjahr_text:
+                hinweis += f"""<p>📅 <strong>Ganzjährige Präsenz möglich:</strong> In folgenden Szenarien könnten <strong>{vogel}</strong> ab bestimmten Jahren durchgehend in der Schweiz bleiben: {ganzjahr_text.rstrip(", ")}.</p>"""
 
-                    for szenario, enabled in selected.items():
-                        if not enabled:
-                            continue
-                        serie = load_szenario(
-                            f"Daten/temperatur_szenarien/tas_yearly_{szenario.replace(' ', '')}_CH_transient.csv",
-                            fac_prev, t95_prev
-                        )
-                        mask = (serie >= temp_low) & (serie <= temp_high)
-                        jahre = serie[mask].index[serie[mask].index >= jahr_von]
-                        if len(jahre) > 0:
-                            frühere_szenarien_1.append(f"{szenario} ab {jahre[0]}")
-
-                # Analyse für Monat -2
-                if idx > 1:
-                    vor2_monat = month_list[idx - 2]
-                    fac_prev2 = month_factors.get(vor2_monat, 1.0)
-                    t95_prev2 = load_temp_1995(vor2_monat)
-
-                    for szenario, enabled in selected.items():
-                        if not enabled:
-                            continue
-                        serie = load_szenario(
-                            f"Daten/temperatur_szenarien/tas_yearly_{szenario.replace(' ', '')}_CH_transient.csv",
-                            fac_prev2, t95_prev2
-                        )
-                        mask = (serie >= temp_low) & (serie <= temp_high)
-                        jahre = serie[mask].index[serie[mask].index >= jahr_von]
-                        if len(jahre) > 0:
-                            frühere_szenarien_2.append(f"{szenario} ab {jahre[0]}")
-
-                # Hinweise erzeugen
-                if frühere_szenarien_1:
-                    hinweis += f'<p>🔁 <strong>Frühere Ankunft möglich:</strong> Im Monat <em>{vor_monat}</em> könnten folgende Szenarien eine frühere Ankunft ermöglichen: {", ".join(frühere_szenarien_1)}.</p>'
-
-
-                if frühere_szenarien_2:
-                    hinweis += f'<p>🔄 <strong>Sehr frühe Ankunft:</strong> Im Monat <em>{vor2_monat}</em> könnte der {vogel} unter folgenden Szenarien sogar bereits früher eintreffen: {", ".join(frühere_szenarien_2)}.</p>'
-
-
-        # Ausgabe
         return f"""
         <div class="glass-box">
           <h2>🔍 Einfluss des Klimawandels</h2>
