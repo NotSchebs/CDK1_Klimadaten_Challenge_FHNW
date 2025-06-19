@@ -186,41 +186,45 @@ def main():
     left, right = st.columns([1.2, 1.4], gap="large")
 
     with left:
-        # Zwei Spalten für Vogel und Monat
+        # Vogel auswählen
         col1, col2 = st.columns(2, gap="small")
         with col1:
             st.markdown('<div class="label-box">🕊️ Vogelart</div>', unsafe_allow_html=True)
             vogel = st.selectbox("", sorted(dfv["Artname"].dropna()), key="vogel", label_visibility="collapsed")
 
-        # Lade Datensatz zu gewähltem Vogel
+        # Vogel-Daten
         rec = dfv[dfv["Artname"] == vogel].iloc[0]
         ankunftsmonat = rec["Ankunftszeitraum"]
 
-        # Initialisiere Session State (einmalig)
+        # Initialisiere Session-State
         if "last_vogel" not in st.session_state:
             st.session_state.last_vogel = vogel
             st.session_state.monat = ankunftsmonat
             st.session_state.monat_gemanaged = False
 
-        # Wenn Vogel geändert wurde → Monat zurücksetzen
+        # Wenn Vogel gewechselt wurde
         if vogel != st.session_state.last_vogel:
             st.session_state.last_vogel = vogel
             st.session_state.monat = ankunftsmonat
             st.session_state.monat_gemanaged = False
 
+        # Monatsauswahl
         with col2:
             st.markdown('<div class="label-box">📅 Monat</div>', unsafe_allow_html=True)
-            def handle_monat_change():
-                st.session_state.monat_gemanaged = True
-            monat = st.selectbox(
+            aktuelle_auswahl = st.selectbox(
                 "", ["Jahresmittel"] + list(month_factors),
                 index=(["Jahresmittel"] + list(month_factors)).index(st.session_state.monat),
-                key="monat",
-                on_change=handle_monat_change,
                 label_visibility="collapsed"
             )
 
-        # Szenarien-Toggles
+            # Wenn Auswahl sich ändert
+            if aktuelle_auswahl != st.session_state.monat:
+                st.session_state.monat = aktuelle_auswahl
+                st.session_state.monat_gemanaged = aktuelle_auswahl != ankunftsmonat
+
+        monat = st.session_state.monat
+
+        # Szenarien
         st.markdown('<div class="label-box">🌡️ Szenarien</div>', unsafe_allow_html=True)
         for key in ["toggle_26", "toggle_45", "toggle_85"]:
             if key not in st.session_state:
@@ -249,7 +253,7 @@ def main():
             "RCP 8.5": st.session_state["toggle_85"],
         }
 
-        # Zeitbereich
+        # Zeitraum
         years = list(range(1980, 2101, 10))
         lbl_von, sel_von, lbl_bis, sel_bis = st.columns([0.12, 0.38, 0.12, 0.38], gap="small")
         lbl_von.markdown("<div class='label-side'>Von</div>", unsafe_allow_html=True)
@@ -309,6 +313,12 @@ def main():
             Zugverhalten bei steigenden Temperaturen anpassen.
           </p>
         </div>""", unsafe_allow_html=True)
+
+    # Debug
+    st.write("Ankunftsmonat:", ankunftsmonat)
+    st.write("Ausgewählter Monat:", st.session_state.monat)
+    st.write("Monat gemanaged:", st.session_state.monat_gemanaged)
+
 
 # ----------------------------------------------------------------
 if __name__ == "__main__":
