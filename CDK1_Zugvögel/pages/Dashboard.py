@@ -155,11 +155,9 @@ def info_box_html(vogel: str, rec: pd.Series) -> str:
           <li><strong>Zugverhalten:</strong>
             <ul>
               <li>Brutvogel: {rec['Brutvogel']}</li>
-              <li>Durchzügler: {rec['Durchzuegler']}</li>
               <li>Wintergast: {rec['Wintergast']}</li>
               <li>Kurzstreckenzieher: {rec['Kurzstreckenzieher']}</li>
               <li>Langstreckenzieher: {rec['Langstreckenzieher']}</li>
-              <li>Teilzieher: {rec['Teilzieher']}</li>
             </ul>
           </li>
           <li><strong>Komforttemp.:</strong> {rec['avg_comf_temp_low']} – {rec['avg_comf_temp_high']} °C</li>
